@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="547.0" prefWidth="753.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.summer26.section1.group5.bangladesheyehospital.nisa.AccountantDashboardcontroller">
+   <children>
+      <VBox layoutX="313.0" layoutY="122.0" prefHeight="253.0" prefWidth="162.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#generatebillOA" prefHeight="26.0" prefWidth="161.0" text="Generate Bill" />
+            <Button mnemonicParsing="false" onAction="#receivePaymentOA" prefHeight="26.0" prefWidth="161.0" text="Receive Payment" />
+            <Button mnemonicParsing="false" onAction="#salaryOA" prefHeight="26.0" prefWidth="162.0" text="Salary" />
+            <Button mnemonicParsing="false" onAction="#financialreportOA" prefHeight="26.0" prefWidth="162.0" text="Financial Report" />
+            <Button mnemonicParsing="false" onAction="#duepaymentOA" prefHeight="26.0" prefWidth="162.0" text="Due Payment" />
+            <Button mnemonicParsing="false" onAction="#refundOA" prefHeight="26.0" prefWidth="162.0" text="Refund" />
+            <Button mnemonicParsing="false" onAction="#manageexpenseOA" prefHeight="26.0" prefWidth="162.0" text="Manage Expense" />
+            <Button mnemonicParsing="false" onAction="#paysupplierOA" prefHeight="26.0" prefWidth="162.0" text="Pay Supplier" />
+         </children>
+      </VBox>
+      <Label layoutX="272.0" layoutY="48.0" text="Accountant Dashboard">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
