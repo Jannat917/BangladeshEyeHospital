@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.summer26.section1.group5.bangladesheyehospital.nisa.Logincontroller">
+   <children>
+      <TextField fx:id="usernameTF" layoutX="205.0" layoutY="47.0" />
+      <Text layoutX="130.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" text="User Name:" wrappingWidth="74.763671875" />
+      <Text layoutX="141.0" layoutY="110.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password:" />
+      <PasswordField fx:id="passwordfield" layoutX="205.0" layoutY="93.0" />
+      <Button layoutX="254.0" layoutY="175.0" mnemonicParsing="false" onAction="#loginbuttonOA" text="Login" />
+      <Label fx:id="messagelabel" layoutX="164.0" layoutY="259.0" prefHeight="69.0" prefWidth="234.0" text="Label" />
+   </children>
+</AnchorPane>
