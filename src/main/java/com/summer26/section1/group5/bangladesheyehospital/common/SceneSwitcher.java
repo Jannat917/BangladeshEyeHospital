@@ -12,13 +12,10 @@ public class SceneSwitcher {
 
     public static Stage stage;
 
-    public static void switchTo(String fxmlPath) throws IOException {
+    public static void switchTo(String fxmlFileName) throws IOException {
 
-        FXMLLoader loader = new FXMLLoader(
-                HelloApplication.class.getResource(fxmlPath)
-        );
-
-        Parent root = loader.load();
+        Parent root = FXMLLoader.load(
+                HelloApplication.class.getResource(fxmlFileName));
 
         Scene scene = new Scene(root);
 

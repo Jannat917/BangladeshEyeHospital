@@ -18,34 +18,42 @@ public class ReceiptionistDashboardModelClass {
     }
 
     public int getReceptionistId() {
+
         return receptionistId;
     }
 
     public void setReceptionistId(int receptionistId) {
+
         this.receptionistId = receptionistId;
     }
 
     public String getReceptionistName() {
+
         return receptionistName;
     }
 
     public void setReceptionistName(String receptionistName) {
+
         this.receptionistName = receptionistName;
     }
 
     public String getShift() {
+
         return shift;
     }
 
     public void setShift(String shift) {
+
         this.shift = shift;
     }
 
     public String getPhoneNumber() {
+
         return phoneNumber;
     }
 
     public void setPhoneNumber(String phoneNumber) {
+
         this.phoneNumber = phoneNumber;
     }
 

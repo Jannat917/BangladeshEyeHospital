@@ -4,55 +4,60 @@ import java.io.Serializable;
 
 public class DoctorDashboardModelClass implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-
-    private int patientId;
-    private String patientName;
-    private int age;
+    private int doctorId;
+    private String doctorName;
+    private String department;
+    private String specialization;
     private String gender;
-    private String disease;
-    private String diagnosis;
-    private String prescription;
-    private String appointmentDate;
-    private String doctorRemarks;
+    private String phoneNumber;
+    private String email;
+    private String availability;
 
     public DoctorDashboardModelClass() {
     }
 
-    public DoctorDashboardModelClass(int patientId, String patientName, int age, String gender, String disease, String diagnosis, String prescription, String appointmentDate, String doctorRemarks) {
-        this.patientId = patientId;
-        this.patientName = patientName;
-        this.age = age;
+    public DoctorDashboardModelClass(int doctorId, String doctorName, String department, String specialization, String gender, String phoneNumber, String email, String availability) {
+
+        this.doctorId = doctorId;
+        this.doctorName = doctorName;
+        this.department = department;
+        this.specialization = specialization;
         this.gender = gender;
-        this.disease = disease;
-        this.diagnosis = diagnosis;
-        this.prescription = prescription;
-        this.appointmentDate = appointmentDate;
-        this.doctorRemarks = doctorRemarks;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.availability = availability;
     }
 
-    public int getPatientId() {
-        return patientId;
+    public int getDoctorId() {
+        return doctorId;
     }
 
-    public void setPatientId(int patientId) {
-        this.patientId = patientId;
+    public void setDoctorId(int doctorId) {
+        this.doctorId = doctorId;
     }
 
-    public String getPatientName() {
-        return patientName;
+    public String getDoctorName() {
+        return doctorName;
     }
 
-    public void setPatientName(String patientName) {
-        this.patientName = patientName;
+    public void setDoctorName(String doctorName) {
+        this.doctorName = doctorName;
     }
 
-    public int getAge() {
-        return age;
+    public String getDepartment() {
+        return department;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+
+    public String getSpecialization() {
+        return specialization;
+    }
+
+    public void setSpecialization(String specialization) {
+        this.specialization = specialization;
     }
 
     public String getGender() {
@@ -63,58 +68,41 @@ public class DoctorDashboardModelClass implements Serializable {
         this.gender = gender;
     }
 
-    public String getDisease() {
-        return disease;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setDisease(String disease) {
-        this.disease = disease;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
-    public String getDiagnosis() {
-        return diagnosis;
+    public String getEmail() {
+        return email;
     }
 
-    public void setDiagnosis(String diagnosis) {
-        this.diagnosis = diagnosis;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public String getPrescription() {
-        return prescription;
+    public String getAvailability() {
+        return availability;
     }
 
-    public void setPrescription(String prescription) {
-        this.prescription = prescription;
-    }
-
-    public String getAppointmentDate() {
-        return appointmentDate;
-    }
-
-    public void setAppointmentDate(String appointmentDate) {
-        this.appointmentDate = appointmentDate;
-    }
-
-    public String getDoctorRemarks() {
-        return doctorRemarks;
-    }
-
-    public void setDoctorRemarks(String doctorRemarks) {
-        this.doctorRemarks = doctorRemarks;
+    public void setAvailability(String availability) {
+        this.availability = availability;
     }
 
     @Override
     public String toString() {
-        return "DoctorDashboardModelClass{" +
-                "patientId=" + patientId +
-                ", patientName='" + patientName + '\'' +
-                ", age=" + age +
+        return "DoctorModelClass{" +
+                "doctorId=" + doctorId +
+                ", doctorName='" + doctorName + '\'' +
+                ", department='" + department + '\'' +
+                ", specialization='" + specialization + '\'' +
                 ", gender='" + gender + '\'' +
-                ", disease='" + disease + '\'' +
-                ", diagnosis='" + diagnosis + '\'' +
-                ", prescription='" + prescription + '\'' +
-                ", appointmentDate='" + appointmentDate + '\'' +
-                ", doctorRemarks='" + doctorRemarks + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", email='" + email + '\'' +
+                ", availability='" + availability + '\'' +
                 '}';
     }
 }

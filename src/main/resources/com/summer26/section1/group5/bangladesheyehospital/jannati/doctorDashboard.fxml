@@ -1,14 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="CONTROLLER_NAME"
-            prefHeight="400.0" prefWidth="600.0">
+<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.summer26.section1.group5.bangladesheyehospital.jannati.DoctorDashboardController">
+
+    <children>
+
+        <Label layoutX="239.0" layoutY="14.0" prefHeight="31.0" prefWidth="345.0" text="Bangladesh Eye Hospital">
+            <font>
+                <Font size="26.0" />
+            </font>
+        </Label>
+
+        <!-- Left Menu -->
+
+        <Button layoutX="58.0" layoutY="128.0" onAction="#viewPatientRecordsButton" prefHeight="67.0" prefWidth="180.0" text="View Patient Records" />
+
+        <Button layoutX="282.0" layoutY="128.0" onAction="#viewAppointmentsButton" prefHeight="67.0" prefWidth="190.0" text="View Appointments" />
+
+        <Button layoutX="493.0" layoutY="128.0" onAction="#uploadPrescriptionButton" prefHeight="67.0" prefWidth="180.0" text="Upload Prescription" />
+
+        <Button layoutX="59.0" layoutY="273.0" onAction="#accessReportsButton" prefHeight="67.0" prefWidth="180.0" text="Access Reports" />
+
+        <Button layoutX="282.0" layoutY="273.0" onAction="#updatePatientButton" prefHeight="67.0" prefWidth="180.0" text="Update Patient" />
+
+        <Button layoutX="493.0" layoutY="267.0" onAction="#surgeryScheduleButton" prefHeight="67.0" prefWidth="180.0" text="Surgery Schedule" />
+
+        <Button layoutX="59.0" layoutY="401.0" onAction="#onlineAppointmentButton" prefHeight="67.0" prefWidth="180.0" text="Online Appointments" />
+
+        <Button layoutX="282.0" layoutY="401.0" onAction="#consultationHistoryButton" prefHeight="67.0" prefWidth="180.0" text="Consultation History" />
+
+        <Button layoutX="507.0" layoutY="505.0" onAction="#doctorLogoutButton" prefHeight="35.0" prefWidth="180.0" text="Logout" />
+
+        <!-- Main Content -->
+
+        <Label layoutX="280.0" layoutY="64.0" text="Doctor Dashboard Home">
+            <font>
+                <Font size="22.0" />
+            </font>
+        </Label>
+
+    </children>
 
 </AnchorPane>
