@@ -29,8 +29,8 @@ public class LoginController {
     @FXML
     public void initialize() {
 
-        roleComboBox.getItems().addAll("Doctor", "Receptionist");
-        roleComboBox.setValue("Doctor");
+        roleComboBox.getItems().addAll("Doctor", "Receptionist","Patient","Accountant");
+//        roleComboBox.setValue("Doctor");
         messageLabel.setText("");
     }
 
@@ -86,6 +86,16 @@ public class LoginController {
                     } else if (user.getRole().equals("Receptionist")) {
 
                         SceneSwitcher.switchTo("jannati/receiptionistDashboard.fxml");
+
+                    }
+                    else if (user.getRole().equals("Patient")) {
+
+                        SceneSwitcher.switchTo("nisa/PatientDashboard.fxml");
+
+                    }
+                    else if (user.getRole().equals("Accountant")) {
+
+                        SceneSwitcher.switchTo("nisa/AccountantDashboard.fxml");
 
                     }
 

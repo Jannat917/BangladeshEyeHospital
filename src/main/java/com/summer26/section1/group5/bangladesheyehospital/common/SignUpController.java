@@ -24,7 +24,7 @@ public class SignUpController {
     private Label messageLabel;
     @FXML
     public void initialize() {
-        roleComboBox.getItems().addAll("Doctor", "Receptionist");
+        roleComboBox.getItems().addAll("Doctor", "Receptionist","Patient","Accountant");
         roleComboBox.setValue("Doctor");
         messageLabel.setText("");
     }
