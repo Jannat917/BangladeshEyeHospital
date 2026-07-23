@@ -5,7 +5,6 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 
 public class HelloApplication extends Application {
@@ -20,7 +19,6 @@ public class HelloApplication extends Application {
                 HelloApplication.class.getResource("common/login.fxml"));
 
         Scene scene = new Scene(loader.load());
-
         stage.setTitle("Bangladesh Eye Hospital");
         stage.setScene(scene);
         stage.show();

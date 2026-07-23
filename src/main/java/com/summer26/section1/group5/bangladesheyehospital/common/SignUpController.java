@@ -48,7 +48,7 @@ public class SignUpController {
 
         ArrayList<UserModelClass> userList = new ArrayList<>();
 
-        File file =new File("/Users/jannati/Desktop/BangladeshEyeHospital/users.bin");
+        File file =new File("/Users/jannati/Desktop/BangladeshEyeHospital/data/users.bin");
 
         if (file.exists()) {
             try {

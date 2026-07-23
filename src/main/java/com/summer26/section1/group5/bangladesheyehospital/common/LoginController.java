@@ -67,7 +67,7 @@ public class LoginController {
         try {
 
             ObjectInputStream ois = new ObjectInputStream(
-                    new FileInputStream("/Users/jannati/Desktop/BangladeshEyeHospital/users.bin"));
+                    new FileInputStream("/Users/jannati/Desktop/BangladeshEyeHospital/data/users.bin"));
 
             while (true) {
 
