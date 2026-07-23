@@ -15,8 +15,7 @@ public class HelloApplication extends Application {
 
         SceneSwitcher.stage = stage;
 
-        FXMLLoader loader = new FXMLLoader(
-                HelloApplication.class.getResource("common/login.fxml"));
+        FXMLLoader loader = new FXMLLoader(HelloApplication.class.getResource("common/login.fxml"));
 
         Scene scene = new Scene(loader.load());
         stage.setTitle("Bangladesh Eye Hospital");

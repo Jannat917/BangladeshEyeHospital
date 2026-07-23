@@ -31,7 +31,8 @@ public class ReceiptionistDashboardController {
     }
 
     @javafx.fxml.FXML
-    public void registerPatientButton(ActionEvent actionEvent) {
+    public void registerPatientButton(ActionEvent actionEvent) throws IOException {
+        SceneSwitcher.switchTo("jannati/register-patient.fxml");
     }
 
     @javafx.fxml.FXML

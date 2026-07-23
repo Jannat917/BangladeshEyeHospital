@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="650.0" prefWidth="800.0"
+            xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.summer26.section1.group5.bangladesheyehospital.jannati.RegisterPatientController">
+
+    <children>
+
+        <Label layoutX="250.0" layoutY="20.0" text="Register New Patient">
+            <font>
+                <Font size="28.0"/>
+            </font>
+        </Label>
+
+
+        <Label layoutX="120.0" layoutY="90.0" text="Patient Name"/>
+        <TextField fx:id="patientNameTextField"
+                   layoutX="280.0"
+                   layoutY="85.0"
+                   prefWidth="250.0"
+                   promptText="Enter patient name"/>
+
+
+        <Label layoutX="120.0" layoutY="140.0" text="Age"/>
+        <TextField fx:id="ageTextField"
+                   layoutX="280.0"
+                   layoutY="135.0"
+                   prefWidth="250.0"
+                   promptText="Enter age"/>
+
+
+        <Label layoutX="120.0" layoutY="190.0" text="Gender"/>
+        <ComboBox fx:id="genderComboBox"
+                  layoutX="280.0"
+                  layoutY="185.0"
+                  prefWidth="250.0"/>
+
+        <Label layoutX="120.0" layoutY="240.0" text="Phone Number"/>
+        <TextField fx:id="phoneNumberTextField"
+                   layoutX="280.0"
+                   layoutY="235.0"
+                   prefWidth="250.0"
+                   promptText="Enter phone number"/>
+
+        <Label layoutX="120.0" layoutY="290.0" text="Address"/>
+        <TextField fx:id="addressTextField"
+                   layoutX="280.0"
+                   layoutY="285.0"
+                   prefWidth="250.0"
+                   promptText="Enter address"/>
+
+        <Label layoutX="120.0" layoutY="340.0" text="Appointment Date"/>
+        <DatePicker fx:id="appointmentDatePicker"
+                    layoutX="280.0"
+                    layoutY="335.0"
+                    prefWidth="250.0"/>
+
+        <Label layoutX="120.0" layoutY="390.0" text="Assigned Doctor"/>
+        <ComboBox fx:id="doctorComboBox"
+                  layoutX="280.0"
+                  layoutY="385.0"
+                  prefWidth="250.0"/>
+
+
+        <Button text="Confirm"
+                layoutX="200.0"
+                layoutY="470.0"
+                prefWidth="100.0"
+                onAction="#confirmButton"/>
+
+        <Button text="Clear"
+                layoutX="340.0"
+                layoutY="470.0"
+                prefWidth="100.0"
+                onAction="#clearButton"/>
+
+        <Button text="Back"
+                layoutX="480.0"
+                layoutY="470.0"
+                prefWidth="100.0"
+                onAction="#backButton"/>
+
+
+        <Label fx:id="messageLabel"
+               layoutX="170.0"
+               layoutY="540.0"
+               prefWidth="450.0"/>
+
+    </children>
+
+</AnchorPane>
