@@ -8,58 +8,59 @@
 
 <AnchorPane prefHeight="658.0" prefWidth="824.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.summer26.section1.group5.bangladesheyehospital.nisa.PatientDashboardcontroller">
    <children>
-      <Label fx:id="patientdashboardLabel" layoutX="269.0" layoutY="14.0" prefHeight="65.0" prefWidth="299.0" text="Patient Dashboard">
+      <Label fx:id="patientdashboardLabel" layoutX="294.0" layoutY="86.0" prefHeight="66.0" prefWidth="228.0" text="Patient Dashboard">
          <font>
-            <Font size="36.0" />
+            <Font size="24.0" />
          </font>
       </Label>
-      <VBox layoutX="298.0" layoutY="170.0" prefHeight="234.0" prefWidth="178.0">
+      <VBox layoutX="298.0" layoutY="170.0" prefHeight="330.0" prefWidth="211.0">
          <children>
-            <Button mnemonicParsing="false" onAction="#bookappointmentOnAction" prefHeight="27.0" prefWidth="179.0" text="Book Appointment">
+            <Button mnemonicParsing="false" onAction="#bookappointmentOnAction" prefHeight="46.0" prefWidth="211.0" text="Book Appointment">
                <font>
                   <Font size="13.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" onAction="#doctorscheduleOnAction" prefHeight="27.0" prefWidth="278.0" text="Doctor Schedule">
+            <Button mnemonicParsing="false" onAction="#doctorscheduleOnAction" prefHeight="42.0" prefWidth="211.0" text="Doctor Schedule">
                <font>
                   <Font size="13.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" onAction="#prescriptionOnAction" prefHeight="27.0" prefWidth="180.0" text="Prescription">
+            <Button mnemonicParsing="false" onAction="#prescriptionOnAction" prefHeight="35.0" prefWidth="211.0" text="Prescription">
                <font>
                   <Font size="13.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" onAction="#payhospitalbillOnAction" prefHeight="26.0" prefWidth="181.0" text="Pay Hospital Bill">
+            <Button mnemonicParsing="false" onAction="#payhospitalbillOnAction" prefHeight="38.0" prefWidth="210.0" text="Pay Hospital Bill">
                <font>
                   <Font size="13.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" onAction="#emergencyappointmentOnAction" prefHeight="26.0" prefWidth="251.0" text="Emergency Appointment">
+            <Button mnemonicParsing="false" onAction="#emergencyappointmentOnAction" prefHeight="40.0" prefWidth="211.0" text="Emergency Appointment">
                <font>
                   <Font size="13.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" onAction="#updateprofileOnAction" prefHeight="26.0" prefWidth="181.0" text="Update Profile">
+            <Button mnemonicParsing="false" onAction="#updateprofileOnAction" prefHeight="40.0" prefWidth="211.0" text="Update Profile">
                <font>
                   <Font size="13.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" onAction="#cancelappointmentOnAction" prefHeight="26.0" prefWidth="190.0" text="Cancel Appointment">
+            <Button mnemonicParsing="false" onAction="#cancelappointmentOnAction" prefHeight="41.0" prefWidth="211.0" text="Cancel Appointment">
                <font>
                   <Font size="13.0" />
                </font>
             </Button>
-            <Button mnemonicParsing="false" onAction="#givefeedbackOnAction" prefHeight="26.0" prefWidth="198.0" text="Give Feedback">
+            <Button mnemonicParsing="false" onAction="#givefeedbackOnAction" prefHeight="39.0" prefWidth="211.0" text="Give Feedback">
                <font>
                   <Font size="13.0" />
                </font>
             </Button>
          </children>
       </VBox>
-      <Label fx:id="welcomepatientLabel" layoutX="306.0" layoutY="90.0" prefHeight="58.0" prefWidth="211.0" text="Welcome Patient">
+      <Button layoutX="378.0" layoutY="541.0" mnemonicParsing="false" onAction="#LogoutOA" prefHeight="42.0" prefWidth="66.0" text="Logout" />
+      <Label layoutX="234.0" layoutY="32.0" prefHeight="40.0" prefWidth="414.0" text="Bangladesh Eye Hospital">
          <font>
-            <Font size="18.0" />
+            <Font size="36.0" />
          </font>
       </Label>
    </children>

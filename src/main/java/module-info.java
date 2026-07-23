@@ -4,6 +4,7 @@ module com.summer26.section1.group5.bangladesheyehospital {
     requires javafx.fxml;
     requires javafx.graphics;
     requires java.desktop;
+    requires com.summer26.section1.group5.bangladesheyehospital;
 
     exports com.summer26.section1.group5.bangladesheyehospital;
     opens com.summer26.section1.group5.bangladesheyehospital to javafx.fxml;
