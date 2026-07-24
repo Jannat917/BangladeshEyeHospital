@@ -67,20 +67,18 @@ public class RegisterPatientController {
 
         try {
 
-            ObjectInputStream ois =
-                    new ObjectInputStream(new FileInputStream(doctorFile));
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(doctorFile));
 
             while (true) {
 
-                DoctorModelClass doctor =
-                        (DoctorModelClass) ois.readObject();
+                DoctorModelClass doctor = (DoctorModelClass) ois.readObject();
 
                 doctorComboBox.getItems().add(doctor.getDoctorName());
             }
 
         } catch (EOFException e) {
 
-            // End of file
+
 
         } catch (Exception e) {
 
@@ -126,26 +124,16 @@ public class RegisterPatientController {
     @FXML
     public void confirmButton(ActionEvent actionEvent) {
 
-        if (patientNameTextField.getText().isEmpty()
-                || ageTextField.getText().isEmpty()
-                || phoneNumberTextField.getText().isEmpty()
-                || addressTextField.getText().isEmpty()
-                || genderComboBox.getValue() == null
-                || doctorComboBox.getValue() == null
-                || appointmentDatePicker.getValue() == null) {
-
+        if (patientNameTextField.getText().isEmpty() || ageTextField.getText().isEmpty() || phoneNumberTextField.getText().isEmpty() || addressTextField.getText().isEmpty() || genderComboBox.getValue() == null || doctorComboBox.getValue() == null || appointmentDatePicker.getValue() == null) {
             messageLabel.setText("Please fill all fields.");
             return;
         }
-
         int age;
 
         try {
-
             age = Integer.parseInt(ageTextField.getText());
 
         } catch (NumberFormatException e) {
-
             messageLabel.setText("Age must be numeric.");
             return;
         }
@@ -159,9 +147,7 @@ public class RegisterPatientController {
                 ObjectInputStream ois = new ObjectInputStream(new FileInputStream(patientFile));
 
                 while (true) {
-
                     PatientRecordModelClass patient = (PatientRecordModelClass) ois.readObject();
-
                     patientList.add(patient);
                 }
 
@@ -175,47 +161,19 @@ public class RegisterPatientController {
 
         int patientId = generatePatientId();
 
-        PatientRecordModelClass patient = new PatientRecordModelClass(
-
-                        patientId,
-                        patientNameTextField.getText(),
-                        age,
-                        genderComboBox.getValue(),
-                        phoneNumberTextField.getText(),
-                        addressTextField.getText(),
-                        appointmentDatePicker.getValue().toString(),
-                        doctorComboBox.getValue(),
-
-                        "", // disease
-                        "", // diagnosis
-                        "", // prescription
-                        "", // reports
-                        "", // remarks
-
-                        "", // eye power
-                        "", // lens type
-                        "", // glass
-
-                        0.0,
-                        "Unpaid"
-                );
-
+        PatientRecordModelClass patient = new PatientRecordModelClass(patientId, patientNameTextField.getText(), age, genderComboBox.getValue(), phoneNumberTextField.getText(), addressTextField.getText(), appointmentDatePicker.getValue().toString(), doctorComboBox.getValue(), "", "", "", "", "", "", "", "", 0.0, "Unpaid");
         patientList.add(patient);
 
         try {
-
             ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(patientFile));
 
             for (PatientRecordModelClass p : patientList) {
-
                 oos.writeObject(p);
             }
 
             oos.close();
 
-            messageLabel.setText(
-                    "Patient Registered Successfully.\nPatient ID : " + patientId);
-
+            messageLabel.setText("Patient Registered Successfully.\nPatient ID : " + patientId);
             clearButton(null);
 
         } catch (IOException e) {
@@ -235,7 +193,6 @@ public class RegisterPatientController {
 
         genderComboBox.setValue(null);
         doctorComboBox.setValue(null);
-
         appointmentDatePicker.setValue(null);
     }
 
@@ -243,7 +200,6 @@ public class RegisterPatientController {
     public void backButton(ActionEvent actionEvent) {
 
         try {
-
             SceneSwitcher.switchTo("jannati/receiptionistDashboard.fxml");
 
         } catch (IOException e) {

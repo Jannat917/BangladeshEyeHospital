@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="650.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.summer26.section1.group5.bangladesheyehospital.jannati.PatientRecordDoctorController">
+
+    <children>
+
+        <Label layoutX="360.0" layoutY="20.0" text="Patient Records">
+            <font>
+                <Font size="28.0" />
+            </font>
+        </Label>
+
+        <Label layoutX="40.0" layoutY="80.0" text="Patient ID" />
+
+        <TextField fx:id="patientIdTextField" layoutX="145.0" layoutY="74.0" prefHeight="34.0" prefWidth="200.0" promptText="Enter ID" />
+
+        <Button layoutX="380.0" layoutY="72.0" onAction="#searchButton" prefHeight="34.0" prefWidth="120.0" text="Search" />
+
+        <TableView fx:id="patientTableView" layoutX="40.0" layoutY="187.0" prefHeight="360.0" prefWidth="1040.0">
+
+            <columns>
+
+                <TableColumn fx:id="patientIdColumn" prefWidth="113.0" text="Patient ID" />
+
+                <TableColumn fx:id="patientNameColumn" prefWidth="187.0" text="Patient Name" />
+
+                <TableColumn fx:id="ageColumn" prefWidth="117.0" text="Age" />
+
+                <TableColumn fx:id="genderColumn" prefWidth="179.0" text="Gender" />
+
+                <TableColumn fx:id="doctorColumn" prefWidth="220.0" text="Assigned Doctor" />
+
+                <TableColumn fx:id="appointmentDateColumn" prefWidth="223.0" text="Appointment Date" />
+
+            </columns>
+
+        </TableView>
+
+        <Button layoutX="845.0" layoutY="76.0" onAction="#viewHistoryButton" prefHeight="42.0" prefWidth="160.0" text="View Full History" />
+
+        <Button layoutX="517.0" layoutY="74.0" onAction="#refreshButton" prefHeight="34.0" prefWidth="120.0" text="Refresh" />
+
+        <Button layoutX="894.0" layoutY="578.0" onAction="#backButton" prefHeight="34.0" prefWidth="150.0" text="Back" />
+
+        <Label fx:id="messageLabel" layoutX="220.0" layoutY="590.0" prefWidth="500.0" />
+
+    </children>
+
+</AnchorPane>

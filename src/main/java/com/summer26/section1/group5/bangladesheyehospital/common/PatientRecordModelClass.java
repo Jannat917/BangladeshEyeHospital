@@ -227,4 +227,6 @@ public class PatientRecordModelClass implements Serializable {
                 ", paymentStatus='" + paymentStatus + '\'' +
                 '}';
     }
+
+
 }

@@ -30,7 +30,8 @@ public class DoctorDashboardController {
     }
 
     @javafx.fxml.FXML
-    public void viewPatientRecordsButton(ActionEvent actionEvent) {
+    public void viewPatientRecordsButton(ActionEvent actionEvent) throws IOException {
+        SceneSwitcher.switchTo("jannati/patient-record-doctor.fxml");
     }
 
     @javafx.fxml.FXML
