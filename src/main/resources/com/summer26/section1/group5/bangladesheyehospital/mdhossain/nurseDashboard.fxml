@@ -4,7 +4,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.summer26.section1.group5.bangladesheyehospital.mdhossain.NurseController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.summer26.section1.group5.bangladesheyehospital.mdhossain.nurseDashboardController">
    <children>
       <Label layoutX="33.0" layoutY="41.0" prefHeight="78.0" prefWidth="170.0" text="Scene1" />
       <Button layoutX="55.0" layoutY="214.0" mnemonicParsing="false" onAction="#openscene2instage2OA" text="Open scene 2 in stage 2" />
