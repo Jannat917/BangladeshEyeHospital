@@ -24,7 +24,7 @@ public class BookAppointmentcontroller {
 
     @javafx.fxml.FXML
     public void initialize() {
-        departmentCB.getItems().addAll("Eye", "Retina", "Cornea");
+        departmentCB.getItems().addAll("Glaucoma", "Retina", "Cornea","Cataract");
         doctorCB.getItems().addAll("Dr.Mehedi", "Dr.Rahim", "Dr.Karim");
         timeCB.getItems().addAll("8.00 AM", "9.00 AM", "10.00 AM", "12.00 PM", "3.00 PM");
 

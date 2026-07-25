@@ -32,7 +32,8 @@ public class PatientDashboardcontroller
     }
 
     @javafx.fxml.FXML
-    public void bookappointmentOnAction(ActionEvent actionEvent) {
+    public void bookappointmentOnAction(ActionEvent actionEvent) throws IOException {
+        SceneSwitcher.switchTo("nisa/BookAppointment.fxml");
     }
 
     @javafx.fxml.FXML
