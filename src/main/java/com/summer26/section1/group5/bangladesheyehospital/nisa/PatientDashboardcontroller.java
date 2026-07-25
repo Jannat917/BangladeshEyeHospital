@@ -41,7 +41,8 @@ public class PatientDashboardcontroller
     }
 
     @javafx.fxml.FXML
-    public void doctorscheduleOnAction(ActionEvent actionEvent) {
+    public void doctorscheduleOnAction(ActionEvent actionEvent) throws IOException {
+        SceneSwitcher.switchTo("nisa/DoctorSchedule.fxml");
     }
 
     @javafx.fxml.FXML
