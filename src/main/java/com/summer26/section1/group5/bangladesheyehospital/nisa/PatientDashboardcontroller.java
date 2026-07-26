@@ -16,8 +16,10 @@ public class PatientDashboardcontroller
     }
 
     @javafx.fxml.FXML
-    public void emergencyappointmentOnAction(ActionEvent actionEvent) {
+    public void emergencyappointmentOnAction(ActionEvent actionEvent) throws IOException {
+        SceneSwitcher.switchTo("nisa/EmergencyAppointment.fxml");
     }
+
 
     @javafx.fxml.FXML
     public void givefeedbackOnAction(ActionEvent actionEvent) {
@@ -28,7 +30,8 @@ public class PatientDashboardcontroller
     }
 
     @javafx.fxml.FXML
-    public void prescriptionOnAction(ActionEvent actionEvent) {
+    public void prescriptionOnAction(ActionEvent actionEvent) throws IOException {
+        SceneSwitcher.switchTo("nisa/Prescription.fxml");
     }
 
     @javafx.fxml.FXML
