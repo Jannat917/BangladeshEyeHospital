@@ -1,18 +1,54 @@
 package com.summer26.section1.group5.bangladesheyehospital.mdhossain;
 
-import javafx.event.ActionEvent;
+import com.summer26.section1.group5.bangladesheyehospital.common.SceneSwitcher;
+import javafx.fxml.FXML;
+import java.io.IOException;
 
-public class nurseDashboardController
-{
-    @javafx.fxml.FXML
-    public void initialize() {
+public class nurseDashboardController {
+
+    @FXML
+    public void initialEyeScreeningButton() throws IOException {
+        SceneSwitcher.switchTo("/com/summer26/section1/group5/bangladesheyehospital/mdhossain/initialEyeScreening.fxml");
     }
 
-    @Deprecated
-    public void openScene2inSatge2OA(ActionEvent actionEvent) {
+    @FXML
+    public void manageDoctorQueuesButton() throws IOException {
+        SceneSwitcher.switchTo("/com/summer26/section1/group5/bangladesheyehospital/mdhossain/doctorQueues.fxml");
     }
 
-    @javafx.fxml.FXML
-    public void openscene2instage2OA(ActionEvent actionEvent) {
+    @FXML
+    public void retrieveMedicalHistoryButton() throws IOException {
+        SceneSwitcher.switchTo("/com/summer26/section1/group5/bangladesheyehospital/mdhossain/medicalHistory.fxml");
+    }
+
+    @FXML
+    public void assignDoctorsButton() throws IOException {
+        SceneSwitcher.switchTo("/com/summer26/section1/group5/bangladesheyehospital/mdhossain/assignDoctors.fxml");
+    }
+
+    @FXML
+    public void headNurseButton() throws IOException {
+        SceneSwitcher.switchTo("/com/summer26/section1/group5/bangladesheyehospital/mdhossain/headNurse.fxml");
+    }
+
+    @FXML
+    public void trackMedicationsButton() throws IOException {
+        SceneSwitcher.switchTo("/com/summer26/section1/group5/bangladesheyehospital/mdhossain/trackMedications.fxml");
+    }
+
+    @FXML
+    public void dischargeSummariesButton() throws IOException {
+        SceneSwitcher.switchTo("/com/summer26/section1/group5/bangladesheyehospital/mdhossain/dischargeSummaries.fxml");
+    }
+
+    @FXML
+    public void allocateWardBedButton() throws IOException {
+        SceneSwitcher.switchTo("/com/summer26/section1/group5/bangladesheyehospital/mdhossain/allocateWardBed.fxml");
+    }
+
+    @FXML
+    public void nurseLogoutButton() throws IOException {
+        SceneSwitcher.switchTo("common/login.fxml");
     }
 }
+
