@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="500.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.summer26.section1.group5.bangladesheyehospital.mdhossain.PatientMedicalHistoryController">
+    <children>
+        <VBox spacing="10.0" layoutX="20.0" layoutY="20.0" prefWidth="610.0">
+            <Label text="Patient Medical History" style="-fx-font-weight: bold; -fx-font-size: 16px;" />
+
+            <HBox spacing="10.0" alignment="CENTER_LEFT">
+                <Label text="Patient ID:" />
+                <TextField fx:id="txtSearch" promptText="Enter ID" prefWidth="200.0" />
+                <Button onAction="#searchHistory" text="Search" style="-fx-background-color: #2196F3; -fx-text-fill: white;" />
+                <Button onAction="#clearHistory" text="Clear" style="-fx-background-color: #f44336; -fx-text-fill: white;" />
+            </HBox>
+
+            <TabPane prefHeight="320.0">
+                <Tab text="Patient Info" closable="false">
+                    <VBox spacing="8.0" padding="10.0">
+                        <GridPane hgap="15.0" vgap="6.0">
+                            <columnConstraints>
+                                <ColumnConstraints minWidth="80.0" />
+                                <ColumnConstraints minWidth="150.0" />
+                            </columnConstraints>
+                            <Label text="Name:" GridPane.rowIndex="0" GridPane.columnIndex="0" style="-fx-font-weight: bold;" />
+                            <Label fx:id="lblName" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+                            <Label text="Age:" GridPane.rowIndex="1" GridPane.columnIndex="0" style="-fx-font-weight: bold;" />
+                            <Label fx:id="lblAge" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+                            <Label text="Gender:" GridPane.rowIndex="2" GridPane.columnIndex="0" style="-fx-font-weight: bold;" />
+                            <Label fx:id="lblGender" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+                            <Label text="Contact:" GridPane.rowIndex="3" GridPane.columnIndex="0" style="-fx-font-weight: bold;" />
+                            <Label fx:id="lblContact" GridPane.rowIndex="3" GridPane.columnIndex="1" />
+                        </GridPane>
+                    </VBox>
+                </Tab>
+                <Tab text="Eye Reports" closable="false">
+                    <VBox spacing="8.0" padding="10.0">
+                        <ListView fx:id="reportList" prefHeight="250.0" />
+                    </VBox>
+                </Tab>
+                <Tab text="Prescriptions" closable="false">
+                    <VBox spacing="8.0" padding="10.0">
+                        <ListView fx:id="prescriptionList" prefHeight="250.0" />
+                    </VBox>
+                </Tab>
+            </TabPane>
+
+            <HBox spacing="10.0" alignment="CENTER_RIGHT">
+                <Button onAction="#goBack" text="Back" style="-fx-background-color: #9E9E9E; -fx-text-fill: white;" />
+            </HBox>
+
+            <Label fx:id="statusLabel" text="Enter ID to search" style="-fx-font-style: italic; -fx-text-fill: #666666;" />
+        </VBox>
+    </children>
+</AnchorPane>

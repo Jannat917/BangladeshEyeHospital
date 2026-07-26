@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.summer26.section1.group5.bangladesheyehospital.mdhossain.HeadNurseController"
+      spacing="10" alignment="CENTER" prefWidth="400" prefHeight="600">
+
+    <Label fx:id="patientInfoLabel" style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
+    <Label fx:id="surgeryTypeLabel" style="-fx-font-size: 12px;"/>
+
+    <CheckBox fx:id="idVerified" text="ID Verified"/>
+    <CheckBox fx:id="eyemarked" text="Eye Marked"/>
+    <CheckBox fx:id="consentsigned" text="Consent Signed"/>
+    <CheckBox fx:id="fastingcheck" text="Fasting Check"/>
+
+    <TextField fx:id="nursesignatureField" promptText="Nurse Signature"/>
+    <Button fx:id="finalizeBtn" text="Finalize" onAction="#handleFinalize"/>
+    <Button text="Reset Form" onAction="#resetForm"/>
+
+    <Label fx:id="statusOutput" style="-fx-text-fill: #f39c12;"/>
+</VBox>
