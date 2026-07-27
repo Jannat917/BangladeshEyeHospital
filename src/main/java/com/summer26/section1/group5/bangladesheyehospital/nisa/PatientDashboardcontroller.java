@@ -41,7 +41,8 @@ public class PatientDashboardcontroller
     }
 
     @javafx.fxml.FXML
-    public void updateprofileOnAction(ActionEvent actionEvent) {
+    public void updateprofileOnAction(ActionEvent actionEvent) throws IOException {
+            SceneSwitcher.switchTo("nisa/UpdateProfile.fxml");
     }
 
     @javafx.fxml.FXML
