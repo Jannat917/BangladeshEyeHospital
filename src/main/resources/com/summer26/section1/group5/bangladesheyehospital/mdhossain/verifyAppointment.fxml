@@ -37,6 +37,4 @@
         <Button layoutX="350.0" layoutY="540.0" onAction="#backButton" prefHeight="40.0" prefWidth="200.0" text="Back to Dashboard" />
     </children>
 
-
-
 </AnchorPane>
