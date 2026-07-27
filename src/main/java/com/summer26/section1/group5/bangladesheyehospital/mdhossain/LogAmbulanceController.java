@@ -1,4 +1,4 @@
-package com.summer26.section1.group5.bangladesheyehospital.mdhossain.controllers;
+package com.summer26.section1.group5.bangladesheyehospital.mdhossain;
 
 import com.summer26.section1.group5.bangladesheyehospital.common.SceneSwitcher;
 import javafx.event.ActionEvent;
