@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.summer26.section1.group5.bangladesheyehospital.mdhossain.controllers.CheckWheelchairController">
+    <children>
+        <Label layoutX="280.0" layoutY="14.0" prefHeight="31.0" prefWidth="345.0" text="Bangladesh Eye Hospital">
+            <font><Font size="26.0" /></font>
+        </Label>
+        <Label layoutX="280.0" layoutY="64.0" text="Check Wheelchair Availability">
+            <font><Font size="22.0" /></font>
+        </Label>
+
+        <Button layoutX="700.0" layoutY="130.0" onAction="#checkAvailability" text="Check Availability" />
+        <Label fx:id="availableLabel" layoutX="200.0" layoutY="140.0" prefWidth="400.0" />
+
+        <Label layoutX="200.0" layoutY="200.0" text="Wheelchair Code:" />
+        <TextField fx:id="wheelchairCodeField" layoutX="400.0" layoutY="195.0" prefWidth="150.0" promptText="e.g., W-001" />
+        <Label layoutX="200.0" layoutY="250.0" text="Patient ID:" />
+        <TextField fx:id="patientIdField" layoutX="400.0" layoutY="245.0" prefWidth="150.0" promptText="Enter Patient ID" />
+
+        <Button layoutX="400.0" layoutY="310.0" onAction="#assignWheelchair" text="Assign Wheelchair" />
+
+        <Label fx:id="statusLabel" layoutX="200.0" layoutY="380.0" prefWidth="500.0" style="-fx-text-fill: #f39c12;" />
+
+        <Button layoutX="350.0" layoutY="540.0" onAction="#backButton" text="Back to Dashboard" />
+    </children>
+</AnchorPane>
