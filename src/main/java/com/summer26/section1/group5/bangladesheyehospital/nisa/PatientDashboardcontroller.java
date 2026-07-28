@@ -51,7 +51,8 @@ public class PatientDashboardcontroller
     }
 
     @javafx.fxml.FXML
-    public void cancelappointmentOnAction(ActionEvent actionEvent) {
+    public void cancelappointmentOnAction(ActionEvent actionEvent) throws IOException {
+        SceneSwitcher.switchTo("nisa/CancelAppointment.fxml");
     }
 
     @javafx.fxml.FXML
