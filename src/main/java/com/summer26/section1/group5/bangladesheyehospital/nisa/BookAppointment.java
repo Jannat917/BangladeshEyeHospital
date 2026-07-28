@@ -3,16 +3,19 @@ package com.summer26.section1.group5.bangladesheyehospital.nisa;
 import java.time.LocalDate;
 
 public class BookAppointment {
+
+    private String patientId;
     private String department;
     private String doctor;
     private LocalDate date;
     private String time;
     private int serial;
 
-    public BookAppointment(LocalDate date, String department, String doctor, int serial, String time) {
+    public BookAppointment(LocalDate date, String department, String doctor, String patientId, int serial, String time) {
         this.date = date;
         this.department = department;
         this.doctor = doctor;
+        this.patientId = patientId;
         this.serial = serial;
         this.time = time;
     }
@@ -41,6 +44,14 @@ public class BookAppointment {
         this.doctor = doctor;
     }
 
+    public String getPatientId() {
+        return patientId;
+    }
+
+    public void setPatientId(String patientId) {
+        this.patientId = patientId;
+    }
+
     public int getSerial() {
         return serial;
     }
@@ -61,6 +72,7 @@ public class BookAppointment {
     public String toString() {
         return "BookAppointment{" +
                 "date=" + date +
+                ", patientId='" + patientId + '\'' +
                 ", department='" + department + '\'' +
                 ", doctor='" + doctor + '\'' +
                 ", time='" + time + '\'' +
