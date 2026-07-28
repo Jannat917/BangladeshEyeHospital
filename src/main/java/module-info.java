@@ -6,6 +6,7 @@ module com.summer26.section1.group5.bangladesheyehospital {
     requires javafx.base;
 
 
+
     opens com.summer26.section1.group5.bangladesheyehospital to javafx.fxml;
     opens com.summer26.section1.group5.bangladesheyehospital.common to javafx.fxml;
     opens com.summer26.section1.group5.bangladesheyehospital.jannati to javafx.fxml;

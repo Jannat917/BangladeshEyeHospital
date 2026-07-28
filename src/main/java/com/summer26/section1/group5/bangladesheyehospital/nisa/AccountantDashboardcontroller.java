@@ -36,7 +36,8 @@ public class AccountantDashboardcontroller
     }
 
     @javafx.fxml.FXML
-    public void generatebillOA(ActionEvent actionEvent) {
+    public void generatebillOA(ActionEvent actionEvent)  throws IOException {
+        SceneSwitcher.switchTo("nisa/GenerateBill.fxml");
     }
 
     @javafx.fxml.FXML
