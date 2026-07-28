@@ -22,8 +22,10 @@ public class PatientDashboardcontroller
 
 
     @javafx.fxml.FXML
-    public void givefeedbackOnAction(ActionEvent actionEvent) {
+    public void givefeedbackOnAction(ActionEvent actionEvent) throws IOException {
+        SceneSwitcher.switchTo("nisa/GiveFeedback.fxml");
     }
+
 
     @javafx.fxml.FXML
     public void payhospitalbillOnAction(ActionEvent actionEvent)  throws IOException {
