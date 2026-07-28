@@ -16,7 +16,8 @@ public class AccountantDashboardcontroller
     }
 
     @javafx.fxml.FXML
-    public void receivePaymentOA(ActionEvent actionEvent) {
+    public void receivePaymentOA(ActionEvent actionEvent)  throws IOException {
+        SceneSwitcher.switchTo("nisa/ReceivePayment.fxml");
     }
 
     @javafx.fxml.FXML
