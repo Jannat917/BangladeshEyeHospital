@@ -8,6 +8,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
 import java.io.EOFException;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -26,11 +27,23 @@ public class LoginController {
     @FXML
     private Label messageLabel;
 
+    // Shared data folder
+    private final File dataFolder = new File("data");
+    private final File userFile = new File(dataFolder, "users.bin");
+
     @FXML
     public void initialize() {
 
-        roleComboBox.getItems().addAll("Doctor", "Receptionist","Patient","Accountant","SecurityStaff","Nurse");
-//        roleComboBox.setValue("Doctor");
+        roleComboBox.getItems().addAll(
+                "Doctor",
+                "Receptionist",
+                "Patient",
+                "Accountant",
+                "SecurityStaff",
+                "Nurse"
+        );
+
+        roleComboBox.setValue("Doctor");
         messageLabel.setText("");
     }
 
@@ -56,18 +69,25 @@ public class LoginController {
         int userId;
 
         try {
+
             userId = Integer.parseInt(userIdTextField.getText());
+
         } catch (NumberFormatException e) {
+
             messageLabel.setText("User ID must be numeric.");
+            return;
+        }
+
+        if (!userFile.exists()) {
+
+            messageLabel.setText("No users registered yet.");
             return;
         }
 
         boolean found = false;
 
-        try {
-
-            ObjectInputStream ois = new ObjectInputStream(
-                    new FileInputStream("/Users/jannati/Desktop/BangladeshEyeHospital/data/users.bin"));
+        try (ObjectInputStream ois =
+                     new ObjectInputStream(new FileInputStream(userFile))) {
 
             while (true) {
 
@@ -79,44 +99,36 @@ public class LoginController {
 
                     found = true;
 
-                    if (user.getRole().equals("Doctor")) {
+                    switch (user.getRole()) {
 
-                        SceneSwitcher.switchTo("jannati/doctorDashboard.fxml");
+                        case "Doctor":
+                            SceneSwitcher.switchTo("jannati/doctorDashboard.fxml");
+                            break;
 
-                    } else if (user.getRole().equals("Receptionist")) {
+                        case "Receptionist":
+                            SceneSwitcher.switchTo("jannati/receiptionistDashboard.fxml");
+                            break;
 
-                        SceneSwitcher.switchTo("jannati/receiptionistDashboard.fxml");
+                        case "Patient":
+                            SceneSwitcher.switchTo("nisa/PatientDashboard.fxml");
+                            break;
 
+                        case "Accountant":
+                            SceneSwitcher.switchTo("nisa/AccountantDashboard.fxml");
+                            break;
+
+                        case "SecurityStaff":
+                            SceneSwitcher.switchTo("mdhossain/securitystaffDashboard.fxml");
+                            break;
+
+                        case "Nurse":
+                            SceneSwitcher.switchTo("mdhossain/nurseDashboard.fxml");
+                            break;
                     }
-                    else if (user.getRole().equals("Patient")) {
-
-                        SceneSwitcher.switchTo("nisa/PatientDashboard.fxml");
-
-                    }
-                    else if (user.getRole().equals("Accountant")) {
-
-                        SceneSwitcher.switchTo("nisa/AccountantDashboard.fxml");
-
-                    }
-                    else if (user.getRole().equals("SecurityStaff")) {
-
-                        SceneSwitcher.switchTo("mdhossain/securitystaffDashboard.fxml");
-
-                    }
-                    else if (user.getRole().equals("Nurse")) {
-
-                        SceneSwitcher.switchTo("mdhossain/nurseDashboard.fxml");
-
-                    }
-
-
-
 
                     break;
                 }
             }
-
-            ois.close();
 
         } catch (EOFException e) {
 
@@ -124,14 +136,17 @@ public class LoginController {
 
         } catch (IOException e) {
 
-            messageLabel.setText("User file not found.");
+            messageLabel.setText("Unable to read user data.");
+            e.printStackTrace();
 
         } catch (ClassNotFoundException e) {
 
             messageLabel.setText("User data is corrupted.");
+            e.printStackTrace();
         }
 
         if (!found) {
+
             messageLabel.setText("Invalid User ID, Password or Role.");
         }
     }

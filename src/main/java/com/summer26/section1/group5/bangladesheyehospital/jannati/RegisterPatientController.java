@@ -39,14 +39,21 @@ public class RegisterPatientController {
     @FXML
     private Label messageLabel;
 
+    // Data folder (works on every computer)
+    private final File dataFolder = new File("data");
+
     private final File patientFile =
-            new File("/Users/jannati/Desktop/BangladeshEyeHospital/data/patients.bin");
+            new File(dataFolder, "patients.bin");
 
     private final File doctorFile =
-            new File("/Users/jannati/Desktop/BangladeshEyeHospital/data/doctors.bin");
+            new File(dataFolder, "doctors.bin");
 
     @FXML
     public void initialize() {
+
+        if (!dataFolder.exists()) {
+            dataFolder.mkdirs();
+        }
 
         genderComboBox.getItems().addAll(
                 "Male",
@@ -65,20 +72,20 @@ public class RegisterPatientController {
             return;
         }
 
-        try {
-
-            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(doctorFile));
+        try (ObjectInputStream ois =
+                     new ObjectInputStream(new FileInputStream(doctorFile))) {
 
             while (true) {
 
-                DoctorModelClass doctor = (DoctorModelClass) ois.readObject();
+                DoctorModelClass doctor =
+                        (DoctorModelClass) ois.readObject();
 
                 doctorComboBox.getItems().add(doctor.getDoctorName());
             }
 
         } catch (EOFException e) {
 
-
+            // End of file reached
 
         } catch (Exception e) {
 
@@ -94,10 +101,8 @@ public class RegisterPatientController {
             return id;
         }
 
-        try {
-
-            ObjectInputStream ois =
-                    new ObjectInputStream(new FileInputStream(patientFile));
+        try (ObjectInputStream ois =
+                     new ObjectInputStream(new FileInputStream(patientFile))) {
 
             while (true) {
 
@@ -111,7 +116,7 @@ public class RegisterPatientController {
 
         } catch (EOFException e) {
 
-            // End of file
+            // End of file reached
 
         } catch (Exception e) {
 
@@ -124,16 +129,26 @@ public class RegisterPatientController {
     @FXML
     public void confirmButton(ActionEvent actionEvent) {
 
-        if (patientNameTextField.getText().isEmpty() || ageTextField.getText().isEmpty() || phoneNumberTextField.getText().isEmpty() || addressTextField.getText().isEmpty() || genderComboBox.getValue() == null || doctorComboBox.getValue() == null || appointmentDatePicker.getValue() == null) {
+        if (patientNameTextField.getText().isEmpty()
+                || ageTextField.getText().isEmpty()
+                || phoneNumberTextField.getText().isEmpty()
+                || addressTextField.getText().isEmpty()
+                || genderComboBox.getValue() == null
+                || doctorComboBox.getValue() == null
+                || appointmentDatePicker.getValue() == null) {
+
             messageLabel.setText("Please fill all fields.");
             return;
         }
+
         int age;
 
         try {
+
             age = Integer.parseInt(ageTextField.getText());
 
         } catch (NumberFormatException e) {
+
             messageLabel.setText("Age must be numeric.");
             return;
         }
@@ -142,16 +157,20 @@ public class RegisterPatientController {
 
         if (patientFile.exists()) {
 
-            try {
-
-                ObjectInputStream ois = new ObjectInputStream(new FileInputStream(patientFile));
+            try (ObjectInputStream ois =
+                         new ObjectInputStream(new FileInputStream(patientFile))) {
 
                 while (true) {
-                    PatientRecordModelClass patient = (PatientRecordModelClass) ois.readObject();
+
+                    PatientRecordModelClass patient =
+                            (PatientRecordModelClass) ois.readObject();
+
                     patientList.add(patient);
                 }
 
             } catch (EOFException e) {
+
+                // End of file reached
 
             } catch (Exception e) {
 
@@ -161,19 +180,40 @@ public class RegisterPatientController {
 
         int patientId = generatePatientId();
 
-        PatientRecordModelClass patient = new PatientRecordModelClass(patientId, patientNameTextField.getText(), age, genderComboBox.getValue(), phoneNumberTextField.getText(), addressTextField.getText(), appointmentDatePicker.getValue().toString(), doctorComboBox.getValue(), "", "", "", "", "", "", "", "", 0.0, "Unpaid");
+        PatientRecordModelClass patient = new PatientRecordModelClass(
+                patientId,
+                patientNameTextField.getText(),
+                age,
+                genderComboBox.getValue(),
+                phoneNumberTextField.getText(),
+                addressTextField.getText(),
+                appointmentDatePicker.getValue().toString(),
+                doctorComboBox.getValue(),
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                "",
+                0.0,
+                "Unpaid"
+        );
+
         patientList.add(patient);
 
-        try {
-            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(patientFile));
+        try (ObjectOutputStream oos =
+                     new ObjectOutputStream(new FileOutputStream(patientFile))) {
 
             for (PatientRecordModelClass p : patientList) {
+
                 oos.writeObject(p);
             }
 
-            oos.close();
+            messageLabel.setText(
+                    "Patient Registered Successfully.\nPatient ID : " + patientId);
 
-            messageLabel.setText("Patient Registered Successfully.\nPatient ID : " + patientId);
             clearButton(null);
 
         } catch (IOException e) {
@@ -194,12 +234,15 @@ public class RegisterPatientController {
         genderComboBox.setValue(null);
         doctorComboBox.setValue(null);
         appointmentDatePicker.setValue(null);
+
+        messageLabel.setText("");
     }
 
     @FXML
     public void backButton(ActionEvent actionEvent) {
 
         try {
+
             SceneSwitcher.switchTo("jannati/receiptionistDashboard.fxml");
 
         } catch (IOException e) {

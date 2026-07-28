@@ -26,7 +26,8 @@ public class PatientDashboardcontroller
     }
 
     @javafx.fxml.FXML
-    public void payhospitalbillOnAction(ActionEvent actionEvent) {
+    public void payhospitalbillOnAction(ActionEvent actionEvent)  throws IOException {
+        SceneSwitcher.switchTo("nisa/Bill.fxml");
     }
 
     @javafx.fxml.FXML
@@ -40,7 +41,8 @@ public class PatientDashboardcontroller
     }
 
     @javafx.fxml.FXML
-    public void updateprofileOnAction(ActionEvent actionEvent) {
+    public void updateprofileOnAction(ActionEvent actionEvent) throws IOException {
+            SceneSwitcher.switchTo("nisa/UpdateProfile.fxml");
     }
 
     @javafx.fxml.FXML
