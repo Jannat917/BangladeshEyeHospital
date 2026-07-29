@@ -29,10 +29,6 @@ public class AccountantDashboardcontroller
     }
 
     @javafx.fxml.FXML
-    public void salaryOA(ActionEvent actionEvent) {
-    }
-
-    @javafx.fxml.FXML
     public void paysupplierOA(ActionEvent actionEvent) {
     }
 
@@ -48,6 +44,13 @@ public class AccountantDashboardcontroller
     @javafx.fxml.FXML
     public void LogoutOA(ActionEvent actionEvent) throws IOException {
         SceneSwitcher.switchTo("common/login.fxml");
+
+    }
+
+
+    @javafx.fxml.FXML
+    public void employeesalaryOA(ActionEvent actionEvent) throws IOException {
+            SceneSwitcher.switchTo("nisa/EmployeeSalary.fxml");
 
     }
 }

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="712.0" prefWidth="830.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.summer26.section1.group5.bangladesheyehospital.nisa.EmployeeSalarycontroller">
+   <children>
+      <Label layoutX="265.0" layoutY="29.0" prefHeight="58.0" prefWidth="268.0" text="Process Employee Salary">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="monthCB" layoutX="234.0" layoutY="139.0" prefHeight="26.0" prefWidth="210.0" />
+      <Label layoutX="182.0" layoutY="143.0" text="Month :">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <TableView fx:id="EmployeeTable" layoutX="48.0" layoutY="214.0" prefHeight="200.0" prefWidth="733.0">
+        <columns>
+          <TableColumn fx:id="employeeidcolumn" prefWidth="159.9999942779541" text="Employee Id" />
+          <TableColumn fx:id="namecolumn" prefWidth="155.19998168945312" text="Name" />
+            <TableColumn fx:id="designationcolumn" prefWidth="151.20001220703125" text="Designation" />
+            <TableColumn fx:id="basicsalarycolumn" prefWidth="142.40005493164062" text="Salary" />
+            <TableColumn fx:id="ststuscolumn" prefWidth="133.5999755859375" text="Status" />
+        </columns>
+      </TableView>
+      <Label fx:id="grosssalarylabel" layoutX="31.0" layoutY="472.0" prefHeight="41.0" prefWidth="143.0" text="Gross Salary">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Button layoutX="294.0" layoutY="440.0" mnemonicParsing="false" onAction="#calculatesalarybutton" prefHeight="42.0" prefWidth="112.0" text="Calculate Salary" />
+      <Button layoutX="301.0" layoutY="521.0" mnemonicParsing="false" onAction="#generatesalarybutton" prefHeight="49.0" prefWidth="106.0" text="Generate Slip" />
+      <Button layoutX="502.0" layoutY="521.0" mnemonicParsing="false" onAction="#clearbutton" prefHeight="42.0" prefWidth="106.0" text="Clear" />
+      <Button layoutX="499.0" layoutY="440.0" mnemonicParsing="false" onAction="#approvesalarybutton" prefHeight="42.0" prefWidth="112.0" text="Approve Salary" />
+      <Button layoutX="671.0" layoutY="659.0" mnemonicParsing="false" onAction="#backbutton" prefHeight="26.0" prefWidth="79.0" text="Back" />
+   </children>
+</AnchorPane>
