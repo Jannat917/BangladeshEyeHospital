@@ -6,35 +6,35 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.summer26.section1.group5.bangladesheyehospital.mdhossain.VerifyAppointmentController">
-
+<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.summer26.section1.group5.bangladesheyehospital.mdhossain.VerifyAppointmentController">
     <children>
         <Label layoutX="280.0" layoutY="14.0" prefHeight="31.0" prefWidth="345.0" text="Bangladesh Eye Hospital">
-            <font>
-                <Font size="26.0" />
-            </font>
+            <font><Font size="26.0" /></font>
         </Label>
 
         <Label layoutX="300.0" layoutY="64.0" text="Verify Appointment">
-            <font>
-                <Font size="22.0" />
-            </font>
+            <font><Font size="22.0" /></font>
         </Label>
 
         <Label layoutX="200.0" layoutY="150.0" text="Enter Patient/Appointment ID:" />
-        <TextField fx:id="appointmentIdField" layoutX="400.0" layoutY="145.0" prefWidth="250.0" promptText="Enter ID" />
+        <TextField fx:id="appointmentIdField" layoutX="420.0" layoutY="145.0" prefWidth="250.0" promptText="Enter ID (e.g., 12345, 23456, 34567)" />
 
-        <Button layoutX="400.0" layoutY="200.0" onAction="#searchAppointment" prefHeight="40.0" prefWidth="150.0" text="Search" />
+        <Button layoutX="400.0" layoutY="210.0" onAction="#searchAppointment" prefHeight="40.0" prefWidth="150.0" text="Search" />
 
         <Label fx:id="patientNameLabel" layoutX="200.0" layoutY="280.0" prefWidth="500.0" text="Patient Name: " />
         <Label fx:id="doctorLabel" layoutX="200.0" layoutY="310.0" prefWidth="500.0" text="Doctor: " />
         <Label fx:id="timeSlotLabel" layoutX="200.0" layoutY="340.0" prefWidth="500.0" text="Time Slot: " />
 
-        <Button fx:id="confirmEntryBtn" layoutX="400.0" layoutY="400.0" onAction="#confirmEntry" prefHeight="40.0" prefWidth="150.0" text="Confirm Entry" disable="true" />
+        <Button fx:id="confirmEntryBtn" disable="true" layoutX="400.0" layoutY="400.0" onAction="#confirmEntry" prefHeight="40.0" prefWidth="150.0" text="Confirm Entry" />
 
-        <Label fx:id="statusLabel" layoutX="200.0" layoutY="470.0" prefWidth="500.0" style="-fx-text-fill: #f39c12;" />
+        <Label fx:id="statusLabel" layoutX="200.0" layoutY="470.0" prefWidth="550.0" style="-fx-text-fill: #f39c12; -fx-font-size: 13px;" wrapText="true" />
 
-        <Button layoutX="350.0" layoutY="540.0" onAction="#backButton" prefHeight="40.0" prefWidth="200.0" text="Back to Dashboard" />
+        <!-- Sample Patient IDs Info -->
+        <Label layoutX="200.0" layoutY="520.0" style="-fx-text-fill: #7f8c8d; -fx-font-size: 12px; -fx-font-weight: bold;" text="Sample Patient IDs:" />
+        <Label layoutX="200.0" layoutY="560.0" style="-fx-text-fill: #7f8c8d; -fx-font-size: 12px;" text="2. 23456 - Fatema Begum | Dr. Sultana | 11:00 AM" />
+        <Label layoutX="200.0" layoutY="580.0" style="-fx-text-fill: #7f8c8d; -fx-font-size: 12px;" text="3. 34567 - Rahim Khan | Dr. Islam | 2:30 PM" />
+
+        <Button layoutX="512.0" layoutY="460.0" onAction="#backButton" prefHeight="48.0" prefWidth="206.0" text="Back to Dashboard" />
+      <Label layoutX="198.0" layoutY="538.0" prefHeight="25.0" prefWidth="238.0" style="-fx-text-fill: #7f8c8d; -fx-font-size: 12px;" text="1. 12345 - Jahirul Islam | Dr. Rahman | 10:30 AM" />
     </children>
-
 </AnchorPane>

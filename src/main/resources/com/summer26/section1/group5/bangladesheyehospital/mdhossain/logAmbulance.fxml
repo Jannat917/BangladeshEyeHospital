@@ -3,23 +3,34 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.summer26.section1.group5.bangladesheyehospital.mdhossain.LogAmbulanceController">
+<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/21.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.summer26.section1.group5.bangladesheyehospital.mdhossain.LogAmbulanceController">
     <children>
         <Label layoutX="280.0" layoutY="14.0" prefHeight="31.0" prefWidth="345.0" text="Bangladesh Eye Hospital">
-            <font><Font size="26.0" /></font>
+            <font>
+                <Font size="26.0" />
+            </font>
         </Label>
+
         <Label layoutX="300.0" layoutY="64.0" text="Log Ambulance">
-            <font><Font size="22.0" /></font>
+            <font>
+                <Font size="22.0" />
+            </font>
         </Label>
 
-        <Label layoutX="200.0" layoutY="150.0" text="Ambulance Number:" />
-        <TextField fx:id="ambulanceNumberField" layoutX="400.0" layoutY="145.0" prefWidth="250.0" promptText="e.g., ABC-123" />
+        <Label layoutX="200.0" layoutY="150.0" text="Enter Ambulance Number:" />
+        <TextField fx:id="ambulanceNumberField" layoutX="420.0" layoutY="145.0" prefWidth="250.0" promptText="e.g., AMB-101, AMB-202, AMB-303" />
 
-        <Button layoutX="400.0" layoutY="210.0" onAction="#logAmbulance" text="Log Ambulance" />
+        <!-- FIXED: Changed & to &amp; -->
+        <Button layoutX="420.0" layoutY="210.0" onAction="#logAmbulance" prefHeight="40.0" prefWidth="180.0" text="Check &amp; Log Ambulance" />
 
         <Label fx:id="statusLabel" layoutX="200.0" layoutY="280.0" prefWidth="500.0" style="-fx-text-fill: #f39c12;" />
-        <Label fx:id="timeLabel" layoutX="200.0" layoutY="320.0" prefWidth="400.0" />
 
-        <Button layoutX="350.0" layoutY="540.0" onAction="#backButton" text="Back to Dashboard" />
+        <Label fx:id="timeLabel" layoutX="200.0" layoutY="310.0" prefWidth="400.0" />
+
+        <Label fx:id="ambulanceInfoLabel" layoutX="200.0" layoutY="350.0" prefWidth="550.0" prefHeight="150.0" style="-fx-text-fill: #2c3e50; -fx-font-size: 13px;" wrapText="true" />
+
+        <Label layoutX="200.0" layoutY="520.0" text="Try these ambulance numbers: AMB-101, AMB-202, AMB-303" style="-fx-text-fill: #7f8c8d; -fx-font-size: 12px;" />
+
+        <Button layoutX="350.0" layoutY="550.0" onAction="#backButton" prefHeight="40.0" prefWidth="200.0" text="Back to Dashboard" />
     </children>
 </AnchorPane>

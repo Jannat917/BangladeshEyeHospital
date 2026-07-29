@@ -3,23 +3,31 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.summer26.section1.group5.bangladesheyehospital.mdhossain.controllers.IssueEntryPassController">
+<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/21.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.summer26.section1.group5.bangladesheyehospital.mdhossain.IssueEntryPassController">
     <children>
         <Label layoutX="280.0" layoutY="14.0" prefHeight="31.0" prefWidth="345.0" text="Bangladesh Eye Hospital">
             <font><Font size="26.0" /></font>
         </Label>
+
         <Label layoutX="300.0" layoutY="64.0" text="Issue Entry Pass">
             <font><Font size="22.0" /></font>
         </Label>
 
-        <Label layoutX="200.0" layoutY="150.0" text="Visitor ID:" />
-        <TextField fx:id="visitorIdField" layoutX="400.0" layoutY="145.0" prefWidth="250.0" promptText="Enter Visitor ID" />
+        <Label layoutX="200.0" layoutY="150.0" text="Enter Visitor ID:" />
+        <TextField fx:id="visitorIdField" layoutX="400.0" layoutY="145.0" prefWidth="250.0" promptText="Enter Visitor ID (e.g., V123456)" />
 
-        <Button layoutX="400.0" layoutY="210.0" onAction="#issuePass" text="Issue Pass" />
+        <Button layoutX="400.0" layoutY="210.0" onAction="#issuePass" prefHeight="40.0" prefWidth="150.0" text="Issue Pass" />
 
-        <Label fx:id="statusLabel" layoutX="200.0" layoutY="280.0" prefWidth="500.0" style="-fx-text-fill: #f39c12;" />
-        <Label fx:id="passNumberLabel" layoutX="200.0" layoutY="320.0" prefWidth="300.0" />
+        <Label fx:id="statusLabel" layoutX="200.0" layoutY="280.0" prefWidth="550.0" style="-fx-text-fill: #f39c12; -fx-font-size: 13px;" wrapText="true" />
 
-        <Button layoutX="350.0" layoutY="540.0" onAction="#backButton" text="Back to Dashboard" />
+        <Label fx:id="passNumberLabel" layoutX="200.0" layoutY="420.0" prefWidth="400.0" style="-fx-text-fill: #2980b9; -fx-font-weight: bold; -fx-font-size: 14px;" />
+
+        <!-- Sample Visitor IDs Info -->
+        <Label layoutX="200.0" layoutY="470.0" text="Sample Visitor IDs (Register first):" style="-fx-text-fill: #7f8c8d; -fx-font-size: 12px; -fx-font-weight: bold;" />
+        <Label layoutX="200.0" layoutY="490.0" text="1. V123456 - John Doe" style="-fx-text-fill: #7f8c8d; -fx-font-size: 12px;" />
+        <Label layoutX="200.0" layoutY="510.0" text="2. V234567 - Jane Smith" style="-fx-text-fill: #7f8c8d; -fx-font-size: 12px;" />
+        <Label layoutX="200.0" layoutY="530.0" text="3. V345678 - Bob Johnson" style="-fx-text-fill: #7f8c8d; -fx-font-size: 12px;" />
+
+        <Button layoutX="350.0" layoutY="550.0" onAction="#backButton" prefHeight="40.0" prefWidth="200.0" text="Back to Dashboard" />
     </children>
 </AnchorPane>

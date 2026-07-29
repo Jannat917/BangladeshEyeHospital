@@ -26,16 +26,22 @@ public class RecordExitController {
     static {
 
         PatientRecordModelClass p1 = new PatientRecordModelClass();
-        p1.setPatientId(101);
+        p1.setPatientId(12345);
         p1.setPatientName("Jahirul Islam");
         p1.setAge(45);
         p1.setGender("Male");
         p1.setPhoneNumber("01712345678");
         p1.setAddress("Dhaka, Bangladesh");
-        patientDB.put(101, p1);
+        patientDB.put(12345, p1);
 
         PatientRecordModelClass p2 = new PatientRecordModelClass();
-        p2.setPatientId(102);
+        p2.setPatientId(23456);
+        p2.setPatientName("Fatema Begum");
+        p2.setAge(52);
+        p2.setGender("Female");
+        p2.setPhoneNumber("01734567890");
+        p2.setAddress("Sylhet, Bangladesh");
+        patientDB.put(23456, p2);
         p2.setPatientName("Rahim Khan");
         p2.setAge(38);
         p2.setGender("Male");
@@ -44,21 +50,23 @@ public class RecordExitController {
         patientDB.put(102, p2);
 
         PatientRecordModelClass p3 = new PatientRecordModelClass();
-        p3.setPatientId(103);
-        p3.setPatientName("Fatema Begum");
-        p3.setAge(52);
-        p3.setGender("Female");
-        p3.setPhoneNumber("01734567890");
-        p3.setAddress("Sylhet, Bangladesh");
-        patientDB.put(103, p3);
+        p3.setPatientId(34567);
+        p3.setPatientName("Rahim Khan");
+        p3.setAge(38);
+        p3.setGender("Male");
+        p3.setPhoneNumber("01723456789");
+        p3.setAddress("Chittagong, Bangladesh");
+        patientDB.put(34567, p3);
+
+
     }
 
 
     private static final Map<Integer, String> patientStatus = new HashMap<>();
     static {
-        patientStatus.put(101, "Inside");
-        patientStatus.put(102, "Inside");
-        patientStatus.put(103, "Outside");
+        patientStatus.put(12345, "Inside");
+        patientStatus.put(23456, "Inside");
+        patientStatus.put(34567, "Outside");
     }
 
     @FXML
@@ -122,6 +130,6 @@ public class RecordExitController {
 
     @FXML
     public void backButton(ActionEvent event) throws IOException {
-        SceneSwitcher.switchTo("/com/summer26/section1/group5/bangladesheyehospital/mdhossain/fxml/securityStaffDashboard.fxml");
+        SceneSwitcher.switchTo("mdhossain/securitystaffDashboard.fxml");
     }
 }
