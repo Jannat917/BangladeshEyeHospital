@@ -12,7 +12,8 @@ public class AccountantDashboardcontroller
     }
 
     @javafx.fxml.FXML
-    public void financialreportOA(ActionEvent actionEvent) {
+    public void financialreportOA(ActionEvent actionEvent) throws IOException {
+        SceneSwitcher.switchTo("nisa/FinancialReport.fxml");
     }
 
     @javafx.fxml.FXML
@@ -21,19 +22,18 @@ public class AccountantDashboardcontroller
     }
 
     @javafx.fxml.FXML
-    public void manageexpenseOA(ActionEvent actionEvent) {
+    public void manageexpenseOA(ActionEvent actionEvent)  throws IOException {
+        SceneSwitcher.switchTo("nisa/ManageExpense.fxml");
     }
 
     @javafx.fxml.FXML
-    public void refundOA(ActionEvent actionEvent) {
+    public void refundOA(ActionEvent actionEvent)  throws IOException {
+        SceneSwitcher.switchTo("nisa/ProcessRefund.fxml");
     }
 
     @javafx.fxml.FXML
-    public void salaryOA(ActionEvent actionEvent) {
-    }
-
-    @javafx.fxml.FXML
-    public void paysupplierOA(ActionEvent actionEvent) {
+    public void paysupplierOA(ActionEvent actionEvent) throws IOException {
+            SceneSwitcher.switchTo("nisa/PaySupplier.fxml");
     }
 
     @javafx.fxml.FXML
@@ -42,12 +42,20 @@ public class AccountantDashboardcontroller
     }
 
     @javafx.fxml.FXML
-    public void duepaymentOA(ActionEvent actionEvent) {
+    public void duepaymentOA(ActionEvent actionEvent) throws IOException {
+        SceneSwitcher.switchTo("nisa/DuePayment.fxml");
     }
 
     @javafx.fxml.FXML
     public void LogoutOA(ActionEvent actionEvent) throws IOException {
         SceneSwitcher.switchTo("common/login.fxml");
+
+    }
+
+
+    @javafx.fxml.FXML
+    public void employeesalaryOA(ActionEvent actionEvent) throws IOException {
+            SceneSwitcher.switchTo("nisa/EmployeeSalary.fxml");
 
     }
 }

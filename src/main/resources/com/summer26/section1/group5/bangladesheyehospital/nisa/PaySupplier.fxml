@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="640.0" prefWidth="822.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.summer26.section1.group5.bangladesheyehospital.nisa.PaySuppliercontroller">
+   <children>
+      <Label layoutX="318.0" layoutY="14.0" prefHeight="43.0" prefWidth="186.0" text="Pay Supplier">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+      <TableView fx:id="suppliertable" layoutX="131.0" layoutY="103.0" prefHeight="171.0" prefWidth="560.0">
+        <columns>
+          <TableColumn fx:id="supplieridcolumn" prefWidth="129.59996032714844" text="Supplier Id" />
+          <TableColumn fx:id="suppliernamecolumn" prefWidth="130.4000244140625" text="Supplier Name" />
+            <TableColumn fx:id="invoicenumbercolumn" prefWidth="148.79998779296875" text="Invoice Number" />
+            <TableColumn fx:id="dueamountcolumn" prefWidth="152.0" text="Due Amount" />
+        </columns>
+      </TableView>
+      <Label fx:id="dueamountlabel" layoutX="98.0" layoutY="303.0" prefHeight="34.0" prefWidth="159.0" text="Due Amount">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="111.0" layoutY="403.0" prefHeight="18.0" prefWidth="102.0" text="Payment Amount :" />
+      <Label layoutX="114.0" layoutY="443.0" text="Payment Method :" />
+      <TextField fx:id="paymentamountTF" layoutX="218.0" layoutY="399.0" prefHeight="26.0" prefWidth="186.0" />
+      <ComboBox fx:id="paymentmethodCB" layoutX="218.0" layoutY="439.0" prefHeight="26.0" prefWidth="186.0" />
+      <Button layoutX="368.0" layoutY="303.0" mnemonicParsing="false" onAction="#selectbutton" prefHeight="26.0" prefWidth="83.0" text="Select" />
+      <Button layoutX="383.0" layoutY="581.0" mnemonicParsing="false" onAction="#clearbutton" prefHeight="26.0" prefWidth="83.0" text="Clear" />
+      <Button layoutX="383.0" layoutY="505.0" mnemonicParsing="false" onAction="#paybutton" prefHeight="26.0" prefWidth="83.0" text="Pay" />
+      <Button layoutX="730.0" layoutY="581.0" mnemonicParsing="false" onAction="#backbutton" prefHeight="26.0" prefWidth="58.0" text="Back" />
+   </children>
+</AnchorPane>
