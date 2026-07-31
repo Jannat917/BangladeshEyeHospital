@@ -1,23 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
 
-<VBox xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.summer26.section1.group5.bangladesheyehospital.mdhossain.HeadNurseController"
-      spacing="10" alignment="CENTER" prefWidth="400" prefHeight="600">
+<AnchorPane prefHeight="650.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/21.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.summer26.section1.group5.bangladesheyehospital.mdhossain.HeadNurseController">
+    <children>
+        <Label layoutX="280.0" layoutY="14.0" prefHeight="31.0" prefWidth="345.0" text="Bangladesh Eye Hospital">
+            <font>
+                <Font size="26.0" />
+            </font>
+        </Label>
 
-    <Label fx:id="patientInfoLabel" style="-fx-font-size: 14px; -fx-font-weight: bold;"/>
-    <Label fx:id="surgeryTypeLabel" style="-fx-font-size: 12px;"/>
+        <Label layoutX="350.0" layoutY="64.0" text="Head Nurse - OT Verification">
+            <font>
+                <Font size="22.0" />
+            </font>
+        </Label>
 
-    <CheckBox fx:id="idVerified" text="ID Verified"/>
-    <CheckBox fx:id="eyemarked" text="Eye Marked"/>
-    <CheckBox fx:id="consentsigned" text="Consent Signed"/>
-    <CheckBox fx:id="fastingcheck" text="Fasting Check"/>
+        <Label fx:id="patientInfoLabel" layoutX="100.0" layoutY="120.0" prefWidth="700.0" text="Patient: " />
+        <Label fx:id="surgeryTypeLabel" layoutX="100.0" layoutY="150.0" prefWidth="700.0" text="Surgery: " />
 
-    <TextField fx:id="nursesignatureField" promptText="Nurse Signature"/>
-    <Button fx:id="finalizeBtn" text="Finalize" onAction="#handleFinalize"/>
-    <Button text="Reset Form" onAction="#resetForm"/>
+        <CheckBox fx:id="idVerified" layoutX="100.0" layoutY="200.0" text="ID Verified" prefWidth="200.0" />
+        <CheckBox fx:id="eyemarked" layoutX="100.0" layoutY="240.0" text="Eye Marked" prefWidth="200.0" />
+        <CheckBox fx:id="consentsigned" layoutX="100.0" layoutY="280.0" text="Consent Signed" prefWidth="200.0" />
+        <CheckBox fx:id="fastingcheck" layoutX="100.0" layoutY="320.0" text="Fasting Check" prefWidth="200.0" />
 
-    <Label fx:id="statusOutput" style="-fx-text-fill: #f39c12;"/>
-</VBox>
+        <Button fx:id="finalizeBtn" layoutX="100.0" layoutY="380.0" onAction="#handleFinalize" prefHeight="40.0" prefWidth="150.0" text="Finalize" />
+        <Button layoutX="270.0" layoutY="380.0" onAction="#resetForm" prefHeight="40.0" prefWidth="150.0" text="Reset Form" />
+
+        <Label fx:id="statusOutput" layoutX="100.0" layoutY="450.0" prefWidth="700.0" text="Pending verification..." style="-fx-text-fill: #f39c12; -fx-font-size: 13px;" wrapText="true" />
+
+        <Button fx:id="printBtn" layoutX="350.0" layoutY="540.0" onAction="#printChecklist" prefHeight="40.0" prefWidth="150.0" text="Print Checklist" disable="true" />
+
+        <Button layoutX="350.0" layoutY="590.0" onAction="#backButton" prefHeight="40.0" prefWidth="200.0" text="Back to Dashboard" />
+    </children>
+</AnchorPane>

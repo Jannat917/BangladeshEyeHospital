@@ -1,33 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.summer26.section1.group5.bangladesheyehospital.mdhossain.DoctorQueuesController">
+<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/21.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.summer26.section1.group5.bangladesheyehospital.mdhossain.DoctorQueuesController">
     <children>
-        <VBox spacing="15.0" layoutX="30.0" layoutY="20.0" prefWidth="790.0">
-            <Label text="Doctor Queues Management" style="-fx-font-weight: bold; -fx-font-size: 20px;" />
-            <Label text="Select Doctor:" style="-fx-font-weight: bold; -fx-font-size: 14px;" />
-            <ComboBox fx:id="doctorComboBox" prefWidth="350.0" onAction="#handleDoctorSelection" promptText="Select a Doctor" />
-            <Label text="Current Queue Status" style="-fx-font-weight: bold; -fx-font-size: 14px;" />
-            <HBox spacing="20.0">
-                <VBox spacing="10.0" prefWidth="370.0">
-                    <ListView fx:id="patientQueueListView" prefHeight="280.0" />
-                </VBox>
-                <VBox spacing="10.0" prefWidth="380.0">
-                    <Label text="Patient Details" style="-fx-font-weight: bold; -fx-font-size: 14px;" />
-                    <TextArea fx:id="patientDetailsArea" prefHeight="200.0" editable="false" wrapText="true" />
-                    <Label text="Queue Statistics:" style="-fx-font-weight: bold; -fx-font-size: 13px;" />
-                    <Label fx:id="queueStatsLabel" text="Total: 0 | Waiting: 0 | In Progress: 0 | Completed: 0" />
-                </VBox>
-            </HBox>
-            <HBox spacing="15.0">
-                <Button fx:id="callNextBtn" onAction="#handleCallNextPatient" text="Call Next Patient" style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-font-weight: bold;" />
-                <Button fx:id="refreshBtn" onAction="#handleRefresh" text="Refresh" />
-                <Button fx:id="resetBtn" onAction="#handleResetQueue" text="Reset Queue" style="-fx-background-color: #FF9800; -fx-text-fill: white;" />
-                <Button fx:id="backBtn" onAction="#handleBack" text="Back to Dashboard" />
-            </HBox>
-            <Label fx:id="statusLabel" text="Status: Ready" style="-fx-text-fill: #4CAF50; -fx-font-weight: bold;" />
-        </VBox>
+        <Label layoutX="280.0" layoutY="14.0" prefHeight="31.0" prefWidth="345.0" text="Bangladesh Eye Hospital">
+            <font><Font size="26.0" /></font>
+        </Label>
+        <Label layoutX="300.0" layoutY="64.0" text="Manage Doctor Queues">
+            <font><Font size="22.0" /></font>
+        </Label>
+        <Label layoutX="100.0" layoutY="130.0" text="Doctors:" />
+        <ListView fx:id="doctorListView" layoutX="100.0" layoutY="160.0" prefHeight="200.0" prefWidth="250.0" />
+        <Button layoutX="100.0" layoutY="380.0" onAction="#viewQueue" prefHeight="35.0" prefWidth="150.0" text="View Queue" />
+        <Label layoutX="500.0" layoutY="130.0" text="Queue:" />
+        <ListView fx:id="queueListView" layoutX="500.0" layoutY="160.0" prefHeight="200.0" prefWidth="300.0" />
+        <Button layoutX="500.0" layoutY="380.0" onAction="#callNext" prefHeight="35.0" prefWidth="150.0" text="Call Next Patient" />
+        <Label fx:id="statusLabel" layoutX="100.0" layoutY="450.0" prefWidth="700.0" style="-fx-text-fill: #f39c12; -fx-font-size: 13px;" />
+        <Button layoutX="350.0" layoutY="540.0" onAction="#backButton" prefHeight="40.0" prefWidth="200.0" text="Back to Dashboard" />
     </children>
 </AnchorPane>

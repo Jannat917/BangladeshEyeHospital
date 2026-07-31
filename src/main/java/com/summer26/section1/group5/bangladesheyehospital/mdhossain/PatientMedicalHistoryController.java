@@ -1,90 +1,79 @@
 package com.summer26.section1.group5.bangladesheyehospital.mdhossain;
 
+import com.summer26.section1.group5.bangladesheyehospital.common.PatientRecordModelClass;
+import com.summer26.section1.group5.bangladesheyehospital.common.SceneSwitcher;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.ResourceBundle;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
-public class PatientMedicalHistoryController implements Initializable {
+public class PatientMedicalHistoryController {
+    @FXML private TextField patientIdField;
+    @FXML private TextArea historyArea;
+    @FXML private Label statusLabel;
 
-    @FXML
-    private TextField txtSearch;
-
-    @FXML
-    private Label lblName;
+    // REUSE patientDB from InitialEyeScreeningController
+    private static final Map<Integer, PatientRecordModelClass> patientDB = InitialEyeScreeningController.patientDB;
 
     @FXML
-    private Label lblAge;
-
-    @FXML
-    private Label lblGender;
-
-    @FXML
-    private Label lblContact;
-
-    @FXML
-    private ListView<String> reportList;
-
-    @FXML
-    private ListView<String> prescriptionList;
-
-    @FXML
-    private Label statusLabel;
-
-    private final ArrayList<String> reports = new ArrayList<>();
-    private final ArrayList<String> prescriptions = new ArrayList<>();
-
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        reports.add("Eye Exam - Jan 2026");
-        reports.add("Retinal Scan - Feb 2026");
-        reports.add("Glaucoma Test - Mar 2026");
-
-        prescriptions.add("Prescription #001 - Jan 2026");
-        prescriptions.add("Prescription #002 - Feb 2026");
-
-        if (reportList != null && prescriptionList != null) {
-            ObservableList<String> reportsObservable = FXCollections.observableArrayList(reports);
-            ObservableList<String> prescriptionsObservable = FXCollections.observableArrayList(prescriptions);
-
-            reportList.setItems(reportsObservable);
-            prescriptionList.setItems(prescriptionsObservable);
-        }
-
-        statusLabel.setText("Enter ID to search");
-    }
-
-    @FXML
-    public void searchHistory() {
-        if (txtSearch.getText().isEmpty()) {
-            statusLabel.setText("Enter patient ID!");
+    public void searchHistory(ActionEvent event) {
+        String id = patientIdField.getText().trim();
+        if (id.isEmpty()) {
+            statusLabel.setText("ERROR: Enter Patient ID!");
+            statusLabel.setStyle("-fx-text-fill: red;");
             return;
         }
-        lblName.setText("John Doe");
-        lblAge.setText("45");
-        lblGender.setText("Male");
-        lblContact.setText("+880-1234-567890");
-        statusLabel.setText(String.format("Found records for ID: %s", txtSearch.getText()));
+
+        int patientId;
+        try {
+            patientId = Integer.parseInt(id);
+        } catch (NumberFormatException e) {
+            statusLabel.setText("ERROR: ID must be numeric!");
+            statusLabel.setStyle("-fx-text-fill: red;");
+            return;
+        }
+
+        PatientRecordModelClass patient = patientDB.get(patientId);
+        if (patient == null) {
+            historyArea.setText("No patient found with ID: " + id + "\n\nUse IDs: 101, 102, 103");
+            statusLabel.setText("Patient not found!");
+            statusLabel.setStyle("-fx-text-fill: #f39c12;");
+            return;
+        }
+
+        // Handle null values with default messages
+        String phone = patient.getPhoneNumber() != null ? patient.getPhoneNumber() : "Not provided";
+        String disease = patient.getDisease() != null ? patient.getDisease() : "Not specified";
+        String diagnosis = patient.getDiagnosis() != null ? patient.getDiagnosis() : "Not specified";
+        String prescription = patient.getPrescription() != null ? patient.getPrescription() : "No prescription";
+        String remarks = patient.getDoctorRemarks() != null ? patient.getDoctorRemarks() : "No remarks";
+
+        String info = "========================================\n";
+        info += "        MEDICAL HISTORY\n";
+        info += "========================================\n";
+        info += "  Patient ID : " + patient.getPatientId() + "\n";
+        info += "  Name       : " + patient.getPatientName() + "\n";
+        info += "  Age        : " + patient.getAge() + "\n";
+        info += "  Gender     : " + patient.getGender() + "\n";
+        info += "  Phone      : " + phone + "\n";
+        info += "----------------------------------------\n";
+        info += "  Disease    : " + disease + "\n";
+        info += "  Diagnosis  : " + diagnosis + "\n";
+        info += "  Prescription: " + prescription + "\n";
+        info += "  Remarks    : " + remarks + "\n";
+        info += "========================================";
+
+        historyArea.setText(info);
+        statusLabel.setText("History loaded successfully!");
+        statusLabel.setStyle("-fx-text-fill: #27ae60;");
     }
 
     @FXML
-    public void clearHistory() {
-        txtSearch.clear();
-        lblName.setText("");
-        lblAge.setText("");
-        lblGender.setText("");
-        lblContact.setText("");
-        statusLabel.setText("Cleared");
-    }
-
-    @FXML
-    public void goBack() {
-        statusLabel.setText("Going back...");
+    public void backButton(ActionEvent event) throws IOException {
+        SceneSwitcher.switchTo("mdhossain/nurseDashboard.fxml");
     }
 }

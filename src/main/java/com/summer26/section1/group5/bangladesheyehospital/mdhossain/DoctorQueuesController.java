@@ -1,155 +1,88 @@
-
 package com.summer26.section1.group5.bangladesheyehospital.mdhossain;
 
+import com.summer26.section1.group5.bangladesheyehospital.common.DoctorModelClass;
+import com.summer26.section1.group5.bangladesheyehospital.common.SceneSwitcher;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.*;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import java.net.URL;
-import java.util.ResourceBundle;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
-public class DoctorQueuesController implements Initializable {
-    @FXML private ComboBox<String> doctorComboBox;
-    @FXML private ListView<QueuePatient> patientQueueListView;
-    @FXML private TextArea patientDetailsArea;
-    @FXML private Label queueStatsLabel;
+public class DoctorQueuesController {
+    @FXML private ListView<String> doctorListView;
+    @FXML private ListView<String> queueListView;
     @FXML private Label statusLabel;
-    @FXML private Button callNextBtn;
-    @FXML private Button refreshBtn;
-    @FXML private Button resetBtn;
-    @FXML private Button backBtn;
 
-    private ObservableList<QueuePatient> queuePatients = FXCollections.observableArrayList();
-    private ObservableList<String> doctors = FXCollections.observableArrayList();
+    private static final Map<Integer, DoctorModelClass> doctorDB = new HashMap<>();
+    private static final Map<String, String> queueDB = new HashMap<>();
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        doctors.addAll("Dr. Ahmed - Ophthalmology", "Dr. Rahman - Retina Specialist",
-                "Dr. Khan - Cornea Specialist", "Dr. Ali - Glaucoma Specialist");
-        doctorComboBox.setItems(doctors);
-        loadSampleQueue();
-        patientQueueListView.setItems(queuePatients);
-        patientQueueListView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-            if (newSelection != null) {
-                displayPatientDetails(newSelection);
-            }
-        });
-        updateQueueStats();
+    static {
+        DoctorModelClass d1 = new DoctorModelClass();
+        d1.setDoctorId(1);
+        d1.setDoctorName("Dr. Rahman");
+        d1.setSpecialization("Eye Specialist");
+        d1.setAvailability("Available");
+        doctorDB.put(1, d1);
+
+        DoctorModelClass d2 = new DoctorModelClass();
+        d2.setDoctorId(2);
+        d2.setDoctorName("Dr. Sultana");
+        d2.setSpecialization("Retina Specialist");
+        d2.setAvailability("Available");
+        doctorDB.put(2, d2);
+
+        DoctorModelClass d3 = new DoctorModelClass();
+        d3.setDoctorId(3);
+        d3.setDoctorName("Dr. Islam");
+        d3.setSpecialization("Cornea Specialist");
+        d3.setAvailability("Available");
+        doctorDB.put(3, d3);
     }
 
-    private void loadSampleQueue() {
-        queuePatients.add(new QueuePatient("P001", "John Doe", "Waiting", "10:00 AM"));
-        queuePatients.add(new QueuePatient("P002", "Jane Smith", "Waiting", "10:15 AM"));
-        queuePatients.add(new QueuePatient("P003", "Robert Johnson", "In Progress", "10:30 AM"));
-        queuePatients.add(new QueuePatient("P004", "Mary Williams", "Waiting", "10:45 AM"));
-        queuePatients.add(new QueuePatient("P005", "James Brown", "Completed", "11:00 AM"));
+    @FXML
+    public void initialize() {
+        for (DoctorModelClass d : doctorDB.values()) {
+            doctorListView.getItems().add(d.getDoctorId() + " - " + d.getDoctorName() + " (" + d.getSpecialization() + ")");
+        }
     }
 
-    private void displayPatientDetails(QueuePatient patient) {
-        patientDetailsArea.setText(
-                "Patient ID: " + patient.getPatientId() + "\n" +
-                        "Name: " + patient.getName() + "\n" +
-                        "Status: " + patient.getStatus() + "\n" +
-                        "Arrival Time: " + patient.getArrivalTime() + "\n" +
-                        "Doctor: " + doctorComboBox.getValue() + "\n" +
-                        "Queue Position: " + (queuePatients.indexOf(patient) + 1)
+    @FXML
+    public void viewQueue(ActionEvent event) {
+        String selected = doctorListView.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            statusLabel.setText("ERROR: Select a doctor!");
+            statusLabel.setStyle("-fx-text-fill: red;");
+            return;
+        }
+
+        queueListView.getItems().clear();
+        queueListView.getItems().addAll(
+                "1. Jahirul Islam (P-101)",
+                "2. Fatema Begum (P-102)",
+                "3. Rahim Khan (P-103)"
         );
-    }
 
-    private void updateQueueStats() {
-        long waiting = queuePatients.stream().filter(p -> "Waiting".equals(p.getStatus())).count();
-        long inProgress = queuePatients.stream().filter(p -> "In Progress".equals(p.getStatus())).count();
-        long completed = queuePatients.stream().filter(p -> "Completed".equals(p.getStatus())).count();
-        queueStatsLabel.setText("Total: " + queuePatients.size() +
-                " | Waiting: " + waiting +
-                " | In Progress: " + inProgress +
-                " | Completed: " + completed);
+        statusLabel.setText("Queue loaded for: " + selected);
+        statusLabel.setStyle("-fx-text-fill: #27ae60; -fx-font-size: 13px;");
     }
 
     @FXML
-    private void handleDoctorSelection() {
-        if (doctorComboBox.getValue() != null) {
-            statusLabel.setText("Status: Selected doctor - " + doctorComboBox.getValue());
-            statusLabel.setStyle("-fx-text-fill: #4CAF50; -fx-font-weight: bold;");
+    public void callNext(ActionEvent event) {
+        if (queueListView.getItems().isEmpty()) {
+            statusLabel.setText("Queue is empty!");
+            statusLabel.setStyle("-fx-text-fill: #f39c12;");
+            return;
         }
+        String next = queueListView.getItems().get(0);
+        queueListView.getItems().remove(0);
+        statusLabel.setText("Calling: " + next);
+        statusLabel.setStyle("-fx-text-fill: #2980b9; -fx-font-weight: bold;");
     }
 
     @FXML
-    private void handleCallNextPatient() {
-        QueuePatient nextPatient = queuePatients.stream()
-                .filter(p -> "Waiting".equals(p.getStatus()))
-                .findFirst()
-                .orElse(null);
-        if (nextPatient != null) {
-            nextPatient.setStatus("In Progress");
-            patientQueueListView.refresh();
-            updateQueueStats();
-            statusLabel.setText("Status: Called patient - " + nextPatient.getName());
-            statusLabel.setStyle("-fx-text-fill: #FF9800; -fx-font-weight: bold;");
-            displayPatientDetails(nextPatient);
-        } else {
-            statusLabel.setText("Status: No waiting patients in queue!");
-            statusLabel.setStyle("-fx-text-fill: #F44336; -fx-font-weight: bold;");
-        }
-    }
-
-    @FXML
-    private void handleRefresh() {
-        patientQueueListView.refresh();
-        updateQueueStats();
-        statusLabel.setText("Status: Queue refreshed");
-        statusLabel.setStyle("-fx-text-fill: #4CAF50; -fx-font-weight: bold;");
-    }
-
-    @FXML
-    private void handleResetQueue() {
-        queuePatients.clear();
-        loadSampleQueue();
-        updateQueueStats();
-        patientDetailsArea.clear();
-        statusLabel.setText("Status: Queue reset to default");
-        statusLabel.setStyle("-fx-text-fill: #FF9800; -fx-font-weight: bold;");
-    }
-
-    @FXML
-    private void handleBack() {
-        statusLabel.setText("Status: Returning to dashboard");
-        statusLabel.setStyle("-fx-text-fill: #2196F3; -fx-font-weight: bold;");
-    }
-
-    public static class QueuePatient {
-        private final javafx.beans.property.SimpleStringProperty patientId;
-        private final javafx.beans.property.SimpleStringProperty name;
-        private final javafx.beans.property.SimpleStringProperty status;
-        private final javafx.beans.property.SimpleStringProperty arrivalTime;
-
-        public QueuePatient(String patientId, String name, String status, String arrivalTime) {
-            this.patientId = new javafx.beans.property.SimpleStringProperty(patientId);
-            this.name = new javafx.beans.property.SimpleStringProperty(name);
-            this.status = new javafx.beans.property.SimpleStringProperty(status);
-            this.arrivalTime = new javafx.beans.property.SimpleStringProperty(arrivalTime);
-        }
-
-        public String getPatientId() { return patientId.get(); }
-        public void setPatientId(String value) { patientId.set(value); }
-        public javafx.beans.property.StringProperty patientIdProperty() { return patientId; }
-
-        public String getName() { return name.get(); }
-        public void setName(String value) { name.set(value); }
-        public javafx.beans.property.StringProperty nameProperty() { return name; }
-
-        public String getStatus() { return status.get(); }
-        public void setStatus(String value) { status.set(value); }
-        public javafx.beans.property.StringProperty statusProperty() { return status; }
-
-        public String getArrivalTime() { return arrivalTime.get(); }
-        public void setArrivalTime(String value) { arrivalTime.set(value); }
-        public javafx.beans.property.StringProperty arrivalTimeProperty() { return arrivalTime; }
-
-        @Override
-        public String toString() {
-            return patientId.get() + " - " + name.get() + " (" + status.get() + ")";
-        }
+    public void backButton(ActionEvent event) throws IOException {
+        SceneSwitcher.switchTo("mdhossain/nurseDashboard.fxml");
     }
 }
