@@ -15,8 +15,6 @@ public class DoctorSchedulecontroller
     @javafx.fxml.FXML
     private TableColumn<DoctorSchedule, String> doctorNamecolumn;
     @javafx.fxml.FXML
-    private TextField doctornameTF;
-    @javafx.fxml.FXML
     private TableColumn<DoctorSchedule, String> departmentcolumn;
     @javafx.fxml.FXML
     private TableView<DoctorSchedule> scheduletable;
@@ -49,7 +47,7 @@ public class DoctorSchedulecontroller
         list.add(new DoctorSchedule("Wednesday", "Oculoplasty", 105, "Dr.Priya", "5:00 PM"));
 
 
-        scheduletable.setItems(list);
+
     }
 
 
@@ -65,38 +63,28 @@ public class DoctorSchedulecontroller
     public void refreshbuttonOA(ActionEvent actionEvent) {
 
         departmentCB.setValue(null);
-        doctornameTF.clear();
-        scheduletable.setItems(list);
+        scheduletable.getItems().clear();
     }
 
     @javafx.fxml.FXML
     public void searchbuttonOA(ActionEvent actionEvent) {
         String department = departmentCB.getValue();
-        String doctorName = doctornameTF.getText();
-
         ObservableList<DoctorSchedule> filteredList = FXCollections.observableArrayList();
-
         for (DoctorSchedule ds : list) {
-            boolean departmentD = (department == null || department.isEmpty()) || ds.getDepartment().equals(department);
-            boolean doctorNameDN = doctorName.isEmpty() || ds.getDoctorName().contains(doctorName);
-
-            if (departmentD && doctorNameDN) {
+            if (department != null && ds.getDepartment().equals(department)) {
                 filteredList.add(ds);
-
-
             }
         }
+
         if (filteredList.isEmpty()) {
             Alert a = new Alert(Alert.AlertType.INFORMATION);
             a.setTitle("Search");
             a.setHeaderText(null);
-            a.setContentText("No doctor schedule found");
+            a.setContentText("No doctor schedule found.");
             a.showAndWait();
         }
+
         scheduletable.setItems(filteredList);
-
-
-
 
     }
 }
