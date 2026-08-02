@@ -6,7 +6,9 @@ public class PatientRecordModelClass implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    // ==========================
     // Basic Information
+    // ==========================
     private int patientId;
     private String patientName;
     private int age;
@@ -14,31 +16,64 @@ public class PatientRecordModelClass implements Serializable {
     private String phoneNumber;
     private String address;
 
+    // ==========================
     // Receptionist
+    // ==========================
     private String appointmentDate;
+    private String appointmentTime;
+    private String department;
     private String assignedDoctor;
 
+    // ==========================
     // Doctor
+    // ==========================
     private String disease;
     private String diagnosis;
     private String prescription;
     private String testReports;
     private String doctorRemarks;
 
+    // ==========================
     // Optician
+    // ==========================
     private String eyePowerPrescription;
     private String lensType;
     private String glassesRecommendation;
 
+    // ==========================
     // Accountant
+    // ==========================
+    private double doctorFee;
+    private double testFee;
     private double billAmount;
     private String paymentStatus;
 
     public PatientRecordModelClass() {
     }
 
-    public PatientRecordModelClass(int patientId, String patientName, int age, String gender, String phoneNumber, String address,
-                                   String appointmentDate, String assignedDoctor, String disease, String diagnosis, String prescription, String testReports, String doctorRemarks, String eyePowerPrescription, String lensType, String glassesRecommendation, double billAmount, String paymentStatus) {
+    public PatientRecordModelClass(
+            int patientId,
+            String patientName,
+            int age,
+            String gender,
+            String phoneNumber,
+            String address,
+            String appointmentDate,
+            String appointmentTime,
+            String department,
+            String assignedDoctor,
+            String disease,
+            String diagnosis,
+            String prescription,
+            String testReports,
+            String doctorRemarks,
+            String eyePowerPrescription,
+            String lensType,
+            String glassesRecommendation,
+            double doctorFee,
+            double testFee,
+            double billAmount,
+            String paymentStatus) {
 
         this.patientId = patientId;
         this.patientName = patientName;
@@ -47,6 +82,8 @@ public class PatientRecordModelClass implements Serializable {
         this.phoneNumber = phoneNumber;
         this.address = address;
         this.appointmentDate = appointmentDate;
+        this.appointmentTime = appointmentTime;
+        this.department = department;
         this.assignedDoctor = assignedDoctor;
         this.disease = disease;
         this.diagnosis = diagnosis;
@@ -56,9 +93,15 @@ public class PatientRecordModelClass implements Serializable {
         this.eyePowerPrescription = eyePowerPrescription;
         this.lensType = lensType;
         this.glassesRecommendation = glassesRecommendation;
+        this.doctorFee = doctorFee;
+        this.testFee = testFee;
         this.billAmount = billAmount;
         this.paymentStatus = paymentStatus;
     }
+
+    // ==========================
+    // Getters & Setters
+    // ==========================
 
     public int getPatientId() {
         return patientId;
@@ -114,6 +157,22 @@ public class PatientRecordModelClass implements Serializable {
 
     public void setAppointmentDate(String appointmentDate) {
         this.appointmentDate = appointmentDate;
+    }
+
+    public String getAppointmentTime() {
+        return appointmentTime;
+    }
+
+    public void setAppointmentTime(String appointmentTime) {
+        this.appointmentTime = appointmentTime;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
     }
 
     public String getAssignedDoctor() {
@@ -188,6 +247,23 @@ public class PatientRecordModelClass implements Serializable {
         this.glassesRecommendation = glassesRecommendation;
     }
 
+    public double getDoctorFee() {
+        return doctorFee;
+    }
+
+    public void setDoctorFee(double doctorFee) {
+        this.doctorFee = doctorFee;
+    }
+
+
+    public double getTestFee() {
+        return testFee;
+    }
+
+    public void setTestFee(double testFee) {
+        this.testFee = testFee;
+    }
+
     public double getBillAmount() {
         return billAmount;
     }
@@ -214,6 +290,8 @@ public class PatientRecordModelClass implements Serializable {
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", address='" + address + '\'' +
                 ", appointmentDate='" + appointmentDate + '\'' +
+                ", appointmentTime='" + appointmentTime + '\'' +
+                ", department='" + department + '\'' +
                 ", assignedDoctor='" + assignedDoctor + '\'' +
                 ", disease='" + disease + '\'' +
                 ", diagnosis='" + diagnosis + '\'' +
@@ -223,10 +301,11 @@ public class PatientRecordModelClass implements Serializable {
                 ", eyePowerPrescription='" + eyePowerPrescription + '\'' +
                 ", lensType='" + lensType + '\'' +
                 ", glassesRecommendation='" + glassesRecommendation + '\'' +
+                ", doctorFee=" + doctorFee +
+
+                ", testFee=" + testFee +
                 ", billAmount=" + billAmount +
                 ", paymentStatus='" + paymentStatus + '\'' +
                 '}';
     }
-
-
 }

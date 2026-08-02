@@ -31,12 +31,6 @@ public class RegisterPatientController {
     private TextField addressTextField;
 
     @FXML
-    private DatePicker appointmentDatePicker;
-
-    @FXML
-    private ComboBox<String> doctorComboBox;
-
-    @FXML
     private Label messageLabel;
 
     // Data folder (works on every computer)
@@ -47,10 +41,29 @@ public class RegisterPatientController {
 
     private final File doctorFile =
             new File(dataFolder, "doctors.bin");
+    @FXML
+    private ComboBox<String> doctorComboBox;
 
     @FXML
     public void initialize() {
-
+//        appointmentTimeComboBox.getItems().addAll(
+//                "09:00 AM",
+//                "10:00 AM",
+//                "11:00 AM",
+//                "12:00 PM",
+//                "02:00 PM",
+//                "03:00 PM",
+//                "04:00 PM"
+//        );
+//
+//        departmentComboBox.getItems().addAll(
+//                "General Eye",
+//                "Cornea",
+//                "Retina",
+//                "Glaucoma",
+//                "Pediatric Eye",
+//                "Optometry"
+//        );
         if (!dataFolder.exists()) {
             dataFolder.mkdirs();
         }
@@ -72,14 +85,11 @@ public class RegisterPatientController {
             return;
         }
 
-        try (ObjectInputStream ois =
-                     new ObjectInputStream(new FileInputStream(doctorFile))) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(doctorFile))) {
 
             while (true) {
 
-                DoctorModelClass doctor =
-                        (DoctorModelClass) ois.readObject();
-
+                DoctorModelClass doctor = (DoctorModelClass) ois.readObject();
                 doctorComboBox.getItems().add(doctor.getDoctorName());
             }
 
@@ -135,7 +145,7 @@ public class RegisterPatientController {
                 || addressTextField.getText().isEmpty()
                 || genderComboBox.getValue() == null
                 || doctorComboBox.getValue() == null
-                || appointmentDatePicker.getValue() == null) {
+                ) {
 
             messageLabel.setText("Please fill all fields.");
             return;
@@ -187,20 +197,27 @@ public class RegisterPatientController {
                 genderComboBox.getValue(),
                 phoneNumberTextField.getText(),
                 addressTextField.getText(),
-                appointmentDatePicker.getValue().toString(),
-                doctorComboBox.getValue(),
-                "",
-                "",
-                "",
-                "",
-                "",
-                "",
-                "",
-                "",
-                0.0,
-                "Unpaid"
-        );
 
+                "", // Appointment Date
+                "",                                          // Appointment Time
+                "",                                          // Department
+                doctorComboBox.getValue(),                   // Assigned Doctor
+
+                "",                                          // Disease
+                "",                                          // Diagnosis
+                "",                                          // Prescription
+                "",                                          // Test Reports
+                "",                                          // Doctor Remarks
+
+                "",                                          // Eye Power Prescription
+                "",                                          // Lens Type
+                "",                                          // Glasses Recommendation
+
+                0.0,                                         // Doctor Fee
+                0.0,                                         // Test Fee
+                0.0,                                         // Bill Amount
+                "Unpaid"                                     // Payment Status
+        );
         patientList.add(patient);
 
         try (ObjectOutputStream oos =
@@ -233,7 +250,7 @@ public class RegisterPatientController {
 
         genderComboBox.setValue(null);
         doctorComboBox.setValue(null);
-        appointmentDatePicker.setValue(null);
+
 
         messageLabel.setText("");
     }
