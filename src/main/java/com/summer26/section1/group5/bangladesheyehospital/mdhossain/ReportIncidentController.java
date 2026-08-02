@@ -4,13 +4,19 @@ import com.summer26.section1.group5.bangladesheyehospital.common.PatientRecordMo
 import com.summer26.section1.group5.bangladesheyehospital.common.SceneSwitcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import java.io.IOException;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import javafx.print.PrinterJob;
+import java.io.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ReportIncidentController {
@@ -18,65 +24,67 @@ public class ReportIncidentController {
     @FXML private ComboBox<String> patientCombo;
     @FXML private TextArea incidentDetailsArea;
     @FXML private Label statusLabel;
+    @FXML private Button printBtn;
 
     private static final Map<String, Incident> incidentDB = new HashMap<>();
     private static int incidentCount = 0;
+    private Incident currentIncident = null;
 
-    // Patient database using PatientRecordModelClass from common
-    private static final Map<Integer, PatientRecordModelClass> patientDB = new HashMap<>();
+    // Data folder
+    private final File dataFolder = new File("data");
+    private final File patientFile = new File(dataFolder, "patients.bin");
 
-    static {
-        // Patient 1
-        PatientRecordModelClass p1 = new PatientRecordModelClass();
-        p1.setPatientId(12345);
-        p1.setPatientName("Jahirul Islam");
-        p1.setAge(45);
-        p1.setGender("Male");
-        p1.setPhoneNumber("01712345678");
-        p1.setAddress("Dhaka, Bangladesh");
-        p1.setAssignedDoctor("Dr. Rahman");
-        patientDB.put(12345, p1);
-
-        // Patient 2
-        PatientRecordModelClass p2 = new PatientRecordModelClass();
-        p2.setPatientId(23456);
-        p2.setPatientName("Fatema Begum");
-        p2.setAge(52);
-        p2.setGender("Female");
-        p2.setPhoneNumber("01723456789");
-        p2.setAddress("Chittagong, Bangladesh");
-        p2.setAssignedDoctor("Dr. Sultana");
-        patientDB.put(23456, p2);
-
-        // Patient 3
-        PatientRecordModelClass p3 = new PatientRecordModelClass();
-        p3.setPatientId(34567);
-        p3.setPatientName("Rahim Khan");
-        p3.setAge(38);
-        p3.setGender("Male");
-        p3.setPhoneNumber("01734567890");
-        p3.setAddress("Sylhet, Bangladesh");
-        p3.setAssignedDoctor("Dr. Islam");
-        patientDB.put(34567, p3);
-    }
+    // List to hold all patients from file
+    private List<PatientRecordModelClass> patientList = new ArrayList<>();
 
     @FXML
     public void initialize() {
         incidentTypeCombo.getItems().addAll(
-                "Security Breach",
-                "Medical Emergency",
-                "Fire Hazard",
-                "Theft",
-                "Accident",
-                "Suspicious Activity",
-                "Patient Complaint",
-                "Other"
+                "Security Breach", "Medical Emergency", "Fire Hazard",
+                "Theft", "Accident", "Suspicious Activity", "Patient Complaint", "Other"
         );
 
-        // Populate patient combo with patient names and IDs
-        for (PatientRecordModelClass p : patientDB.values()) {
+        loadPatientsFromFile();
+        populatePatientCombo();
+        printBtn.setDisable(true);
+    }
+
+    private void loadPatientsFromFile() {
+        patientList.clear();
+
+        if (!patientFile.exists()) {
+            System.out.println("patients.bin not found. Please register patients first.");
+            return;
+        }
+
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(patientFile))) {
+            while (true) {
+                PatientRecordModelClass patient = (PatientRecordModelClass) ois.readObject();
+                patientList.add(patient);
+            }
+        } catch (EOFException e) {
+            // End of file reached - normal
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Loaded " + patientList.size() + " patients from file.");
+    }
+
+    private void populatePatientCombo() {
+        patientCombo.getItems().clear();
+        for (PatientRecordModelClass p : patientList) {
             patientCombo.getItems().add(p.getPatientId() + " - " + p.getPatientName());
         }
+    }
+
+    private PatientRecordModelClass findPatientById(int id) {
+        for (PatientRecordModelClass patient : patientList) {
+            if (patient.getPatientId() == id) {
+                return patient;
+            }
+        }
+        return null;
     }
 
     @FXML
@@ -86,40 +94,40 @@ public class ReportIncidentController {
         String details = incidentDetailsArea.getText().trim();
 
         if (type == null || type.isEmpty()) {
-            statusLabel.setText("ERROR: Please select an incident type!");
+            statusLabel.setText("ERROR: Select an incident type!");
             statusLabel.setStyle("-fx-text-fill: red;");
             return;
         }
-
         if (patientSelection == null || patientSelection.isEmpty()) {
-            statusLabel.setText("ERROR: Please select a patient!");
+            statusLabel.setText("ERROR: Select a patient!");
             statusLabel.setStyle("-fx-text-fill: red;");
             return;
         }
-
         if (details.isEmpty()) {
-            statusLabel.setText("ERROR: Please enter incident details!");
+            statusLabel.setText("ERROR: Enter incident details!");
             statusLabel.setStyle("-fx-text-fill: red;");
             return;
         }
 
-        // Extract patient ID from selection
         int patientId = Integer.parseInt(patientSelection.split(" - ")[0]);
-        PatientRecordModelClass patient = patientDB.get(patientId);
+        PatientRecordModelClass patient = findPatientById(patientId);
+
+        if (patient == null) {
+            statusLabel.setText("ERROR: Patient not found!");
+            statusLabel.setStyle("-fx-text-fill: red;");
+            return;
+        }
 
         incidentCount++;
         String caseId = "C" + String.format("%06d", System.currentTimeMillis() % 1000000);
-        Incident incident = new Incident(
-                caseId,
-                type,
-                details,
-                "Hospital Premises",
-                "Security Staff",
-                "Medium"
-        );
-        incidentDB.put(caseId, incident);
+        currentIncident = new Incident(caseId, type, details, "Hospital Premises", "Security Staff", "Medium");
+        incidentDB.put(caseId, currentIncident);
 
         String time = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
+        String phone = patient.getPhoneNumber() != null ? patient.getPhoneNumber() : "Not provided";
+        String address = patient.getAddress() != null ? patient.getAddress() : "Not provided";
+        String doctor = patient.getAssignedDoctor() != null ? patient.getAssignedDoctor() : "Not assigned";
 
         String info = "========================================\n";
         info += "        INCIDENT REPORTED\n";
@@ -127,10 +135,10 @@ public class ReportIncidentController {
         info += "  Case ID     : " + caseId + "\n";
         info += "  Type        : " + type + "\n";
         info += "  Patient     : " + patient.getPatientName() + " (ID: " + patientId + ")\n";
-        info += "  Doctor      : " + patient.getAssignedDoctor() + "\n";
-        info += "  Phone       : " + patient.getPhoneNumber() + "\n";
+        info += "  Doctor      : " + doctor + "\n";
+        info += "  Phone       : " + phone + "\n";
         info += "  Age/Gender  : " + patient.getAge() + " / " + patient.getGender() + "\n";
-        info += "  Address     : " + patient.getAddress() + "\n";
+        info += "  Address     : " + address + "\n";
         info += "  Description : " + details + "\n";
         info += "  Location    : Hospital Premises\n";
         info += "  Reported By : Security Staff\n";
@@ -142,10 +150,67 @@ public class ReportIncidentController {
 
         statusLabel.setText(info);
         statusLabel.setStyle("-fx-text-fill: #27ae60; -fx-font-size: 13px;");
-
+        printBtn.setDisable(false);
         incidentTypeCombo.setValue(null);
         patientCombo.setValue(null);
         incidentDetailsArea.clear();
+    }
+
+    @FXML
+    public void printIncident(ActionEvent event) {
+        if (currentIncident == null) {
+            statusLabel.setText("ERROR: No incident to print!");
+            statusLabel.setStyle("-fx-text-fill: red;");
+            return;
+        }
+
+        VBox printContent = new VBox(10);
+        printContent.setStyle("-fx-padding: 20; -fx-font-family: 'Courier New';");
+        String time = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
+        Text title1 = new Text("========================================");
+        Text title2 = new Text("     BANGLADESH EYE HOSPITAL");
+        Text title3 = new Text("     INCIDENT REPORT");
+        Text title4 = new Text("========================================");
+        Text caseIdText = new Text("  Case ID      : " + currentIncident.getCaseId());
+        Text typeText = new Text("  Type         : " + currentIncident.getType());
+        Text descriptionText = new Text("  Description  : " + currentIncident.getDescription());
+        Text locationText = new Text("  Location     : " + currentIncident.getLocation());
+        Text reportedByText = new Text("  Reported By  : " + currentIncident.getReportedBy());
+        Text reportedTimeText = new Text("  Time         : " + time);
+        Text severityText = new Text("  Severity     : " + currentIncident.getSeverity());
+        Text statusText = new Text("  Status       : " + currentIncident.getStatus());
+        Text line1 = new Text("----------------------------------------");
+        Text authText = new Text("  Authorized By: Security Staff");
+        Text footer = new Text("========================================");
+
+        for (Text t : new Text[]{title1, title2, title3, title4, caseIdText, typeText,
+                descriptionText, locationText, reportedByText, reportedTimeText,
+                severityText, statusText, line1, authText, footer}) {
+            t.setStyle("-fx-font-size: 12px;");
+        }
+        title2.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
+        title3.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
+
+        printContent.getChildren().addAll(
+                title1, title2, title3, title4,
+                caseIdText, typeText, descriptionText, locationText,
+                reportedByText, reportedTimeText, severityText, statusText,
+                line1, authText, footer
+        );
+
+        PrinterJob job = PrinterJob.createPrinterJob();
+        if (job != null && job.showPrintDialog(printBtn.getScene().getWindow())) {
+            boolean success = job.printPage(printContent);
+            if (success) {
+                job.endJob();
+                statusLabel.setText("Incident report printed successfully!");
+                statusLabel.setStyle("-fx-text-fill: #27ae60; -fx-font-weight: bold;");
+            } else {
+                statusLabel.setText("ERROR: Print failed!");
+                statusLabel.setStyle("-fx-text-fill: red;");
+            }
+        }
     }
 
     @FXML
