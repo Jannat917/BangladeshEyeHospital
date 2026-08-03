@@ -18,7 +18,7 @@
         </Label>
 
         <Label layoutX="200.0" layoutY="150.0" text="Patient ID:" />
-        <TextField fx:id="patientIdField" layoutX="400.0" layoutY="145.0" prefWidth="150.0" promptText="Enter ID (e.g., 101)" />
+        <TextField fx:id="patientIdField" layoutX="400.0" layoutY="145.0" prefWidth="150.0" promptText="Enter ID (e.g., 5000)" />
 
         <Label layoutX="200.0" layoutY="200.0" text="Medication Name:" />
         <TextField fx:id="medicationNameField" layoutX="400.0" layoutY="195.0" prefWidth="250.0" promptText="Enter medication name" />
@@ -28,14 +28,14 @@
 
         <Button layoutX="400.0" layoutY="310.0" onAction="#administerMedication" prefHeight="40.0" prefWidth="150.0" text="Administer" />
 
-        <Label layoutX="200.0" layoutY="380.0" text="Medication Log:" />
-        <TextArea fx:id="logArea" layoutX="200.0" layoutY="410.0" prefHeight="100.0" prefWidth="500.0" editable="false" style="-fx-font-size: 13px;" />
+        <Label layoutX="200.0" layoutY="380.0" text="Medication Log (Editable):" />
+        <TextArea fx:id="logArea" layoutX="200.0" layoutY="410.0" prefHeight="100.0" prefWidth="500.0" editable="true" style="-fx-font-size: 13px;" />
 
         <Label fx:id="statusLabel" layoutX="200.0" layoutY="530.0" prefWidth="550.0" style="-fx-text-fill: #f39c12; -fx-font-size: 13px;" wrapText="true" />
 
         <Button fx:id="printBtn" layoutX="400.0" layoutY="550.0" onAction="#printMedication" prefHeight="40.0" prefWidth="150.0" text="Print Log" disable="true" />
 
-        <Label layoutX="200.0" layoutY="600.0" text="Sample Patients: 101 - Jahirul Islam | 102 - Fatema Begum | 103 - Rahim Khan" style="-fx-text-fill: #7f8c8d; -fx-font-size: 12px;" />
+        <Label layoutX="200.0" layoutY="600.0" text="Patient data loaded from patients.bin" style="-fx-text-fill: #7f8c8d; -fx-font-size: 12px;" />
 
         <Button layoutX="350.0" layoutY="600.0" onAction="#backButton" prefHeight="40.0" prefWidth="200.0" text="Back to Dashboard" />
     </children>

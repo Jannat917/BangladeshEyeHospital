@@ -11,7 +11,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.print.PrinterJob;
-import java.io.IOException;
+import java.io.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -24,60 +24,57 @@ public class InitialEyeScreeningController {
     @FXML private Label statusLabel;
     @FXML private Button printBtn;
 
+    // Shared patient database loaded from file
     public static final Map<Integer, PatientRecordModelClass> patientDB = new HashMap<>();
     private static final Map<Integer, String> screeningData = new HashMap<>();
     private String lastScreeningResult = "";
 
-    static {
-        // Patient 1 - Complete Data
-        PatientRecordModelClass p1 = new PatientRecordModelClass();
-        p1.setPatientId(101);
-        p1.setPatientName("Jahirul Islam");
-        p1.setAge(45);
-        p1.setGender("Male");
-        p1.setPhoneNumber("01712345678");
-        p1.setAddress("Dhaka, Bangladesh");
-        p1.setAssignedDoctor("Dr. Rahman");
-        p1.setDisease("Cataract");
-        p1.setDiagnosis("Left eye cataract");
-        p1.setDoctorRemarks("Surgery recommended");
-        patientDB.put(101, p1);
-
-        // Patient 2 - Complete Data
-        PatientRecordModelClass p2 = new PatientRecordModelClass();
-        p2.setPatientId(102);
-        p2.setPatientName("Fatema Begum");
-        p2.setAge(52);
-        p2.setGender("Female");
-        p2.setPhoneNumber("01723456789");
-        p2.setAddress("Chittagong, Bangladesh");
-        p2.setAssignedDoctor("Dr. Sultana");
-        p2.setDisease("Glaucoma");
-        p2.setDiagnosis("Increased eye pressure");
-        p2.setDoctorRemarks("Follow up in 2 weeks");
-        patientDB.put(102, p2);
-
-        // Patient 3 - Complete Data
-        PatientRecordModelClass p3 = new PatientRecordModelClass();
-        p3.setPatientId(103);
-        p3.setPatientName("Rahim Khan");
-        p3.setAge(38);
-        p3.setGender("Male");
-        p3.setPhoneNumber("01734567890");
-        p3.setAddress("Sylhet, Bangladesh");
-        p3.setAssignedDoctor("Dr. Islam");
-        p3.setDisease("Myopia");
-        p3.setDiagnosis("High myopia");
-        p3.setDoctorRemarks("Regular check-up needed");
-        patientDB.put(103, p3);
-    }
+    // Data folder
+    private final File dataFolder = new File("data");
+    private final File patientFile = new File(dataFolder, "patients.bin");
 
     @FXML
     public void initialize() {
+        printBtn.setDisable(true);
+        loadPatientsFromFile();
+        populatePatientCombo();
+    }
+
+    private void loadPatientsFromFile() {
+        patientDB.clear();
+
+        if (!patientFile.exists()) {
+            statusLabel.setText("ERROR: patients.bin not found! Please register patients first.");
+            statusLabel.setStyle("-fx-text-fill: red;");
+            System.out.println("patients.bin not found. Please register patients first.");
+            return;
+        }
+
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(patientFile))) {
+            while (true) {
+                PatientRecordModelClass patient = (PatientRecordModelClass) ois.readObject();
+                patientDB.put(patient.getPatientId(), patient);
+            }
+        } catch (EOFException e) {
+            // End of file reached - normal
+        } catch (Exception e) {
+            e.printStackTrace();
+            statusLabel.setText("ERROR: Unable to load patient data!");
+            statusLabel.setStyle("-fx-text-fill: red;");
+        }
+
+        System.out.println("Loaded " + patientDB.size() + " patients from file.");
+    }
+
+    private void populatePatientCombo() {
+        patientCombo.getItems().clear();
+        if (patientDB.isEmpty()) {
+            patientCombo.getItems().add("No patients found. Please register first.");
+            return;
+        }
         for (PatientRecordModelClass p : patientDB.values()) {
             patientCombo.getItems().add(p.getPatientId() + " - " + p.getPatientName());
         }
-        printBtn.setDisable(true);
     }
 
     @FXML
@@ -86,8 +83,8 @@ public class InitialEyeScreeningController {
         String eyeScore = eyeScoreField.getText().trim();
         String bp = bloodPressureField.getText().trim();
 
-        if (selected == null || selected.isEmpty()) {
-            statusLabel.setText("ERROR: Select a patient!");
+        if (selected == null || selected.isEmpty() || patientCombo.getItems().get(0).equals("No patients found. Please register first.")) {
+            statusLabel.setText("ERROR: No patients available! Please register patients first.");
             statusLabel.setStyle("-fx-text-fill: red;");
             printBtn.setDisable(true);
             return;
@@ -103,16 +100,29 @@ public class InitialEyeScreeningController {
         int patientId = Integer.parseInt(selected.split(" - ")[0]);
         PatientRecordModelClass patient = patientDB.get(patientId);
 
+        if (patient == null) {
+            statusLabel.setText("ERROR: Patient not found!");
+            statusLabel.setStyle("-fx-text-fill: red;");
+            return;
+        }
+
         String time = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         String record = "Eye Score: " + eyeScore + " | BP: " + bp + " | Time: " + time;
         screeningData.put(patientId, record);
         lastScreeningResult = record;
+
+        String phone = patient.getPhoneNumber() != null ? patient.getPhoneNumber() : "Not provided";
+        String address = patient.getAddress() != null ? patient.getAddress() : "Not provided";
 
         String info = "========================================\n";
         info += "        SCREENING COMPLETED\n";
         info += "========================================\n";
         info += "  Patient ID : " + patientId + "\n";
         info += "  Name       : " + patient.getPatientName() + "\n";
+        info += "  Phone      : " + phone + "\n";
+        info += "  Age        : " + patient.getAge() + "\n";
+        info += "  Gender     : " + patient.getGender() + "\n";
+        info += "  Address    : " + address + "\n";
         info += "  Eye Score  : " + eyeScore + "\n";
         info += "  BP         : " + bp + "\n";
         info += "  Time       : " + time + "\n";

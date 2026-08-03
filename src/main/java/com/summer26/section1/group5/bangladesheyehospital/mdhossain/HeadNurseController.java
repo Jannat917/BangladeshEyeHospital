@@ -10,10 +10,11 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.print.PrinterJob;
-import java.io.IOException;
+import java.io.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class HeadNurseController {
     @FXML private CheckBox idVerified;
@@ -26,23 +27,62 @@ public class HeadNurseController {
     @FXML private Label surgeryTypeLabel;
     @FXML private Button printBtn;
 
-    private static final Map<Integer, PatientRecordModelClass> patientDB = InitialEyeScreeningController.patientDB;
-    private int currentPatientId = 101;
+    private final File dataFolder = new File("data");
+    private final File patientFile = new File(dataFolder, "patients.bin");
+
+    private List<PatientRecordModelClass> patientList = new ArrayList<>();
+    private int currentPatientId = 0;
     private boolean isFinalized = false;
 
     @FXML
     public void initialize() {
-        PatientRecordModelClass patient = patientDB.get(currentPatientId);
-        if (patient != null) {
+        printBtn.setDisable(true);
+        loadPatientsFromFile();
+        if (!patientList.isEmpty()) {
+            currentPatientId = patientList.get(0).getPatientId();
+            PatientRecordModelClass patient = patientList.get(0);
             patientInfoLabel.setText("Patient: " + patient.getPatientName() + " (ID: " + patient.getPatientId() + ")");
             surgeryTypeLabel.setText("Surgery: Cataract");
+        } else {
+            patientInfoLabel.setText("No patients found. Please register patients first.");
+            surgeryTypeLabel.setText("");
         }
         resetForm();
-        printBtn.setDisable(true);
+    }
+
+    private void loadPatientsFromFile() {
+        patientList.clear();
+        if (!patientFile.exists()) {
+            return;
+        }
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(patientFile))) {
+            while (true) {
+                PatientRecordModelClass patient = (PatientRecordModelClass) ois.readObject();
+                patientList.add(patient);
+            }
+        } catch (EOFException e) {
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private PatientRecordModelClass findPatientById(int id) {
+        for (PatientRecordModelClass patient : patientList) {
+            if (patient.getPatientId() == id) {
+                return patient;
+            }
+        }
+        return null;
     }
 
     @FXML
     public void handleFinalize(ActionEvent event) {
+        if (patientList.isEmpty()) {
+            statusOutput.setText("ERROR: No patients available!");
+            statusOutput.setStyle("-fx-text-fill: red;");
+            return;
+        }
+
         boolean allChecked = idVerified.isSelected() && eyemarked.isSelected() &&
                 consentsigned.isSelected() && fastingcheck.isSelected();
 
@@ -52,12 +92,20 @@ public class HeadNurseController {
             printBtn.setDisable(true);
             isFinalized = false;
         } else {
+            PatientRecordModelClass patient = findPatientById(currentPatientId);
+            if (patient == null) {
+                statusOutput.setText("ERROR: Patient not found!");
+                statusOutput.setStyle("-fx-text-fill: red;");
+                return;
+            }
+
             String time = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
             String info = "========================================\n";
             info += "     OT READINESS VERIFIED\n";
             info += "========================================\n";
             info += "  Patient ID : " + currentPatientId + "\n";
-            info += "  Name       : " + patientDB.get(currentPatientId).getPatientName() + "\n";
+            info += "  Name       : " + patient.getPatientName() + "\n";
+            info += "  Phone      : " + (patient.getPhoneNumber() != null ? patient.getPhoneNumber() : "Not provided") + "\n";
             info += "  Surgery    : Cataract\n";
             info += "  Verified At: " + time + "\n";
             info += "  Status     : Ready for Surgery\n";
@@ -79,6 +127,13 @@ public class HeadNurseController {
             return;
         }
 
+        PatientRecordModelClass patient = findPatientById(currentPatientId);
+        if (patient == null) {
+            statusOutput.setText("ERROR: Patient not found!");
+            statusOutput.setStyle("-fx-text-fill: red;");
+            return;
+        }
+
         VBox printContent = new VBox(10);
         printContent.setStyle("-fx-padding: 20; -fx-font-family: 'Courier New';");
         String time = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
@@ -88,9 +143,9 @@ public class HeadNurseController {
         Text title3 = new Text("     OT CHECKLIST");
         Text title4 = new Text("========================================");
 
-        PatientRecordModelClass patient = patientDB.get(currentPatientId);
         Text patientText = new Text("  Patient ID   : " + currentPatientId);
         Text nameText = new Text("  Patient Name : " + patient.getPatientName());
+        Text phoneText = new Text("  Phone        : " + (patient.getPhoneNumber() != null ? patient.getPhoneNumber() : "Not provided"));
         Text surgeryText = new Text("  Surgery Type : Cataract");
         Text idCheck = new Text("  ID Verified  : " + (idVerified.isSelected() ? "Yes" : "No"));
         Text eyeCheck = new Text("  Eye Marked   : " + (eyemarked.isSelected() ? "Yes" : "No"));
@@ -104,7 +159,7 @@ public class HeadNurseController {
         Text footer = new Text("========================================");
 
         for (Text t : new Text[]{title1, title2, title3, title4, patientText, nameText,
-                surgeryText, idCheck, eyeCheck, consentCheck, fastingCheck, verifiedText,
+                phoneText, surgeryText, idCheck, eyeCheck, consentCheck, fastingCheck, verifiedText,
                 statusText, line1, authText, footer}) {
             t.setStyle("-fx-font-size: 12px;");
         }
@@ -113,7 +168,7 @@ public class HeadNurseController {
 
         printContent.getChildren().addAll(
                 title1, title2, title3, title4,
-                patientText, nameText, surgeryText,
+                patientText, nameText, phoneText, surgeryText,
                 idCheck, eyeCheck, consentCheck, fastingCheck,
                 verifiedText, statusText,
                 line1, authText, footer

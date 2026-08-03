@@ -18,16 +18,17 @@
         </Label>
 
         <Label layoutX="200.0" layoutY="150.0" text="Patient ID:" />
-        <TextField fx:id="patientIdField" layoutX="350.0" layoutY="145.0" prefWidth="200.0" promptText="Enter ID (e.g., 101)" />
+        <TextField fx:id="patientIdField" layoutX="350.0" layoutY="145.0" prefWidth="200.0" promptText="Enter ID (e.g., 5000)" />
         <Button layoutX="570.0" layoutY="145.0" onAction="#generateDischarge" prefHeight="30.0" prefWidth="100.0" text="Generate" />
 
-        <TextArea fx:id="dischargeArea" layoutX="100.0" layoutY="210.0" prefHeight="280.0" prefWidth="700.0" editable="false" style="-fx-font-size: 13px;" />
+        <Label layoutX="100.0" layoutY="200.0" text="Discharge Summary (Editable):" />
+        <TextArea fx:id="dischargeArea" layoutX="100.0" layoutY="230.0" prefHeight="280.0" prefWidth="700.0" editable="true" style="-fx-font-size: 13px;" />
 
-        <Label fx:id="statusLabel" layoutX="100.0" layoutY="510.0" prefWidth="700.0" style="-fx-text-fill: #f39c12; -fx-font-size: 13px;" />
+        <Label fx:id="statusLabel" layoutX="100.0" layoutY="530.0" prefWidth="700.0" style="-fx-text-fill: #f39c12; -fx-font-size: 13px;" />
 
         <Button fx:id="printBtn" layoutX="350.0" layoutY="540.0" onAction="#printDischarge" prefHeight="40.0" prefWidth="150.0" text="Print Summary" disable="true" />
 
-        <Label layoutX="100.0" layoutY="580.0" text="Sample Patients: 101 - Jahirul Islam | 102 - Fatema Begum | 103 - Rahim Khan" style="-fx-text-fill: #7f8c8d; -fx-font-size: 12px;" />
+        <Label layoutX="100.0" layoutY="580.0" text="Patient data loaded from patients.bin" style="-fx-text-fill: #7f8c8d; -fx-font-size: 12px;" />
 
         <Button layoutX="350.0" layoutY="600.0" onAction="#backButton" prefHeight="40.0" prefWidth="200.0" text="Back to Dashboard" />
     </children>

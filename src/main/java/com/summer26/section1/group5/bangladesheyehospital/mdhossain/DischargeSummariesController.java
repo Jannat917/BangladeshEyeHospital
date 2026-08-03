@@ -11,12 +11,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.print.PrinterJob;
-import java.io.IOException;
+import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DischargeSummariesController {
     @FXML private TextField patientIdField;
@@ -24,14 +24,41 @@ public class DischargeSummariesController {
     @FXML private Label statusLabel;
     @FXML private Button printBtn;
 
-    // REUSE patientDB from InitialEyeScreeningController
-    private static final Map<Integer, PatientRecordModelClass> patientDB = InitialEyeScreeningController.patientDB;
-    private static final Map<Integer, String> dischargeData = new HashMap<>();
-    private String currentDischargeSummary = "";
+    private final File dataFolder = new File("data");
+    private final File patientFile = new File(dataFolder, "patients.bin");
+
+    private List<PatientRecordModelClass> patientList = new ArrayList<>();
 
     @FXML
     public void initialize() {
         printBtn.setDisable(true);
+        loadPatientsFromFile();
+        dischargeArea.setEditable(true);
+    }
+
+    private void loadPatientsFromFile() {
+        patientList.clear();
+        if (!patientFile.exists()) {
+            return;
+        }
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(patientFile))) {
+            while (true) {
+                PatientRecordModelClass patient = (PatientRecordModelClass) ois.readObject();
+                patientList.add(patient);
+            }
+        } catch (EOFException e) {
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private PatientRecordModelClass findPatientById(int id) {
+        for (PatientRecordModelClass patient : patientList) {
+            if (patient.getPatientId() == id) {
+                return patient;
+            }
+        }
+        return null;
     }
 
     @FXML
@@ -54,20 +81,27 @@ public class DischargeSummariesController {
             return;
         }
 
-        PatientRecordModelClass patient = patientDB.get(patientId);
+        PatientRecordModelClass patient = findPatientById(patientId);
         if (patient == null) {
-            statusLabel.setText("ERROR: Patient not found! Use: 101, 102, 103");
+            StringBuilder availableIds = new StringBuilder();
+            for (PatientRecordModelClass p : patientList) {
+                availableIds.append(p.getPatientId()).append(", ");
+            }
+            if (availableIds.length() > 0) {
+                availableIds.setLength(availableIds.length() - 2);
+            }
+            statusLabel.setText("ERROR: Patient not found! Available IDs: " + availableIds.toString());
             statusLabel.setStyle("-fx-text-fill: red;");
             printBtn.setDisable(true);
             return;
         }
 
-        // Handle null values with default messages
         String address = patient.getAddress() != null ? patient.getAddress() : "Not provided";
         String doctor = patient.getAssignedDoctor() != null ? patient.getAssignedDoctor() : "Not assigned";
         String disease = patient.getDisease() != null ? patient.getDisease() : "Not specified";
         String diagnosis = patient.getDiagnosis() != null ? patient.getDiagnosis() : "Not specified";
         String remarks = patient.getDoctorRemarks() != null ? patient.getDoctorRemarks() : "No remarks";
+        String phone = patient.getPhoneNumber() != null ? patient.getPhoneNumber() : "Not provided";
 
         String info = "========================================\n";
         info += "        DISCHARGE SUMMARY\n";
@@ -76,7 +110,7 @@ public class DischargeSummariesController {
         info += "  Name       : " + patient.getPatientName() + "\n";
         info += "  Age        : " + patient.getAge() + "\n";
         info += "  Gender     : " + patient.getGender() + "\n";
-        info += "  Phone      : " + patient.getPhoneNumber() + "\n";
+        info += "  Phone      : " + phone + "\n";
         info += "  Address    : " + address + "\n";
         info += "  Doctor     : " + doctor + "\n";
         info += "  Disease    : " + disease + "\n";
@@ -87,8 +121,6 @@ public class DischargeSummariesController {
         info += "========================================";
 
         dischargeArea.setText(info);
-        currentDischargeSummary = info;
-        dischargeData.put(patientId, info);
         statusLabel.setText("Discharge summary generated for " + patient.getPatientName());
         statusLabel.setStyle("-fx-text-fill: #27ae60; -fx-font-weight: bold;");
         printBtn.setDisable(false);
@@ -96,8 +128,10 @@ public class DischargeSummariesController {
 
     @FXML
     public void printDischarge() {
-        if (currentDischargeSummary.isEmpty()) {
-            statusLabel.setText("ERROR: No discharge summary to print!");
+        String dischargeText = dischargeArea.getText().trim();
+
+        if (dischargeText.isEmpty()) {
+            statusLabel.setText("ERROR: Nothing to print!");
             statusLabel.setStyle("-fx-text-fill: red;");
             return;
         }
@@ -110,57 +144,20 @@ public class DischargeSummariesController {
         Text title2 = new Text("     BANGLADESH EYE HOSPITAL");
         Text title3 = new Text("     DISCHARGE SUMMARY");
         Text title4 = new Text("========================================");
-
-        String[] lines = currentDischargeSummary.split("\n");
-        String patientId = "", patientName = "", age = "", gender = "", phone = "", address = "";
-        String doctor = "", disease = "", diagnosis = "", remarks = "", dischargeDate = "";
-
-        for (String line : lines) {
-            if (line.contains("Patient ID :")) patientId = line.replace("  Patient ID : ", "").trim();
-            if (line.contains("Name       :")) patientName = line.replace("  Name       : ", "").trim();
-            if (line.contains("Age        :")) age = line.replace("  Age        : ", "").trim();
-            if (line.contains("Gender     :")) gender = line.replace("  Gender     : ", "").trim();
-            if (line.contains("Phone      :")) phone = line.replace("  Phone      : ", "").trim();
-            if (line.contains("Address    :")) address = line.replace("  Address    : ", "").trim();
-            if (line.contains("Doctor     :")) doctor = line.replace("  Doctor     : ", "").trim();
-            if (line.contains("Disease    :")) disease = line.replace("  Disease    : ", "").trim();
-            if (line.contains("Diagnosis  :")) diagnosis = line.replace("  Diagnosis  : ", "").trim();
-            if (line.contains("Remarks    :")) remarks = line.replace("  Remarks    : ", "").trim();
-            if (line.contains("Discharge Date:")) dischargeDate = line.replace("  Discharge Date: ", "").trim();
-        }
-
-        Text patientIdText = new Text("  Patient ID   : " + patientId);
-        Text patientNameText = new Text("  Patient Name : " + patientName);
-        Text ageText = new Text("  Age          : " + age);
-        Text genderText = new Text("  Gender       : " + gender);
-        Text phoneText = new Text("  Phone        : " + phone);
-        Text addressText = new Text("  Address      : " + address);
-        Text doctorText = new Text("  Doctor       : " + doctor);
-        Text diseaseText = new Text("  Disease      : " + disease);
-        Text diagnosisText = new Text("  Diagnosis    : " + diagnosis);
-        Text remarksText = new Text("  Remarks      : " + remarks);
-        Text dateText = new Text("  Discharge    : " + dischargeDate);
-        Text printedText = new Text("  Printed At   : " + time);
-        Text statusText = new Text("  Status       : Discharged");
-
+        Text contentText = new Text(dischargeText);
+        contentText.setStyle("-fx-font-size: 12px;");
         Text line1 = new Text("----------------------------------------");
+        Text printedText = new Text("  Printed At   : " + time);
         Text authText = new Text("  Authorized By: Nurse");
         Text footer = new Text("========================================");
 
-        for (Text t : new Text[]{title1, title2, title3, title4, patientIdText, patientNameText,
-                ageText, genderText, phoneText, addressText, doctorText, diseaseText,
-                diagnosisText, remarksText, dateText, printedText, statusText, line1, authText, footer}) {
-            t.setStyle("-fx-font-size: 12px;");
-        }
         title2.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
         title3.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
 
         printContent.getChildren().addAll(
                 title1, title2, title3, title4,
-                patientIdText, patientNameText, ageText, genderText, phoneText, addressText,
-                doctorText, diseaseText, diagnosisText, remarksText, dateText,
-                printedText, statusText,
-                line1, authText, footer
+                contentText,
+                line1, printedText, authText, footer
         );
 
         PrinterJob job = PrinterJob.createPrinterJob();

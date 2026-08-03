@@ -6,10 +6,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import java.io.IOException;
+import java.io.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class AllocateWardBedController {
@@ -18,25 +20,43 @@ public class AllocateWardBedController {
     @FXML private Label statusLabel;
     @FXML private Label availableBedsLabel;
 
-    private static final Map<Integer, PatientRecordModelClass> patientDB = new HashMap<>();
+    private final File dataFolder = new File("data");
+    private final File patientFile = new File(dataFolder, "patients.bin");
+
+    private List<PatientRecordModelClass> patientList = new ArrayList<>();
     private static final Map<String, String> bedDB = new HashMap<>();
 
     static {
-        PatientRecordModelClass p1 = new PatientRecordModelClass();
-        p1.setPatientId(101);
-        p1.setPatientName("Jahirul Islam");
-        patientDB.put(101, p1);
-
-        PatientRecordModelClass p2 = new PatientRecordModelClass();
-        p2.setPatientId(102);
-        p2.setPatientName("Fatema Begum");
-        patientDB.put(102, p2);
-
         bedDB.put("W-101", "Available");
         bedDB.put("W-102", "Available");
         bedDB.put("W-103", "Occupied");
         bedDB.put("W-104", "Available");
         bedDB.put("W-105", "Available");
+    }
+
+    private void loadPatientsFromFile() {
+        patientList.clear();
+        if (!patientFile.exists()) {
+            return;
+        }
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(patientFile))) {
+            while (true) {
+                PatientRecordModelClass patient = (PatientRecordModelClass) ois.readObject();
+                patientList.add(patient);
+            }
+        } catch (EOFException e) {
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private PatientRecordModelClass findPatientById(int id) {
+        for (PatientRecordModelClass patient : patientList) {
+            if (patient.getPatientId() == id) {
+                return patient;
+            }
+        }
+        return null;
     }
 
     private void updateAvailableBeds() {
@@ -50,6 +70,7 @@ public class AllocateWardBedController {
 
     @FXML
     public void initialize() {
+        loadPatientsFromFile();
         updateAvailableBeds();
     }
 
@@ -78,9 +99,16 @@ public class AllocateWardBedController {
             return;
         }
 
-        PatientRecordModelClass patient = patientDB.get(patientId);
+        PatientRecordModelClass patient = findPatientById(patientId);
         if (patient == null) {
-            statusLabel.setText("ERROR: Patient not found! Use: 101, 102");
+            StringBuilder availableIds = new StringBuilder();
+            for (PatientRecordModelClass p : patientList) {
+                availableIds.append(p.getPatientId()).append(", ");
+            }
+            if (availableIds.length() > 0) {
+                availableIds.setLength(availableIds.length() - 2);
+            }
+            statusLabel.setText("ERROR: Patient not found! Available IDs: " + availableIds.toString());
             statusLabel.setStyle("-fx-text-fill: red;");
             return;
         }
@@ -100,11 +128,14 @@ public class AllocateWardBedController {
         bedDB.put(bedCode, "Occupied");
         String time = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
+        String phone = patient.getPhoneNumber() != null ? patient.getPhoneNumber() : "Not provided";
+
         String info = "========================================\n";
         info += "        BED ALLOCATED\n";
         info += "========================================\n";
         info += "  Patient ID : " + patientId + "\n";
         info += "  Name       : " + patient.getPatientName() + "\n";
+        info += "  Phone      : " + phone + "\n";
         info += "  Bed Code   : " + bedCode + "\n";
         info += "  Allocated  : " + time + "\n";
         info += "  Status     : Occupied\n";

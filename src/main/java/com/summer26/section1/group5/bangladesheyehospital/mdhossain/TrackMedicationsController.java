@@ -11,11 +11,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.print.PrinterJob;
-import java.io.IOException;
+import java.io.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TrackMedicationsController {
     @FXML private TextField patientIdField;
@@ -25,14 +25,41 @@ public class TrackMedicationsController {
     @FXML private Label statusLabel;
     @FXML private Button printBtn;
 
-    // REUSE patientDB from InitialEyeScreeningController
-    private static final Map<Integer, PatientRecordModelClass> patientDB = InitialEyeScreeningController.patientDB;
-    private static final Map<Integer, String> medicationLogs = new HashMap<>();
-    private String lastMedicationLog = "";
+    private final File dataFolder = new File("data");
+    private final File patientFile = new File(dataFolder, "patients.bin");
+
+    private List<PatientRecordModelClass> patientList = new ArrayList<>();
 
     @FXML
     public void initialize() {
         printBtn.setDisable(true);
+        loadPatientsFromFile();
+        logArea.setEditable(true);
+    }
+
+    private void loadPatientsFromFile() {
+        patientList.clear();
+        if (!patientFile.exists()) {
+            return;
+        }
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(patientFile))) {
+            while (true) {
+                PatientRecordModelClass patient = (PatientRecordModelClass) ois.readObject();
+                patientList.add(patient);
+            }
+        } catch (EOFException e) {
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private PatientRecordModelClass findPatientById(int id) {
+        for (PatientRecordModelClass patient : patientList) {
+            if (patient.getPatientId() == id) {
+                return patient;
+            }
+        }
+        return null;
     }
 
     @FXML
@@ -58,9 +85,16 @@ public class TrackMedicationsController {
             return;
         }
 
-        PatientRecordModelClass patient = patientDB.get(patientId);
+        PatientRecordModelClass patient = findPatientById(patientId);
         if (patient == null) {
-            statusLabel.setText("ERROR: Patient not found! Use: 101, 102, 103");
+            StringBuilder availableIds = new StringBuilder();
+            for (PatientRecordModelClass p : patientList) {
+                availableIds.append(p.getPatientId()).append(", ");
+            }
+            if (availableIds.length() > 0) {
+                availableIds.setLength(availableIds.length() - 2);
+            }
+            statusLabel.setText("ERROR: Patient not found! Available IDs: " + availableIds.toString());
             statusLabel.setStyle("-fx-text-fill: red;");
             printBtn.setDisable(true);
             return;
@@ -69,14 +103,13 @@ public class TrackMedicationsController {
         String time = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         String log = "[" + time + "] " + medName + " (" + qtyStr + ") given to " + patient.getPatientName() + "\n";
         logArea.appendText(log);
-        lastMedicationLog = log;
-        medicationLogs.put(patientId, log);
 
         String info = "========================================\n";
         info += "        MEDICATION ADMINISTERED\n";
         info += "========================================\n";
         info += "  Patient ID : " + patientId + "\n";
         info += "  Name       : " + patient.getPatientName() + "\n";
+        info += "  Phone      : " + (patient.getPhoneNumber() != null ? patient.getPhoneNumber() : "Not provided") + "\n";
         info += "  Medication : " + medName + "\n";
         info += "  Quantity   : " + qtyStr + "\n";
         info += "  Time       : " + time + "\n";
@@ -94,8 +127,10 @@ public class TrackMedicationsController {
 
     @FXML
     public void printMedication() {
-        if (lastMedicationLog.isEmpty()) {
-            statusLabel.setText("ERROR: No medication to print!");
+        String logText = logArea.getText().trim();
+
+        if (logText.isEmpty()) {
+            statusLabel.setText("ERROR: Nothing to print!");
             statusLabel.setStyle("-fx-text-fill: red;");
             return;
         }
@@ -108,49 +143,20 @@ public class TrackMedicationsController {
         Text title2 = new Text("     BANGLADESH EYE HOSPITAL");
         Text title3 = new Text("     MEDICATION LOG");
         Text title4 = new Text("========================================");
-
-        // Extract info from log
-        String log = lastMedicationLog;
-        String logTime = "";
-        String medName = "";
-        String qty = "";
-        String patientName = "";
-
-        if (log.contains("[") && log.contains("]")) {
-            logTime = log.substring(log.indexOf("[") + 1, log.indexOf("]"));
-            String rest = log.substring(log.indexOf("]") + 1).trim();
-            if (rest.contains(" given to ")) {
-                String beforeGiven = rest.substring(0, rest.indexOf(" given to "));
-                patientName = rest.substring(rest.indexOf(" given to ") + 9).trim();
-                if (beforeGiven.contains("(")) {
-                    medName = beforeGiven.substring(0, beforeGiven.indexOf("(")).trim();
-                    qty = beforeGiven.substring(beforeGiven.indexOf("(") + 1, beforeGiven.indexOf(")"));
-                }
-            }
-        }
-
-        Text timeText = new Text("  Administered At : " + logTime);
-        Text patientText = new Text("  Patient         : " + patientName);
-        Text medText = new Text("  Medication      : " + medName);
-        Text qtyText = new Text("  Quantity        : " + qty);
-        Text printedText = new Text("  Printed At      : " + time);
-        Text statusText = new Text("  Status          : Administered");
-
+        Text logTextContent = new Text(logText);
+        logTextContent.setStyle("-fx-font-size: 12px;");
         Text line1 = new Text("----------------------------------------");
+        Text printedText = new Text("  Printed At   : " + time);
         Text authText = new Text("  Authorized By: Nurse");
         Text footer = new Text("========================================");
 
-        for (Text t : new Text[]{title1, title2, title3, title4, timeText, patientText,
-                medText, qtyText, printedText, statusText, line1, authText, footer}) {
-            t.setStyle("-fx-font-size: 12px;");
-        }
         title2.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
         title3.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
 
         printContent.getChildren().addAll(
                 title1, title2, title3, title4,
-                timeText, patientText, medText, qtyText, printedText, statusText,
-                line1, authText, footer
+                logTextContent,
+                line1, printedText, authText, footer
         );
 
         PrinterJob job = PrinterJob.createPrinterJob();

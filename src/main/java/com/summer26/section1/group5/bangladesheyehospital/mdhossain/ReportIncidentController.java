@@ -30,11 +30,9 @@ public class ReportIncidentController {
     private static int incidentCount = 0;
     private Incident currentIncident = null;
 
-    // Data folder
     private final File dataFolder = new File("data");
     private final File patientFile = new File(dataFolder, "patients.bin");
 
-    // List to hold all patients from file
     private List<PatientRecordModelClass> patientList = new ArrayList<>();
 
     @FXML
@@ -47,6 +45,7 @@ public class ReportIncidentController {
         loadPatientsFromFile();
         populatePatientCombo();
         printBtn.setDisable(true);
+        incidentDetailsArea.setEditable(true);
     }
 
     private void loadPatientsFromFile() {
@@ -63,7 +62,6 @@ public class ReportIncidentController {
                 patientList.add(patient);
             }
         } catch (EOFException e) {
-            // End of file reached - normal
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -148,18 +146,20 @@ public class ReportIncidentController {
         info += "  Total Incidents : " + incidentCount + "\n";
         info += "========================================";
 
-        statusLabel.setText(info);
-        statusLabel.setStyle("-fx-text-fill: #27ae60; -fx-font-size: 13px;");
+        incidentDetailsArea.setText(info);
+        statusLabel.setText("Incident reported successfully!");
+        statusLabel.setStyle("-fx-text-fill: #27ae60; -fx-font-weight: bold;");
         printBtn.setDisable(false);
         incidentTypeCombo.setValue(null);
         patientCombo.setValue(null);
-        incidentDetailsArea.clear();
     }
 
     @FXML
-    public void printIncident(ActionEvent event) {
-        if (currentIncident == null) {
-            statusLabel.setText("ERROR: No incident to print!");
+    public void printIncident() {
+        String incidentText = incidentDetailsArea.getText().trim();
+
+        if (incidentText.isEmpty()) {
+            statusLabel.setText("ERROR: Nothing to print!");
             statusLabel.setStyle("-fx-text-fill: red;");
             return;
         }
@@ -172,31 +172,20 @@ public class ReportIncidentController {
         Text title2 = new Text("     BANGLADESH EYE HOSPITAL");
         Text title3 = new Text("     INCIDENT REPORT");
         Text title4 = new Text("========================================");
-        Text caseIdText = new Text("  Case ID      : " + currentIncident.getCaseId());
-        Text typeText = new Text("  Type         : " + currentIncident.getType());
-        Text descriptionText = new Text("  Description  : " + currentIncident.getDescription());
-        Text locationText = new Text("  Location     : " + currentIncident.getLocation());
-        Text reportedByText = new Text("  Reported By  : " + currentIncident.getReportedBy());
-        Text reportedTimeText = new Text("  Time         : " + time);
-        Text severityText = new Text("  Severity     : " + currentIncident.getSeverity());
-        Text statusText = new Text("  Status       : " + currentIncident.getStatus());
+        Text contentText = new Text(incidentText);
+        contentText.setStyle("-fx-font-size: 12px;");
         Text line1 = new Text("----------------------------------------");
+        Text printedText = new Text("  Printed At   : " + time);
         Text authText = new Text("  Authorized By: Security Staff");
         Text footer = new Text("========================================");
 
-        for (Text t : new Text[]{title1, title2, title3, title4, caseIdText, typeText,
-                descriptionText, locationText, reportedByText, reportedTimeText,
-                severityText, statusText, line1, authText, footer}) {
-            t.setStyle("-fx-font-size: 12px;");
-        }
         title2.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
         title3.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
 
         printContent.getChildren().addAll(
                 title1, title2, title3, title4,
-                caseIdText, typeText, descriptionText, locationText,
-                reportedByText, reportedTimeText, severityText, statusText,
-                line1, authText, footer
+                contentText,
+                line1, printedText, authText, footer
         );
 
         PrinterJob job = PrinterJob.createPrinterJob();
@@ -215,6 +204,6 @@ public class ReportIncidentController {
 
     @FXML
     public void backButton(ActionEvent event) throws IOException {
-        SceneSwitcher.switchTo("mdhossain/securitystaffDashboard.fxml");
+        SceneSwitcher.switchTo("mdhossain/securityStaffDashboard.fxml");
     }
 }
