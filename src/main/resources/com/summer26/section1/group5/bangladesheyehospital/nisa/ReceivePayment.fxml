@@ -6,7 +6,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="519.0" prefWidth="762.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.summer26.section1.group5.bangladesheyehospital.nisa.ReceivePaymentcontroller">
    <children>
       <Label layoutX="269.0" layoutY="24.0" prefHeight="62.0" prefWidth="224.0" text="Receive Payment">
@@ -26,7 +25,7 @@
          </font>
       </Label>
       <TextField fx:id="patientidTF" layoutX="158.0" layoutY="148.0" />
-      <Button layoutX="282.0" layoutY="445.0" mnemonicParsing="false" onAction="#clearbutton" prefHeight="35.0" prefWidth="74.0" text="Clear" />
+      <Button layoutX="543.0" layoutY="445.0" mnemonicParsing="false" onAction="#clearbutton" prefHeight="35.0" prefWidth="74.0" text="Clear" />
       <Button layoutX="132.0" layoutY="202.0" mnemonicParsing="false" onAction="#searchbutton" prefHeight="35.0" prefWidth="74.0" text="Search">
          <font>
             <Font size="14.0" />
@@ -38,5 +37,6 @@
          </font>
       </Button>
       <Button layoutX="644.0" layoutY="445.0" mnemonicParsing="false" onAction="#backbutton" prefHeight="35.0" prefWidth="66.0" text="Back" />
+      <Label fx:id="massagelabel" layoutX="95.0" layoutY="454.0" prefHeight="50.0" prefWidth="346.0" text="Label" />
    </children>
 </AnchorPane>

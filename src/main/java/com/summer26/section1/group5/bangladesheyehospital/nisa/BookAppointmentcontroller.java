@@ -26,12 +26,13 @@ public class BookAppointmentcontroller
     private DatePicker dateDatepicker;
     @javafx.fxml.FXML
     private Label serialLabel;
-
-    private final File dataFolder = new File("data");
-
-    private final File patientFile = new File(dataFolder, "patients.bin");
     @javafx.fxml.FXML
     private Label messageLabel;
+
+
+    private final File dataFolder = new File("data");
+    private final File patientFile = new File(dataFolder, "patients.bin");
+
 
     @javafx.fxml.FXML
     public void initialize() {
@@ -100,8 +101,7 @@ public class BookAppointmentcontroller
             return;
         }
 
-        ArrayList<PatientRecordModelClass> patientList =
-                new ArrayList<>();
+        ArrayList<PatientRecordModelClass> patientList = new ArrayList<>();
 
         if (patientFile.exists()) {
 

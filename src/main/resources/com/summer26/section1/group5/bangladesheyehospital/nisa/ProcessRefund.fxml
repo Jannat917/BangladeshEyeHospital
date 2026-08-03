@@ -7,7 +7,6 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
 <AnchorPane prefHeight="600.0" prefWidth="774.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.summer26.section1.group5.bangladesheyehospital.nisa.ProcessRefundcontroller">
    <children>
       <Label layoutX="294.0" layoutY="14.0" prefHeight="46.0" prefWidth="217.0" text="Process Refund">
@@ -15,12 +14,12 @@
             <Font size="24.0" />
          </font>
       </Label>
-      <Label fx:id="totalbilllabel" layoutX="187.0" layoutY="309.0" prefHeight="38.0" prefWidth="110.0" text="Total Bill">
+      <Label fx:id="totalbilllabel" layoutX="157.0" layoutY="261.0" prefHeight="38.0" prefWidth="110.0" text="Total Bill">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label fx:id="statuslabel" layoutX="403.0" layoutY="319.0" prefHeight="26.0" prefWidth="78.0" text="Status">
+      <Label fx:id="statuslabel" layoutX="397.0" layoutY="261.0" prefHeight="26.0" prefWidth="78.0" text="Status">
          <font>
             <Font size="14.0" />
          </font>
@@ -41,7 +40,7 @@
             <Font size="14.0" />
          </font>
       </Button>
-      <Button layoutX="287.0" layoutY="465.0" mnemonicParsing="false" onAction="#clearbutton" prefHeight="38.0" prefWidth="71.0" text="Clear">
+      <Button layoutX="523.0" layoutY="525.0" mnemonicParsing="false" onAction="#clearbutton" prefHeight="38.0" prefWidth="71.0" text="Clear">
          <font>
             <Font size="14.0" />
          </font>
@@ -51,5 +50,6 @@
             <Font size="14.0" />
          </font>
       </Button>
+      <Label fx:id="messagelabel" layoutX="120.0" layoutY="501.0" prefHeight="86.0" prefWidth="282.0" text="Label" />
    </children>
 </AnchorPane>

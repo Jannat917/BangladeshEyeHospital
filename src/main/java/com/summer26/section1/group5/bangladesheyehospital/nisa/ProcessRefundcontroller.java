@@ -1,5 +1,6 @@
 package com.summer26.section1.group5.bangladesheyehospital.nisa;
 
+import com.summer26.section1.group5.bangladesheyehospital.common.PatientRecordModelClass;
 import com.summer26.section1.group5.bangladesheyehospital.common.SceneSwitcher;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -8,26 +9,58 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
-import java.io.IOException;
+import java.io.*;
+import java.util.ArrayList;
 
-public class ProcessRefundcontroller
-{
+public class ProcessRefundcontroller {
     @javafx.fxml.FXML
     private Label totalbilllabel;
     @javafx.fxml.FXML
     private TextField patientidTF;
     @javafx.fxml.FXML
     private Label statuslabel;
+    @javafx.fxml.FXML
+    private Label messagelabel;
+    private final File dataFolder = new File("data");
+    private final File patientFile = new File(dataFolder, "patients.bin");
+    private final ArrayList<PatientRecordModelClass> patientList = new ArrayList<>();
+    private PatientRecordModelClass patient;
 
-    private Payment payment;
-    ObservableList<Payment> list = FXCollections.observableArrayList();
 
     @javafx.fxml.FXML
     public void initialize() {
+        if (!dataFolder.exists()) {
+            dataFolder.mkdirs();
+        }
 
-        list.add(new Payment(101,"Paid",1500));
-        list.add(new Payment(102,"Paid",2000));
-        list.add(new Payment(103,"Due",1800));
+        loadPatients();
+    }
+
+    private void loadPatients() {
+
+        patientList.clear();
+
+        if (!patientFile.exists()) {
+            return;
+        }
+
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(patientFile))) {
+
+            while (true) {
+
+                PatientRecordModelClass p =
+                        (PatientRecordModelClass) ois.readObject();
+
+                patientList.add(p);
+            }
+
+        } catch (EOFException e) {
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+
 
     }
 
@@ -43,44 +76,77 @@ public class ProcessRefundcontroller
 
     @javafx.fxml.FXML
     public void refundbutton(ActionEvent actionEvent) {
-        if(payment == null){
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setContentText("Search Patient First");
-            alert.showAndWait();
+        if (patient == null) {
+
+            messagelabel.setText("Search Patient First.");
             return;
         }
-        payment.setPaymentStatus("Refunded");
-        statuslabel.setText(payment.getPaymentStatus());
 
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setContentText("Refund Processed Successfully");
-        alert.showAndWait();
+        patient.setPaymentStatus("Refunded");
+        statuslabel.setText("Refunded");
+
+        try (ObjectOutputStream oos =
+                     new ObjectOutputStream(new FileOutputStream(patientFile))) {
+
+            for (PatientRecordModelClass p : patientList) {
+
+                oos.writeObject(p);
+            }
+
+            messagelabel.setText("Refund Processed Successfully.");
+
+        } catch (IOException e) {
+
+            e.printStackTrace();
+
+            messagelabel.setText("Unable to process refund.");
+
+        }
     }
 
     @javafx.fxml.FXML
     public void clearbutton(ActionEvent actionEvent) {
+
         patientidTF.clear();
         totalbilllabel.setText("");
         statuslabel.setText("");
-        payment = null;
+        messagelabel.setText("");
+        patient = null;
+
     }
 
     @javafx.fxml.FXML
     public void searchbtton(ActionEvent actionEvent) {
-        int patientId = Integer.parseInt(patientidTF.getText());
+        if (patientidTF.getText().isEmpty()) {
 
-        for(Payment p : list){
-            if(p.getPatientId() == patientId){
-                payment = p;
-                totalbilllabel.setText(String.valueOf(p.getTotalBill()));
-                statuslabel.setText(p.getPaymentStatus());
-                return;
-            }
-
+            messagelabel.setText("Enter Patient ID.");
+            return;
         }
 
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setContentText("Patient Not Found");
-        alert.showAndWait();
+        int patientId;
+
+        try {
+
+            patientId = Integer.parseInt(patientidTF.getText());
+
+        } catch (NumberFormatException e) {
+
+            messagelabel.setText("Patient ID must be numeric.");
+            return;
+        }
+        patient = null;
+        for (PatientRecordModelClass p : patientList) {
+
+            if (p.getPatientId() == patientId) {
+                patient = p;
+                totalbilllabel.setText(String.valueOf(p.getBillAmount()));
+                statuslabel.setText(p.getPaymentStatus());
+                messagelabel.setText("Patient Found.");
+                return;
+            }
+        }
+
+        messagelabel.setText("Patient Not Found.");
+
     }
 }

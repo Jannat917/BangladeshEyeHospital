@@ -20,8 +20,6 @@ public class PayBillcontroller {
     private TextField patientidTF;
     @javafx.fxml.FXML
     private Label testfeelabel;
-
-    private Bill bill;
     @javafx.fxml.FXML
     private Label messagelabel;
     private final File dataFolder = new File("data");
@@ -151,11 +149,9 @@ public class PayBillcontroller {
 
                 double doctorFee = p.getBillAmount() * 0.40;
                 double testFee = p.getBillAmount() * 0.30;
-                double medicineFee = p.getBillAmount() * 0.30;
 
                 doctorfeelabel.setText(String.valueOf(doctorFee));
                 testfeelabel.setText(String.valueOf(testFee));
-
 
                 messagelabel.setText("Patient Found.");
 
