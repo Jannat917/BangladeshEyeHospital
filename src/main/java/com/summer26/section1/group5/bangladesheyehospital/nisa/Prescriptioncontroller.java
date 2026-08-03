@@ -1,49 +1,80 @@
 package com.summer26.section1.group5.bangladesheyehospital.nisa;
 
+import com.summer26.section1.group5.bangladesheyehospital.common.PatientRecordModelClass;
 import com.summer26.section1.group5.bangladesheyehospital.common.SceneSwitcher;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-import java.io.IOException;
+import java.io.*;
+import java.util.ArrayList;
 
 public class Prescriptioncontroller
 {
     @javafx.fxml.FXML
-    private TableColumn<Prescription,String> doctornamecolumn;
+    private TableColumn<PatientRecordModelClass,String> doctornamecolumn;
     @javafx.fxml.FXML
-    private TableColumn<Prescription,String> medicinecolumn;
+    private TableView<PatientRecordModelClass> prescriptiontable;
     @javafx.fxml.FXML
-    private TableView<Prescription> prescriptiontable;
-    @javafx.fxml.FXML
-    private TableColumn<Prescription,String> advicecolumn;
-    @javafx.fxml.FXML
-    private TableColumn<Prescription,String> diseasecolumn;
+    private TableColumn<PatientRecordModelClass,String> diseasecolumn;
     @javafx.fxml.FXML
     private TextField patientidTF;
     @javafx.fxml.FXML
-    private TableColumn<Prescription,Integer> patientidcolumn;
+    private TableColumn<PatientRecordModelClass,Integer> patientidcolumn;
+    @javafx.fxml.FXML
+    private TableColumn<PatientRecordModelClass, String> diagnosiscolumn;
+    @javafx.fxml.FXML
+    private Label messagelabel;
 
-    ObservableList<Prescription> list = FXCollections.observableArrayList();
+    private final File dataFolder = new File("data");
+    private final File patientFile = new File(dataFolder, "patients.bin");
+
+    private final ArrayList<PatientRecordModelClass> patientList = new ArrayList<>();
+
 
     @javafx.fxml.FXML
     public void initialize() {
+        if (!dataFolder.exists()) {
+            dataFolder.mkdirs();
+        }
 
         patientidcolumn.setCellValueFactory(new PropertyValueFactory<>("patientId"));
-        doctornamecolumn.setCellValueFactory(new PropertyValueFactory<>("doctorName"));
+        doctornamecolumn.setCellValueFactory(new PropertyValueFactory<>("assignedDoctor"));
         diseasecolumn.setCellValueFactory(new PropertyValueFactory<>("disease"));
-        medicinecolumn.setCellValueFactory(new PropertyValueFactory<>("medicine"));
-        advicecolumn.setCellValueFactory(new PropertyValueFactory<>("advice"));
+        diagnosiscolumn.setCellValueFactory(new PropertyValueFactory<>("diagnosis"));
 
-        list.add(new Prescription("Use twice daily","Cataract","Dr.Mehedi","Eye Drop",101));
-        list.add(new Prescription("4 times daily","Dry Eye","Dr.Rahim","Artificial Tears",102));
-        list.add(new Prescription("After meal","glaucoma","Dr.Karim","Tablet",103));
-        list.add(new Prescription("Use daily","Cataract","Dr.Islam","Eye Drop",104));
+        loadPatients();
+    }
+
+    private void loadPatients() {
+
+        patientList.clear();
+
+        if (!patientFile.exists()) {
+            return;
+        }
+
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(patientFile))) {
+
+            while (true) {
+
+                PatientRecordModelClass patient =
+                        (PatientRecordModelClass) ois.readObject();
+
+                patientList.add(patient);
+            }
+
+        } catch (EOFException e) {
+
+            // End of File
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+
 
     }
 
@@ -58,31 +89,60 @@ public class Prescriptioncontroller
 
     @javafx.fxml.FXML
     public void searchbutton(ActionEvent actionEvent) {
-        int patientId = Integer.parseInt(patientidTF.getText());
-        ObservableList<Prescription> filteredList = FXCollections.observableArrayList();
 
-        for(Prescription p : list){
-            if(p.getPatientId() == patientId){
-                filteredList.add(p);
+        if (patientidTF.getText().isEmpty()) {
+
+            messagelabel.setText("Please enter Patient ID.");
+            return;
+        }
+
+        int patientId;
+
+        try {
+
+            patientId = Integer.parseInt(patientidTF.getText());
+
+        } catch (NumberFormatException e) {
+
+            messagelabel.setText("Patient ID must be numeric.");
+            return;
+        }
+
+        prescriptiontable.getItems().clear();
+
+        boolean found = false;
+
+        for (PatientRecordModelClass patient : patientList) {
+
+            if (patient.getPatientId() == patientId) {
+
+                prescriptiontable.getItems().add(patient);
+                found = true;
+                break;
             }
         }
 
-        prescriptiontable.setItems((filteredList));
+        if (found) {
 
-        if (filteredList.isEmpty()) {
-            Alert a = new Alert(Alert.AlertType.INFORMATION);
-            a.setHeaderText(null);
-            a.setContentText("No Prescription found");
-            a.showAndWait();
+            messagelabel.setText("Prescription Found.");
+
+        } else {
+
+            messagelabel.setText("No Prescription Found.");
+        }
+
         }
 
 
 
-    }
+
 
     @javafx.fxml.FXML
     public void refreshbutton(ActionEvent actionEvent) {
+
         patientidTF.clear();
+        messagelabel.setText("");
         prescriptiontable.getItems().clear();
+
     }
 }

@@ -185,16 +185,16 @@ public class SignUpController {
                     "",
                     "",
                     "",
+                    "",
+                    "",
+                    "",
                     ""
             );
-
             doctorList.add(newDoctor);
 
-            try (ObjectOutputStream oos =
-                         new ObjectOutputStream(new FileOutputStream(doctorFile))) {
+            try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(doctorFile))) {
 
                 for (DoctorModelClass doctor : doctorList) {
-
                     oos.writeObject(doctor);
                 }
 

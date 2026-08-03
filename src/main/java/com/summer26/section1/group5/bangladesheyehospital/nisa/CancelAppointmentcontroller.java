@@ -1,82 +1,149 @@
 package com.summer26.section1.group5.bangladesheyehospital.nisa;
 
+import com.summer26.section1.group5.bangladesheyehospital.common.PatientRecordModelClass;
 import com.summer26.section1.group5.bangladesheyehospital.common.SceneSwitcher;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-import java.io.IOException;
+import java.io.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class CancelAppointmentcontroller {
     @javafx.fxml.FXML
-    private TableView<BookAppointment> appointmentTable;
+    private TableView<PatientRecordModelClass> appointmentTable;
     @javafx.fxml.FXML
-    private TableColumn<BookAppointment, Integer> patientIdcolumn;
+    private TableColumn<PatientRecordModelClass, Integer> patientIdcolumn;
     @javafx.fxml.FXML
-    private TableColumn<BookAppointment, String> departmentcolumn;
+    private TableColumn<PatientRecordModelClass, String> departmentcolumn;
     @javafx.fxml.FXML
-    private TableColumn<BookAppointment, Integer> serialcolumn;
-    @javafx.fxml.FXML
-    private TableColumn<BookAppointment, String> doctorcolumn;
+    private TableColumn<PatientRecordModelClass, Integer> serialcolumn;
     @javafx.fxml.FXML
     private TextField patientIdTF;
     @javafx.fxml.FXML
-    private TableColumn<BookAppointment, LocalDate> datecolumn;
+    private TableColumn<PatientRecordModelClass, LocalDate> datecolumn;
     @javafx.fxml.FXML
-    private TableColumn<BookAppointment, String> timecolumn;
+    private TableColumn<PatientRecordModelClass, String> timecolumn;
+    @javafx.fxml.FXML
+    private TableColumn<PatientRecordModelClass, String > doctornamecolumn;
+    @javafx.fxml.FXML
+    private Label messagelabel;
+    private final File dataFolder = new File("data");
+    private final File patientFile = new File(dataFolder, "patients.bin");
 
-    ObservableList<BookAppointment> list = FXCollections.observableArrayList();
+    private final ArrayList<PatientRecordModelClass> patientList = new ArrayList<>();
+
+
 
     @javafx.fxml.FXML
     public void initialize() {
+
+        if (!dataFolder.exists()) {
+            dataFolder.mkdirs();
+        }
+
         patientIdcolumn.setCellValueFactory(new PropertyValueFactory<>("patientId"));
         departmentcolumn.setCellValueFactory(new PropertyValueFactory<>("department"));
-        doctorcolumn.setCellValueFactory(new PropertyValueFactory<>("doctor"));
-        datecolumn.setCellValueFactory(new PropertyValueFactory<>("date"));
-        timecolumn.setCellValueFactory(new PropertyValueFactory<>("time"));
-        serialcolumn.setCellValueFactory(new PropertyValueFactory<>("serial"));
+        doctornamecolumn.setCellValueFactory(new PropertyValueFactory<>("assignedDoctor"));
+        datecolumn.setCellValueFactory(new PropertyValueFactory<>("appointmentDate"));
+        timecolumn.setCellValueFactory(new PropertyValueFactory<>("appointmentTime"));
+        serialcolumn.setCellValueFactory(new PropertyValueFactory<>("serialNumber"));
 
-        list.add(new BookAppointment(LocalDate.of(2026, 8, 20), "Eye", "Dr. Rahman", "101", 1, "10:00 AM"));
-        list.add(new BookAppointment(LocalDate.of(2026, 8, 21), "Retina", "Dr. Karim", "102", 2, "11:00 AM"));
-        list.add(new BookAppointment(LocalDate.of(2026, 8, 22), "Cornea", "Dr. Hasan", "103", 3, "9:00 AM"));
+        loadAppointments();
+    }
 
-        appointmentTable.setItems(list);
+    private void loadAppointments() {
+
+        patientList.clear();
+        appointmentTable.getItems().clear();
+
+        if (!patientFile.exists()) {
+            return;
+        }
+
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(patientFile))) {
+
+            while (true) {
+
+                PatientRecordModelClass patient =
+                        (PatientRecordModelClass) ois.readObject();
+
+                patientList.add(patient);
+            }
+
+        } catch (EOFException e) {
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+
+        appointmentTable.getItems().addAll(patientList);
+
     }
 
     @javafx.fxml.FXML
     public void cancelappointmentbutton(ActionEvent actionEvent) {
-        String patientId = patientIdTF.getText();
-        BookAppointment removeAppointment = null;
-        for (BookAppointment b : list) {
-            if (b.getPatientId().equals(patientId)) {
-                removeAppointment = b;
+        if (patientIdTF.getText().isEmpty()) {
+
+            messagelabel.setText("Enter Patient ID.");
+            return;
+        }
+
+        int patientId;
+
+        try {
+
+            patientId = Integer.parseInt(patientIdTF.getText());
+
+        } catch (NumberFormatException e) {
+
+            messagelabel.setText("Patient ID must be numeric.");
+            return;
+        }
+
+        PatientRecordModelClass removePatient = null;
+
+        for (PatientRecordModelClass patient : patientList) {
+
+            if (patient.getPatientId() == patientId) {
+
+                removePatient = patient;
                 break;
             }
         }
 
-        if (removeAppointment != null) {
-            list.remove(removeAppointment);
+        if (removePatient == null) {
 
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setHeaderText(null);
-            alert.setContentText("Appointment Cancelled Successfully");
-            alert.showAndWait();
+            messagelabel.setText("Patient ID not found.");
+            return;
+        }
+
+        patientList.remove(removePatient);
+
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(patientFile))) {
+
+            for (PatientRecordModelClass patient : patientList) {
+
+                oos.writeObject(patient);
+            }
+
+            messagelabel.setText("Appointment Cancelled Successfully.");
+
+            loadAppointments();
 
             patientIdTF.clear();
 
-        } else {
+        } catch (IOException e) {
 
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText(null);
-            alert.setContentText("Patient ID Not Found");
-            alert.showAndWait();
+            e.printStackTrace();
+
+            messagelabel.setText("Unable to cancel appointment.");
         }
+
     }
 
     @javafx.fxml.FXML
@@ -90,6 +157,8 @@ public class CancelAppointmentcontroller {
 
     @javafx.fxml.FXML
     public void clearbutton(ActionEvent actionEvent) {
+
         patientIdTF.clear();
+        messagelabel.setText("");
     }
 }

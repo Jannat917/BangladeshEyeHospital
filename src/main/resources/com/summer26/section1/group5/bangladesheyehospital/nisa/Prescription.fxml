@@ -35,10 +35,9 @@
       <TableView fx:id="prescriptiontable" layoutY="287.0" prefHeight="200.0" prefWidth="814.0">
         <columns>
           <TableColumn fx:id="patientidcolumn" prefWidth="157.60000306367874" text="Patient Id" />
-          <TableColumn fx:id="doctornamecolumn" prefWidth="152.8000030517578" text="Doctor Name" />
-            <TableColumn fx:id="diseasecolumn" prefWidth="168.0" text="Disease" />
-            <TableColumn fx:id="medicinecolumn" prefWidth="162.39996337890625" text="Medicine" />
-            <TableColumn fx:id="advicecolumn" prefWidth="175.199951171875" text="Advice" />
+          <TableColumn fx:id="doctornamecolumn" prefWidth="193.6000518798828" text="Doctor Name" />
+            <TableColumn fx:id="diagnosiscolumn" prefWidth="237.5999755859375" text="Diagnosis" />
+            <TableColumn fx:id="diseasecolumn" prefWidth="226.4000244140625" text="Disease" />
         </columns>
       </TableView>
       <Button layoutX="659.0" layoutY="541.0" mnemonicParsing="false" onAction="#backbutton" prefHeight="26.0" prefWidth="106.0" text="Back">
@@ -46,5 +45,6 @@
             <Font size="14.0" />
          </font>
       </Button>
+      <Label fx:id="messagelabel" layoutX="250.0" layoutY="500.0" prefHeight="148.0" prefWidth="331.0" text="Label" />
    </children>
 </AnchorPane>

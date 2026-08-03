@@ -29,7 +29,7 @@ public class PatientDashboardcontroller
 
     @javafx.fxml.FXML
     public void payhospitalbillOnAction(ActionEvent actionEvent)  throws IOException {
-        SceneSwitcher.switchTo("nisa/Bill.fxml");
+        SceneSwitcher.switchTo("nisa/PayBill.fxml");
     }
 
     @javafx.fxml.FXML

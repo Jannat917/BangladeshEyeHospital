@@ -1,5 +1,4 @@
 package com.summer26.section1.group5.bangladesheyehospital.nisa;
-
 import com.summer26.section1.group5.bangladesheyehospital.common.PatientRecordModelClass;
 import com.summer26.section1.group5.bangladesheyehospital.common.SceneSwitcher;
 import javafx.collections.FXCollections;
@@ -12,29 +11,28 @@ import javafx.scene.control.TextField;
 import java.io.*;
 import java.util.ArrayList;
 
-public class UpdateProfilecontroller {
+public class PayBillcontroller {
     @javafx.fxml.FXML
-    private TextField phoneTF;
+    private Label totalbilllabel;
     @javafx.fxml.FXML
-    private TextField addressTF;
-    @javafx.fxml.FXML
-    private TextField patientnameTF;
+    private Label doctorfeelabel;
     @javafx.fxml.FXML
     private TextField patientidTF;
     @javafx.fxml.FXML
-    private Label messagelabel;
+    private Label testfeelabel;
 
+    private Bill bill;
+    @javafx.fxml.FXML
+    private Label messagelabel;
     private final File dataFolder = new File("data");
     private final File patientFile = new File(dataFolder, "patients.bin");
+
     private final ArrayList<PatientRecordModelClass> patientList = new ArrayList<>();
-
     private PatientRecordModelClass patient;
-
 
 
     @javafx.fxml.FXML
     public void initialize() {
-
 
         if (!dataFolder.exists()) {
             dataFolder.mkdirs();
@@ -55,33 +53,53 @@ public class UpdateProfilecontroller {
 
             while (true) {
 
-                PatientRecordModelClass p =
-                        (PatientRecordModelClass) ois.readObject();
+                PatientRecordModelClass p = (PatientRecordModelClass) ois.readObject();
 
                 patientList.add(p);
             }
 
         } catch (EOFException e) {
 
+            // End of file
+
         } catch (Exception e) {
 
             e.printStackTrace();
         }
+
     }
 
-
-
     @javafx.fxml.FXML
-    public void updatebutton(ActionEvent actionEvent) {
+    public void calculatebutton(ActionEvent actionEvent) {
         if (patient == null) {
 
-            messagelabel.setText("Search Patient First.");
+            messagelabel.setText("Search patient first.");
             return;
         }
 
-        patient.setPatientName(patientnameTF.getText());
-        patient.setPhoneNumber(phoneTF.getText());
-        patient.setAddress(addressTF.getText());
+        totalbilllabel.setText(String.valueOf(patient.getBillAmount()));
+
+
+    }
+
+    @javafx.fxml.FXML
+    public void backbutton(ActionEvent actionEvent) {
+        try {
+            SceneSwitcher.switchTo("nisa/PatientDashboard.fxml");
+
+        } catch (IOException e) {
+        }
+    }
+
+    @javafx.fxml.FXML
+    public void paybutton(ActionEvent actionEvent) {
+        if (patient == null) {
+
+            messagelabel.setText("Search patient first.");
+            return;
+        }
+
+        patient.setPaymentStatus("Paid");
 
         try (ObjectOutputStream oos =
                      new ObjectOutputStream(new FileOutputStream(patientFile))) {
@@ -91,13 +109,12 @@ public class UpdateProfilecontroller {
                 oos.writeObject(p);
             }
 
-            messagelabel.setText("Profile Updated Successfully.");
+            messagelabel.setText("Payment Successful.");
 
         } catch (IOException e) {
 
             e.printStackTrace();
-
-            messagelabel.setText("Update Failed.");
+            messagelabel.setText("Payment failed.");
         }
 
 
@@ -105,8 +122,7 @@ public class UpdateProfilecontroller {
     }
 
     @javafx.fxml.FXML
-    public void searchbutton(ActionEvent actionEvent) {
-
+    public void enterbutton(ActionEvent actionEvent) {
         if (patientidTF.getText().isEmpty()) {
 
             messagelabel.setText("Enter Patient ID.");
@@ -133,9 +149,13 @@ public class UpdateProfilecontroller {
 
                 patient = p;
 
-                patientnameTF.setText(p.getPatientName());
-                phoneTF.setText(p.getPhoneNumber());
-                addressTF.setText(p.getAddress());
+                double doctorFee = p.getBillAmount() * 0.40;
+                double testFee = p.getBillAmount() * 0.30;
+                double medicineFee = p.getBillAmount() * 0.30;
+
+                doctorfeelabel.setText(String.valueOf(doctorFee));
+                testfeelabel.setText(String.valueOf(testFee));
+
 
                 messagelabel.setText("Patient Found.");
 
@@ -143,29 +163,10 @@ public class UpdateProfilecontroller {
             }
         }
 
-        messagelabel.setText("Patient Not Found.");
+        messagelabel.setText("Patient ID not found.");
     }
 
-
-
-    @javafx.fxml.FXML
-    public void clearbutton(ActionEvent actionEvent) {
-        patientidTF.clear();
-        patientnameTF.clear();
-        phoneTF.clear();
-        addressTF.clear();
-        patient = null;
-        messagelabel.setText("");
-
-
-    }
-
-    @javafx.fxml.FXML
-    public void backbutton(ActionEvent actionEvent) {
-        try {
-            SceneSwitcher.switchTo("nisa/PatientDashboard.fxml");
-
-        } catch (IOException e) {
-        }
-    }
 }
+
+
+

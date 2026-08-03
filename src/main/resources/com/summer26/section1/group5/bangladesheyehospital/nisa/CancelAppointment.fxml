@@ -28,12 +28,13 @@
         <columns>
           <TableColumn fx:id="patientIdcolumn" prefWidth="147.19998741149902" text="Patient Id" />
           <TableColumn fx:id="departmentcolumn" prefWidth="154.39999389648438" text="Department" />
-            <TableColumn fx:id="doctorcolumn" prefWidth="152.0" text="Doctor" />
+            <TableColumn fx:id="doctornamecolumn" prefWidth="152.0" text=" Doctor Name" />
             <TableColumn fx:id="datecolumn" prefWidth="141.59994506835938" text="Date" />
             <TableColumn fx:id="timecolumn" prefWidth="117.599853515625" text="Time" />
             <TableColumn fx:id="serialcolumn" prefWidth="115.2000732421875" text="Serial" />
         </columns>
       </TableView>
       <Button layoutX="729.0" layoutY="546.0" mnemonicParsing="false" onAction="#backbutton" text="Back" />
+      <Label fx:id="messagelabel" layoutX="56.0" layoutY="563.0" prefHeight="39.0" prefWidth="271.0" text="Label" />
    </children>
 </AnchorPane>
