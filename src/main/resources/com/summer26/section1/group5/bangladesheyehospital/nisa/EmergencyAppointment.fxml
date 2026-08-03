@@ -8,7 +8,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="541.0" prefWidth="713.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.summer26.section1.group5.bangladesheyehospital.nisa.EmergencyAppointmentcontroller">
+<AnchorPane prefHeight="643.0" prefWidth="713.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.summer26.section1.group5.bangladesheyehospital.nisa.EmergencyAppointmentcontroller">
    <children>
       <Label layoutX="231.0" layoutY="14.0" prefHeight="55.0" prefWidth="294.0" text="Emergency Appointment">
          <font>
