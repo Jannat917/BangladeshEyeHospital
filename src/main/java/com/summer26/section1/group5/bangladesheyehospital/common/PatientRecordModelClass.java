@@ -7,9 +7,10 @@ public class PatientRecordModelClass implements Serializable {
     private static final long serialVersionUID = 1L;
 
     // ==========================
-    // Basic Information
-    // ==========================
+// Basic Information
+// ==========================
     private int patientId;
+    private String password;
     private String patientName;
     private int age;
     private String gender;
@@ -17,16 +18,16 @@ public class PatientRecordModelClass implements Serializable {
     private String address;
 
     // ==========================
-    // Receptionist
-    // ==========================
+// Receptionist
+// ==========================
     private String appointmentDate;
     private String appointmentTime;
     private String department;
     private String assignedDoctor;
 
     // ==========================
-    // Doctor
-    // ==========================
+// Doctor
+// ==========================
     private String disease;
     private String diagnosis;
     private String prescription;
@@ -34,15 +35,15 @@ public class PatientRecordModelClass implements Serializable {
     private String doctorRemarks;
 
     // ==========================
-    // Optician
-    // ==========================
+// Optician
+// ==========================
     private String eyePowerPrescription;
     private String lensType;
     private String glassesRecommendation;
 
     // ==========================
-    // Accountant
-    // ==========================
+// Accountant
+// ==========================
     private double doctorFee;
     private double testFee;
     private double billAmount;
@@ -53,6 +54,7 @@ public class PatientRecordModelClass implements Serializable {
 
     public PatientRecordModelClass(
             int patientId,
+            String password,
             String patientName,
             int age,
             String gender,
@@ -76,6 +78,7 @@ public class PatientRecordModelClass implements Serializable {
             String paymentStatus) {
 
         this.patientId = patientId;
+        this.password = password;
         this.patientName = patientName;
         this.age = age;
         this.gender = gender;
@@ -99,9 +102,11 @@ public class PatientRecordModelClass implements Serializable {
         this.paymentStatus = paymentStatus;
     }
 
+
+
     // ==========================
-    // Getters & Setters
-    // ==========================
+// Getters & Setters
+// ==========================
 
     public int getPatientId() {
         return patientId;
@@ -109,6 +114,14 @@ public class PatientRecordModelClass implements Serializable {
 
     public void setPatientId(int patientId) {
         this.patientId = patientId;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getPatientName() {
@@ -255,7 +268,6 @@ public class PatientRecordModelClass implements Serializable {
         this.doctorFee = doctorFee;
     }
 
-
     public double getTestFee() {
         return testFee;
     }
@@ -280,10 +292,13 @@ public class PatientRecordModelClass implements Serializable {
         this.paymentStatus = paymentStatus;
     }
 
+
+
     @Override
     public String toString() {
         return "PatientRecordModelClass{" +
                 "patientId=" + patientId +
+                ", password='" + password + '\'' +
                 ", patientName='" + patientName + '\'' +
                 ", age=" + age +
                 ", gender='" + gender + '\'' +
@@ -302,7 +317,6 @@ public class PatientRecordModelClass implements Serializable {
                 ", lensType='" + lensType + '\'' +
                 ", glassesRecommendation='" + glassesRecommendation + '\'' +
                 ", doctorFee=" + doctorFee +
-
                 ", testFee=" + testFee +
                 ", billAmount=" + billAmount +
                 ", paymentStatus='" + paymentStatus + '\'' +

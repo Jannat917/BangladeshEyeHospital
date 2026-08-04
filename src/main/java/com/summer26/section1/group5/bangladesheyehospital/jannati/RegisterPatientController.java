@@ -6,7 +6,6 @@ import com.summer26.section1.group5.bangladesheyehospital.common.SceneSwitcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
@@ -31,9 +30,12 @@ public class RegisterPatientController {
     private TextField addressTextField;
 
     @FXML
+    private ComboBox<String> doctorComboBox;
+
+    @FXML
     private Label messageLabel;
 
-    // Data folder (works on every computer)
+    // Data Folder
     private final File dataFolder = new File("data");
 
     private final File patientFile =
@@ -41,29 +43,10 @@ public class RegisterPatientController {
 
     private final File doctorFile =
             new File(dataFolder, "doctors.bin");
-    @FXML
-    private ComboBox<String> doctorComboBox;
 
     @FXML
     public void initialize() {
-//        appointmentTimeComboBox.getItems().addAll(
-//                "09:00 AM",
-//                "10:00 AM",
-//                "11:00 AM",
-//                "12:00 PM",
-//                "02:00 PM",
-//                "03:00 PM",
-//                "04:00 PM"
-//        );
-//
-//        departmentComboBox.getItems().addAll(
-//                "General Eye",
-//                "Cornea",
-//                "Retina",
-//                "Glaucoma",
-//                "Pediatric Eye",
-//                "Optometry"
-//        );
+
         if (!dataFolder.exists()) {
             dataFolder.mkdirs();
         }
@@ -85,17 +68,22 @@ public class RegisterPatientController {
             return;
         }
 
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(doctorFile))) {
+        try (ObjectInputStream ois =
+                     new ObjectInputStream(new FileInputStream(doctorFile))) {
 
             while (true) {
 
-                DoctorModelClass doctor = (DoctorModelClass) ois.readObject();
-                doctorComboBox.getItems().add(doctor.getDoctorName());
+                DoctorModelClass doctor =
+                        (DoctorModelClass) ois.readObject();
+
+                doctorComboBox.getItems().add(
+                        doctor.getDoctorName()
+                );
             }
 
         } catch (EOFException e) {
 
-            // End of file reached
+            // End of file
 
         } catch (Exception e) {
 
@@ -105,7 +93,7 @@ public class RegisterPatientController {
 
     private int generatePatientId() {
 
-        int id = 5000;
+        int id = 5010;
 
         if (!patientFile.exists()) {
             return id;
@@ -126,7 +114,7 @@ public class RegisterPatientController {
 
         } catch (EOFException e) {
 
-            // End of file reached
+            // End of file
 
         } catch (Exception e) {
 
@@ -134,7 +122,10 @@ public class RegisterPatientController {
         }
 
         return id;
+
+
     }
+
 
     @FXML
     public void confirmButton(ActionEvent actionEvent) {
@@ -144,8 +135,7 @@ public class RegisterPatientController {
                 || phoneNumberTextField.getText().isEmpty()
                 || addressTextField.getText().isEmpty()
                 || genderComboBox.getValue() == null
-                || doctorComboBox.getValue() == null
-                ) {
+                || doctorComboBox.getValue() == null) {
 
             messageLabel.setText("Please fill all fields.");
             return;
@@ -188,36 +178,43 @@ public class RegisterPatientController {
             }
         }
 
+        // Generate Patient ID
         int patientId = generatePatientId();
 
+        // Generate Password
+        String password = "P" + patientId;
+
         PatientRecordModelClass patient = new PatientRecordModelClass(
+
                 patientId,
+                password,
                 patientNameTextField.getText(),
                 age,
                 genderComboBox.getValue(),
                 phoneNumberTextField.getText(),
                 addressTextField.getText(),
 
-                "", // Appointment Date
-                "",                                          // Appointment Time
-                "",                                          // Department
-                doctorComboBox.getValue(),                   // Assigned Doctor
+                "",                         // Appointment Date
+                "",                         // Appointment Time
+                "",                         // Department
+                doctorComboBox.getValue(),  // Assigned Doctor
 
-                "",                                          // Disease
-                "",                                          // Diagnosis
-                "",                                          // Prescription
-                "",                                          // Test Reports
-                "",                                          // Doctor Remarks
+                "",                         // Disease
+                "",                         // Diagnosis
+                "",                         // Prescription
+                "",                         // Test Reports
+                "",                         // Doctor Remarks
 
-                "",                                          // Eye Power Prescription
-                "",                                          // Lens Type
-                "",                                          // Glasses Recommendation
+                "",                         // Eye Power Prescription
+                "",                         // Lens Type
+                "",                         // Glasses Recommendation
 
-                0.0,                                         // Doctor Fee
-                0.0,                                         // Test Fee
-                0.0,                                         // Bill Amount
-                "Unpaid"                                     // Payment Status
+                0.0,                        // Doctor Fee
+                0.0,                        // Test Fee
+                0.0,                        // Bill Amount
+                "Unpaid"                    // Payment Status
         );
+
         patientList.add(patient);
 
         try (ObjectOutputStream oos =
@@ -228,10 +225,13 @@ public class RegisterPatientController {
                 oos.writeObject(p);
             }
 
-            messageLabel.setText(
-                    "Patient Registered Successfully.\nPatient ID : " + patientId);
-
             clearButton(null);
+
+            messageLabel.setText(
+                    "Patient Registered Successfully!\n\n" +
+                            "Patient ID : " + patientId +
+                            "\nPassword : " + password
+            );
 
         } catch (IOException e) {
 
@@ -239,6 +239,8 @@ public class RegisterPatientController {
             messageLabel.setText("Unable to save patient.");
         }
     }
+
+
 
     @FXML
     public void clearButton(ActionEvent actionEvent) {
@@ -251,8 +253,8 @@ public class RegisterPatientController {
         genderComboBox.setValue(null);
         doctorComboBox.setValue(null);
 
-
-        messageLabel.setText("");
+        // Do NOT clear messageLabel here.
+        // It will continue showing the generated Patient ID and Password.
     }
 
     @FXML
@@ -264,7 +266,11 @@ public class RegisterPatientController {
 
         } catch (IOException e) {
 
+            e.printStackTrace();
             messageLabel.setText("Unable to open dashboard.");
         }
     }
 }
+
+
+
