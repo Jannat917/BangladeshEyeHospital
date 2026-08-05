@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="650.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/21.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.summer26.section1.group5.bangladesheyehospital.mdhossain.DischargeSummariesController">
+    <children>
+        <Label layoutX="280.0" layoutY="14.0" prefHeight="31.0" prefWidth="345.0" text="Bangladesh Eye Hospital">
+            <font>
+                <Font size="26.0" />
+            </font>
+        </Label>
+
+        <Label layoutX="300.0" layoutY="64.0" text="Discharge Summaries">
+            <font>
+                <Font size="22.0" />
+            </font>
+        </Label>
+
+        <Label layoutX="200.0" layoutY="150.0" text="Patient ID:" />
+        <TextField fx:id="patientIdField" layoutX="350.0" layoutY="145.0" prefWidth="200.0" promptText="Enter ID (e.g., 5000)" />
+        <Button layoutX="570.0" layoutY="145.0" onAction="#generateDischarge" prefHeight="30.0" prefWidth="100.0" text="Generate" />
+
+        <Label layoutX="100.0" layoutY="200.0" text="Discharge Summary (Editable):" />
+        <TextArea fx:id="dischargeArea" layoutX="100.0" layoutY="230.0" prefHeight="280.0" prefWidth="700.0" editable="true" style="-fx-font-size: 13px;" />
+
+        <Label fx:id="statusLabel" layoutX="100.0" layoutY="530.0" prefWidth="700.0" style="-fx-text-fill: #f39c12; -fx-font-size: 13px;" />
+
+        <Button fx:id="printBtn" layoutX="350.0" layoutY="540.0" onAction="#printDischarge" prefHeight="40.0" prefWidth="150.0" text="Print Summary" disable="true" />
+
+        <Label layoutX="100.0" layoutY="580.0" text="Patient data loaded from patients.bin" style="-fx-text-fill: #7f8c8d; -fx-font-size: 12px;" />
+
+        <Button layoutX="350.0" layoutY="600.0" onAction="#backButton" prefHeight="40.0" prefWidth="200.0" text="Back to Dashboard" />
+    </children>
+</AnchorPane>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/21.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.summer26.section1.group5.bangladesheyehospital.mdhossain.CheckWheelchairController">
+    <children>
+        <Label layoutX="280.0" layoutY="14.0" prefHeight="31.0" prefWidth="345.0" text="Bangladesh Eye Hospital">
+            <font><Font size="26.0" /></font>
+        </Label>
+
+        <Label layoutX="280.0" layoutY="64.0" text="Check Wheelchair Availability">
+            <font><Font size="22.0" /></font>
+        </Label>
+
+        <!-- Availability Section -->
+        <Button layoutX="700.0" layoutY="130.0" onAction="#checkAvailability" prefHeight="35.0" prefWidth="150.0" text="Check Availability" />
+        <Label fx:id="availableLabel" layoutX="200.0" layoutY="140.0" prefWidth="400.0" style="-fx-text-fill: #2980b9; -fx-font-weight: bold;" />
+
+        <!-- Input Fields -->
+        <Label layoutX="200.0" layoutY="200.0" text="Wheelchair Code:" />
+        <TextField fx:id="wheelchairCodeField" layoutX="400.0" layoutY="195.0" prefWidth="150.0" promptText="e.g., W-001" />
+
+        <Label layoutX="200.0" layoutY="250.0" text="Patient ID:" />
+        <TextField fx:id="patientIdField" layoutX="400.0" layoutY="245.0" prefWidth="150.0" promptText="Enter Patient ID" />
+
+        <Button layoutX="400.0" layoutY="310.0" onAction="#assignWheelchair" prefHeight="40.0" prefWidth="150.0" text="Assign Wheelchair" />
+
+        <!-- Available Wheelchairs Info -->
+        <Label layoutX="200.0" layoutY="380.0" text="Available Wheelchair Codes: W-001, W-002, W-004, W-005" style="-fx-text-fill: #7f8c8d; -fx-font-size: 12px;" />
+        <Label layoutX="200.0" layoutY="400.0" text="Occupied: W-003 (Patient: P-999)" style="-fx-text-fill: #e74c3c; -fx-font-size: 12px;" />
+
+        <Label fx:id="statusLabel" layoutX="200.0" layoutY="440.0" prefWidth="500.0" style="-fx-text-fill: #f39c12; -fx-font-size: 13px;" wrapText="true" />
+
+        <Button layoutX="350.0" layoutY="540.0" onAction="#backButton" prefHeight="40.0" prefWidth="200.0" text="Back to Dashboard" />
+    </children>
+</AnchorPane>

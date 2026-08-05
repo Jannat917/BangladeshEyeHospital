@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.summer26.section1.group5.bangladesheyehospital.jannati.ReceiptionistDashboardController">
+
+   <children>
+
+      <Label layoutX="205.0" layoutY="20.0" text="Bangladesh Eye Hospital">
+         <font>
+            <Font size="28.0" />
+         </font>
+      </Label>
+
+      <Label layoutX="285.0" layoutY="65.0" text="Receptionist Dashboard">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+
+      <Button layoutX="70.0" layoutY="130.0" onAction="#registerPatientButton" prefHeight="72.0" prefWidth="280.0" text="Register Patient" />
+
+      <Button layoutX="430.0" layoutY="130.0" onAction="#bookAppointmentButton" prefHeight="66.0" prefWidth="280.0" text="Book Appointment" />
+
+      <Button layoutX="73.0" layoutY="223.0" onAction="#updatePatientInformationButton" prefHeight="66.0" prefWidth="272.0" text="Update Patient Information" />
+
+      <Button layoutX="430.0" layoutY="216.0" onAction="#checkDoctorButton" prefHeight="72.0" prefWidth="280.0" text="Check Doctor Availability" />
+
+      <Button layoutX="70.0" layoutY="310.0" onAction="#appointmentConfirmationButton" prefHeight="66.0" prefWidth="280.0" text="Send Appointment Confirmation" />
+
+      <Button layoutX="430.0" layoutY="307.0" onAction="#managePaymentButton" prefHeight="66.0" prefWidth="280.0" text="Manage Payment Information" />
+
+      <Button layoutX="70.0" layoutY="390.0" onAction="#generateTestBillButton" prefHeight="66.0" prefWidth="280.0" text="Generate Test Bill" />
+
+      <Button layoutX="430.0" layoutY="386.0" onAction="#patientVisitReportButton" prefHeight="66.0" prefWidth="280.0" text="Generate Patient Visit Report" />
+
+      <Button layoutX="320.0" layoutY="485.0" onAction="#logoutButton" prefHeight="40.0" prefWidth="160.0" text="Logout" />
+
+      <Label fx:id="messageLabel" layoutX="220.0" layoutY="470.0" prefHeight="30.0" prefWidth="360.0" />
+
+   </children>
+
+</AnchorPane>

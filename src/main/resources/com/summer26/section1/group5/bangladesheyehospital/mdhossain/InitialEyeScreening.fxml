@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="650.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/21.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.summer26.section1.group5.bangladesheyehospital.mdhossain.InitialEyeScreeningController">
+    <children>
+        <Label layoutX="280.0" layoutY="14.0" prefHeight="31.0" prefWidth="345.0" text="Bangladesh Eye Hospital">
+            <font>
+                <Font size="26.0" />
+            </font>
+        </Label>
+
+        <Label layoutX="300.0" layoutY="64.0" text="Initial Eye Screening">
+            <font>
+                <Font size="22.0" />
+            </font>
+        </Label>
+
+        <Label layoutX="200.0" layoutY="150.0" text="Select Patient:" />
+        <ComboBox fx:id="patientCombo" layoutX="400.0" layoutY="145.0" prefWidth="250.0" promptText="Select patient" />
+
+        <Label layoutX="200.0" layoutY="210.0" text="Eye Score:" />
+        <TextField fx:id="eyeScoreField" layoutX="400.0" layoutY="205.0" prefWidth="200.0" promptText="e.g., 20/20" />
+
+        <Label layoutX="200.0" layoutY="270.0" text="Blood Pressure:" />
+        <TextField fx:id="bloodPressureField" layoutX="400.0" layoutY="265.0" prefWidth="200.0" promptText="e.g., 120/80" />
+
+        <Button layoutX="400.0" layoutY="330.0" onAction="#saveScreening" prefHeight="40.0" prefWidth="150.0" text="Save Screening" />
+
+        <Label fx:id="statusLabel" layoutX="200.0" layoutY="400.0" prefWidth="550.0" style="-fx-text-fill: #f39c12; -fx-font-size: 13px;" wrapText="true" />
+
+        <Button fx:id="printBtn" layoutX="400.0" layoutY="480.0" onAction="#printScreening" prefHeight="40.0" prefWidth="150.0" text="Print Report" disable="true" />
+
+        <Label layoutX="200.0" layoutY="550.0" text="Patient data loaded from patients.bin" style="-fx-text-fill: #7f8c8d; -fx-font-size: 12px;" />
+
+        <Button layoutX="350.0" layoutY="600.0" onAction="#backButton" prefHeight="40.0" prefWidth="200.0" text="Back to Dashboard" />
+    </children>
+</AnchorPane>

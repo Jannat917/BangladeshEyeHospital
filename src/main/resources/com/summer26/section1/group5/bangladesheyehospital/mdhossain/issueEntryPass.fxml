@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="650.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/21.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.summer26.section1.group5.bangladesheyehospital.mdhossain.IssueEntryPassController">
+    <children>
+        <Label layoutX="280.0" layoutY="14.0" prefHeight="31.0" prefWidth="345.0" text="Bangladesh Eye Hospital">
+            <font>
+                <Font size="26.0" />
+            </font>
+        </Label>
+
+        <Label layoutX="300.0" layoutY="64.0" text="Issue Entry Pass">
+            <font>
+                <Font size="22.0" />
+            </font>
+        </Label>
+
+        <Label layoutX="200.0" layoutY="150.0" text="Enter Visitor/Patient ID:" />
+        <TextField fx:id="visitorIdField" layoutX="420.0" layoutY="145.0" prefWidth="250.0" promptText="Enter ID (e.g., V123456 or 101)" />
+
+        <Button layoutX="400.0" layoutY="220.0" onAction="#issuePass" prefHeight="40.0" prefWidth="150.0" text="Issue Pass" />
+
+        <Label fx:id="statusLabel" layoutX="200.0" layoutY="300.0" prefWidth="550.0" style="-fx-text-fill: #f39c12; -fx-font-size: 13px;" wrapText="true" />
+
+        <Label fx:id="passNumberLabel" layoutX="200.0" layoutY="440.0" prefWidth="400.0" style="-fx-text-fill: #2980b9; -fx-font-weight: bold; -fx-font-size: 14px;" />
+
+        <Button fx:id="printBtn" layoutX="200.0" layoutY="490.0" onAction="#printPass" prefHeight="40.0" prefWidth="150.0" text="Print Pass" disable="true" />
+
+        <!-- Sample IDs Info -->
+        <Label layoutX="200.0" layoutY="550.0" text="Sample IDs:" style="-fx-text-fill: #7f8c8d; -fx-font-size: 12px; -fx-font-weight: bold;" />
+        <Label layoutX="200.0" layoutY="570.0" text="1. Visitors: V123456 (Md Ismail), V234567 (Md Kamal), V345678 (Most Rumi)" style="-fx-text-fill: #7f8c8d; -fx-font-size: 12px;" />
+        <Label layoutX="200.0" layoutY="590.0" text="2. Patients: 101 (Jahirul Islam), 102 (Fatema Begum), 103 (Rahim Khan)" style="-fx-text-fill: #7f8c8d; -fx-font-size: 12px;" />
+
+        <Button layoutX="350.0" layoutY="600.0" onAction="#backButton" prefHeight="40.0" prefWidth="200.0" text="Back to Dashboard" />
+    </children>
+</AnchorPane>

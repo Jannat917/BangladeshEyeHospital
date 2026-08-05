@@ -1,7 +1,64 @@
 package com.summer26.section1.group5.bangladesheyehospital.nisa;
 
+import com.summer26.section1.group5.bangladesheyehospital.common.SceneSwitcher;
+import javafx.event.ActionEvent;
+import javafx.scene.control.Label;
+
+import java.io.IOException;
+
 public class PatientDashboardcontroller
 {
     @javafx.fxml.FXML
+    private Label patientdashboardLabel;
+
+    @javafx.fxml.FXML
     public void initialize() {
-    }}
+    }
+
+    @javafx.fxml.FXML
+    public void emergencyappointmentOnAction(ActionEvent actionEvent) throws IOException {
+        SceneSwitcher.switchTo("nisa/EmergencyAppointment.fxml");
+    }
+
+
+    @javafx.fxml.FXML
+    public void givefeedbackOnAction(ActionEvent actionEvent) throws IOException {
+        SceneSwitcher.switchTo("nisa/GiveFeedback.fxml");
+    }
+
+
+    @javafx.fxml.FXML
+    public void payhospitalbillOnAction(ActionEvent actionEvent)  throws IOException {
+        SceneSwitcher.switchTo("nisa/PayBill.fxml");
+    }
+
+    @javafx.fxml.FXML
+    public void prescriptionOnAction(ActionEvent actionEvent) throws IOException {
+        SceneSwitcher.switchTo("nisa/Prescription.fxml");
+    }
+
+    @javafx.fxml.FXML
+    public void bookappointmentOnAction(ActionEvent actionEvent) throws IOException {
+        SceneSwitcher.switchTo("nisa/BookAppointment.fxml");
+    }
+
+    @javafx.fxml.FXML
+    public void updateprofileOnAction(ActionEvent actionEvent) throws IOException {
+            SceneSwitcher.switchTo("nisa/UpdateProfile.fxml");
+    }
+
+    @javafx.fxml.FXML
+    public void doctorscheduleOnAction(ActionEvent actionEvent) throws IOException {
+        SceneSwitcher.switchTo("nisa/DoctorSchedule.fxml");
+    }
+
+    @javafx.fxml.FXML
+    public void cancelappointmentOnAction(ActionEvent actionEvent) throws IOException {
+        SceneSwitcher.switchTo("nisa/CancelAppointment.fxml");
+    }
+
+    @javafx.fxml.FXML
+    public void LogoutOA(ActionEvent actionEvent) throws IOException {
+        SceneSwitcher.switchTo("common/login.fxml");
+    }
+}

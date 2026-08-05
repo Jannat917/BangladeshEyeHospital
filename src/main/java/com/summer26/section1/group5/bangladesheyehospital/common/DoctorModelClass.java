@@ -1,0 +1,148 @@
+package com.summer26.section1.group5.bangladesheyehospital.common;
+
+import java.io.Serializable;
+
+public class DoctorModelClass implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    private int doctorId;
+    private String doctorName;
+    private String password;
+    private String specialization;
+    private String gender;
+    private String phoneNumber;
+    private String email;
+    private String availability;
+    private String department;
+    private String day;
+    private String time;
+
+    public DoctorModelClass() {
+
+    }
+
+    public DoctorModelClass(int doctorId, String doctorName, String password,
+                            String specialization, String gender,
+                            String phoneNumber, String email,
+                            String availability, String department,
+                            String day, String time) {
+
+        this.doctorId = doctorId;
+        this.doctorName = doctorName;
+        this.password = password;
+        this.specialization = specialization;
+        this.gender = gender;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.availability = availability;
+        this.department = department;
+        this.day = day;
+        this.time = time;
+    }
+
+    public int getDoctorId() {
+        return doctorId;
+    }
+
+    public void setDoctorId(int doctorId) {
+        this.doctorId = doctorId;
+    }
+
+    public String getDoctorName() {
+        return doctorName;
+    }
+
+    public void setDoctorName(String doctorName) {
+        this.doctorName = doctorName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getSpecialization() {
+        return specialization;
+    }
+
+    public void setSpecialization(String specialization) {
+        this.specialization = specialization;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getAvailability() {
+        return availability;
+    }
+
+    public void setAvailability(String availability) {
+        this.availability = availability;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+
+    public String getDay() {
+        return day;
+    }
+
+    public void setDay(String day) {
+        this.day = day;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    @Override
+    public String toString() {
+        return "DoctorModelClass{" +
+                "doctorId=" + doctorId +
+                ", doctorName='" + doctorName + '\'' +
+                ", password='" + password + '\'' +
+                ", specialization='" + specialization + '\'' +
+                ", gender='" + gender + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", email='" + email + '\'' +
+                ", availability='" + availability + '\'' +
+                ", department='" + department + '\'' +
+                ", day='" + day + '\'' +
+                ", time='" + time + '\'' +
+                '}';
+    }
+}

@@ -1,0 +1,212 @@
+package com.summer26.section1.group5.bangladesheyehospital.mdhossain;
+
+import com.summer26.section1.group5.bangladesheyehospital.common.PatientRecordModelClass;
+import com.summer26.section1.group5.bangladesheyehospital.common.SceneSwitcher;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import javafx.print.PrinterJob;
+import java.io.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+
+public class HeadNurseController {
+    @FXML private CheckBox idVerified;
+    @FXML private CheckBox eyemarked;
+    @FXML private CheckBox consentsigned;
+    @FXML private CheckBox fastingcheck;
+    @FXML private Button finalizeBtn;
+    @FXML private Label statusOutput;
+    @FXML private Label patientInfoLabel;
+    @FXML private Label surgeryTypeLabel;
+    @FXML private Button printBtn;
+
+    private final File dataFolder = new File("data");
+    private final File patientFile = new File(dataFolder, "patients.bin");
+
+    private List<PatientRecordModelClass> patientList = new ArrayList<>();
+    private int currentPatientId = 0;
+    private boolean isFinalized = false;
+
+    @FXML
+    public void initialize() {
+        printBtn.setDisable(true);
+        loadPatientsFromFile();
+        if (!patientList.isEmpty()) {
+            currentPatientId = patientList.get(0).getPatientId();
+            PatientRecordModelClass patient = patientList.get(0);
+            patientInfoLabel.setText("Patient: " + patient.getPatientName() + " (ID: " + patient.getPatientId() + ")");
+            surgeryTypeLabel.setText("Surgery: Cataract");
+        } else {
+            patientInfoLabel.setText("No patients found. Please register patients first.");
+            surgeryTypeLabel.setText("");
+        }
+        resetForm();
+    }
+
+    private void loadPatientsFromFile() {
+        patientList.clear();
+        if (!patientFile.exists()) {
+            return;
+        }
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(patientFile))) {
+            while (true) {
+                PatientRecordModelClass patient = (PatientRecordModelClass) ois.readObject();
+                patientList.add(patient);
+            }
+        } catch (EOFException e) {
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private PatientRecordModelClass findPatientById(int id) {
+        for (PatientRecordModelClass patient : patientList) {
+            if (patient.getPatientId() == id) {
+                return patient;
+            }
+        }
+        return null;
+    }
+
+    @FXML
+    public void handleFinalize(ActionEvent event) {
+        if (patientList.isEmpty()) {
+            statusOutput.setText("ERROR: No patients available!");
+            statusOutput.setStyle("-fx-text-fill: red;");
+            return;
+        }
+
+        boolean allChecked = idVerified.isSelected() && eyemarked.isSelected() &&
+                consentsigned.isSelected() && fastingcheck.isSelected();
+
+        if (!allChecked) {
+            statusOutput.setText("ERROR: Complete all safety flags!");
+            statusOutput.setStyle("-fx-text-fill: red;");
+            printBtn.setDisable(true);
+            isFinalized = false;
+        } else {
+            PatientRecordModelClass patient = findPatientById(currentPatientId);
+            if (patient == null) {
+                statusOutput.setText("ERROR: Patient not found!");
+                statusOutput.setStyle("-fx-text-fill: red;");
+                return;
+            }
+
+            String time = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            String info = "========================================\n";
+            info += "     OT READINESS VERIFIED\n";
+            info += "========================================\n";
+            info += "  Patient ID : " + currentPatientId + "\n";
+            info += "  Name       : " + patient.getPatientName() + "\n";
+            info += "  Phone      : " + (patient.getPhoneNumber() != null ? patient.getPhoneNumber() : "Not provided") + "\n";
+            info += "  Surgery    : Cataract\n";
+            info += "  Verified At: " + time + "\n";
+            info += "  Status     : Ready for Surgery\n";
+            info += "========================================";
+
+            statusOutput.setText(info);
+            statusOutput.setStyle("-fx-text-fill: #27ae60; -fx-font-size: 13px;");
+            finalizeBtn.setDisable(true);
+            printBtn.setDisable(false);
+            isFinalized = true;
+        }
+    }
+
+    @FXML
+    public void printChecklist() {
+        if (!isFinalized) {
+            statusOutput.setText("ERROR: Finalize the checklist first!");
+            statusOutput.setStyle("-fx-text-fill: red;");
+            return;
+        }
+
+        PatientRecordModelClass patient = findPatientById(currentPatientId);
+        if (patient == null) {
+            statusOutput.setText("ERROR: Patient not found!");
+            statusOutput.setStyle("-fx-text-fill: red;");
+            return;
+        }
+
+        VBox printContent = new VBox(10);
+        printContent.setStyle("-fx-padding: 20; -fx-font-family: 'Courier New';");
+        String time = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
+        Text title1 = new Text("========================================");
+        Text title2 = new Text("     BANGLADESH EYE HOSPITAL");
+        Text title3 = new Text("     OT CHECKLIST");
+        Text title4 = new Text("========================================");
+
+        Text patientText = new Text("  Patient ID   : " + currentPatientId);
+        Text nameText = new Text("  Patient Name : " + patient.getPatientName());
+        Text phoneText = new Text("  Phone        : " + (patient.getPhoneNumber() != null ? patient.getPhoneNumber() : "Not provided"));
+        Text surgeryText = new Text("  Surgery Type : Cataract");
+        Text idCheck = new Text("  ID Verified  : " + (idVerified.isSelected() ? "Yes" : "No"));
+        Text eyeCheck = new Text("  Eye Marked   : " + (eyemarked.isSelected() ? "Yes" : "No"));
+        Text consentCheck = new Text("  Consent Signed: " + (consentsigned.isSelected() ? "Yes" : "No"));
+        Text fastingCheck = new Text("  Fasting Check: " + (fastingcheck.isSelected() ? "Yes" : "No"));
+        Text verifiedText = new Text("  Verified At  : " + time);
+        Text statusText = new Text("  Status       : Ready for Surgery");
+
+        Text line1 = new Text("----------------------------------------");
+        Text authText = new Text("  Authorized By: Head Nurse");
+        Text footer = new Text("========================================");
+
+        for (Text t : new Text[]{title1, title2, title3, title4, patientText, nameText,
+                phoneText, surgeryText, idCheck, eyeCheck, consentCheck, fastingCheck, verifiedText,
+                statusText, line1, authText, footer}) {
+            t.setStyle("-fx-font-size: 12px;");
+        }
+        title2.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
+        title3.setStyle("-fx-font-size: 14px; -fx-font-weight: bold;");
+
+        printContent.getChildren().addAll(
+                title1, title2, title3, title4,
+                patientText, nameText, phoneText, surgeryText,
+                idCheck, eyeCheck, consentCheck, fastingCheck,
+                verifiedText, statusText,
+                line1, authText, footer
+        );
+
+        PrinterJob job = PrinterJob.createPrinterJob();
+        if (job != null && job.showPrintDialog(printBtn.getScene().getWindow())) {
+            boolean success = job.printPage(printContent);
+            if (success) {
+                job.endJob();
+                statusOutput.setText("OT Checklist printed successfully!");
+                statusOutput.setStyle("-fx-text-fill: #27ae60; -fx-font-weight: bold;");
+            } else {
+                statusOutput.setText("ERROR: Print failed!");
+                statusOutput.setStyle("-fx-text-fill: red;");
+            }
+        }
+    }
+
+    @FXML
+    public void resetForm(ActionEvent event) {
+        resetForm();
+    }
+
+    private void resetForm() {
+        idVerified.setSelected(false);
+        eyemarked.setSelected(false);
+        consentsigned.setSelected(false);
+        fastingcheck.setSelected(false);
+        finalizeBtn.setDisable(false);
+        printBtn.setDisable(true);
+        isFinalized = false;
+        statusOutput.setText("Pending verification...");
+        statusOutput.setStyle("-fx-text-fill: #f39c12;");
+    }
+
+    @FXML
+    public void backButton(ActionEvent event) throws IOException {
+        SceneSwitcher.switchTo("mdhossain/nurseDashboard.fxml");
+    }
+}

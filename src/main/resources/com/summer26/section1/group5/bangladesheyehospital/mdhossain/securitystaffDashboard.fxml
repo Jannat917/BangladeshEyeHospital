@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.summer26.section1.group5.bangladesheyehospital.mdhossain.SecurityStaffDashboardController">
+    <children>
+        <Label layoutX="280.0" layoutY="14.0" prefHeight="31.0" prefWidth="345.0" text="Bangladesh Eye Hospital">
+            <font><Font size="26.0" /></font>
+        </Label>
+        <Label layoutX="280.0" layoutY="64.0" text="Security Staff Dashboard">
+            <font><Font size="22.0" /></font>
+        </Label>
+
+        <Button layoutX="58.0" layoutY="128.0" onAction="#verifyAppointmentButton" prefHeight="67.0" prefWidth="200.0" text="Verify Appointment" />
+        <Button layoutX="282.0" layoutY="128.0" onAction="#registerVisitorButton" prefHeight="67.0" prefWidth="200.0" text="Register Visitor" />
+        <Button layoutX="506.0" layoutY="128.0" onAction="#issueEntryPassButton" prefHeight="67.0" prefWidth="200.0" text="Issue Entry Pass" />
+
+        <Button layoutX="58.0" layoutY="273.0" onAction="#logAmbulanceButton" prefHeight="67.0" prefWidth="200.0" text="Log Ambulance" />
+        <Button layoutX="282.0" layoutY="273.0" onAction="#checkWheelchairButton" prefHeight="67.0" prefWidth="200.0" text="Check Wheelchair" />
+        <Button layoutX="506.0" layoutY="273.0" onAction="#shiftHandoverButton" prefHeight="67.0" prefWidth="200.0" text="Shift Handover" />
+
+        <Button layoutX="58.0" layoutY="401.0" onAction="#reportIncidentButton" prefHeight="67.0" prefWidth="200.0" text="Report Incident" />
+        <Button layoutX="282.0" layoutY="401.0" onAction="#recordExitButton" prefHeight="67.0" prefWidth="200.0" text="Record Exit" />
+
+        <Button layoutX="700.0" layoutY="500.0" onAction="#logoutButton" prefHeight="35.0" prefWidth="180.0" text="Logout" />
+    </children>
+</AnchorPane>
+

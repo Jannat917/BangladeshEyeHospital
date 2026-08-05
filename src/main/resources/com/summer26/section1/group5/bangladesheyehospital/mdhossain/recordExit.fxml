@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="650.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/21.0.6" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.summer26.section1.group5.bangladesheyehospital.mdhossain.RecordExitController">
+    <children>
+        <Label layoutX="280.0" layoutY="14.0" prefHeight="31.0" prefWidth="345.0" text="Bangladesh Eye Hospital">
+            <font>
+                <Font size="26.0" />
+            </font>
+        </Label>
+
+        <Label layoutX="300.0" layoutY="64.0" text="Record Exit">
+            <font>
+                <Font size="22.0" />
+            </font>
+        </Label>
+
+        <Label layoutX="200.0" layoutY="150.0" text="Enter Patient/Visitor ID:" />
+        <TextField fx:id="exitIdField" layoutX="420.0" layoutY="145.0" prefWidth="250.0" promptText="Enter ID (e.g., 5000 or V123456)" />
+
+        <Button layoutX="400.0" layoutY="220.0" onAction="#recordExit" prefHeight="40.0" prefWidth="150.0" text="Record Exit" />
+
+        <Label fx:id="statusLabel" layoutX="200.0" layoutY="300.0" prefWidth="550.0" style="-fx-text-fill: #f39c12; -fx-font-size: 13px;" wrapText="true" />
+
+        <Label fx:id="exitTimeLabel" layoutX="200.0" layoutY="440.0" prefWidth="400.0" style="-fx-text-fill: #2980b9; -fx-font-size: 14px; -fx-font-weight: bold;" />
+
+        <Button fx:id="printBtn" layoutX="200.0" layoutY="490.0" onAction="#printExit" prefHeight="40.0" prefWidth="150.0" text="Print Slip" disable="true" />
+
+        <!-- Updated sample text -->
+        <Label layoutX="200.0" layoutY="550.0" text="Sample IDs to test:" style="-fx-text-fill: #7f8c8d; -fx-font-size: 12px; -fx-font-weight: bold;" />
+        <Label fx:id="samplePatientLabel" layoutX="200.0" layoutY="570.0" text="1. Patient IDs: Loaded from patients.bin (e.g., 5000, 5001, 5002...)" style="-fx-text-fill: #7f8c8d; -fx-font-size: 12px;" />
+        <Label layoutX="200.0" layoutY="590.0" text="2. Visitor IDs: V123456 (Md Ismail), V234567 (Md Kamal), V345678 (Most Rumi)" style="-fx-text-fill: #7f8c8d; -fx-font-size: 12px;" />
+
+        <Button layoutX="350.0" layoutY="600.0" onAction="#backButton" prefHeight="40.0" prefWidth="200.0" text="Back to Dashboard" />
+    </children>
+</AnchorPane>
