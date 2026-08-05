@@ -62,11 +62,12 @@ public class LoginController {
         messageLabel.setText("");
     }
 
+
     @FXML
     public void loginButton(ActionEvent actionEvent) {
 
-        if (userIdTextField.getText().isEmpty()
-                || passwordTextField.getText().isEmpty()) {
+        if (userIdTextField.getText().isBlank() ||
+                passwordTextField.getText().isBlank()) {
 
             messageLabel.setText("Please enter User ID and Password.");
             return;
@@ -75,13 +76,19 @@ public class LoginController {
         int userId;
 
         try {
-            userId = Integer.parseInt(userIdTextField.getText());
+            userId = Integer.parseInt(userIdTextField.getText().trim());
         } catch (NumberFormatException e) {
             messageLabel.setText("User ID must be numeric.");
             return;
         }
 
+        String password = passwordTextField.getText().trim();
         String role = roleComboBox.getValue();
+
+        if (role == null) {
+            messageLabel.setText("Please select a role.");
+            return;
+        }
 
         // =======================
         // Doctor Login
@@ -89,7 +96,7 @@ public class LoginController {
         if (role.equals("Doctor")) {
 
             if (!doctorFile.exists()) {
-                messageLabel.setText("No doctors registered.");
+                messageLabel.setText("Doctor file not found.");
                 return;
             }
 
@@ -102,7 +109,7 @@ public class LoginController {
                             (DoctorModelClass) ois.readObject();
 
                     if (doctor.getDoctorId() == userId &&
-                            doctor.getPassword().equals(passwordTextField.getText())) {
+                            doctor.getPassword().equals(password)) {
 
                         SceneSwitcher.switchTo("jannati/doctorDashboard.fxml");
                         return;
@@ -116,7 +123,7 @@ public class LoginController {
             } catch (Exception e) {
 
                 e.printStackTrace();
-                messageLabel.setText("Unable to read doctor data.");
+                messageLabel.setText(e.getClass().getSimpleName());
             }
 
             return;
@@ -128,7 +135,7 @@ public class LoginController {
         if (role.equals("Patient")) {
 
             if (!patientFile.exists()) {
-                messageLabel.setText("No patients registered.");
+                messageLabel.setText("Patient file not found.");
                 return;
             }
 
@@ -141,7 +148,7 @@ public class LoginController {
                             (PatientRecordModelClass) ois.readObject();
 
                     if (patient.getPatientId() == userId &&
-                            patient.getPassword().equals(passwordTextField.getText())) {
+                            patient.getPassword().equals(password)) {
 
                         SceneSwitcher.switchTo("nisa/PatientDashboard.fxml");
                         return;
@@ -155,7 +162,7 @@ public class LoginController {
             } catch (Exception e) {
 
                 e.printStackTrace();
-                messageLabel.setText("Unable to read patient data.");
+                messageLabel.setText(e.getClass().getSimpleName());
             }
 
             return;
@@ -166,7 +173,7 @@ public class LoginController {
         // =======================
         if (!userFile.exists()) {
 
-            messageLabel.setText("No users registered.");
+            messageLabel.setText("User file not found.");
             return;
         }
 
@@ -175,12 +182,11 @@ public class LoginController {
 
             while (true) {
 
-                UserModelClass user =
-                        (UserModelClass) ois.readObject();
+                UserModelClass user = (UserModelClass) ois.readObject();
 
-                if (user.getUserId() == userId
-                        && user.getPassword().equals(passwordTextField.getText())
-                        && user.getRole().equals(role)) {
+                if (user.getUserId() == userId &&
+                        user.getPassword().equals(password) &&
+                        user.getRole().equalsIgnoreCase(role)) {
 
                     switch (role) {
 
@@ -217,7 +223,7 @@ public class LoginController {
         } catch (Exception e) {
 
             e.printStackTrace();
-            messageLabel.setText("Unable to read user data.");
+            messageLabel.setText(e.getClass().getSimpleName());
         }
     }
     @FXML

@@ -2,8 +2,6 @@ package com.summer26.section1.group5.bangladesheyehospital.jannati;
 
 import com.summer26.section1.group5.bangladesheyehospital.common.DoctorModelClass;
 import com.summer26.section1.group5.bangladesheyehospital.common.SceneSwitcher;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -15,17 +13,14 @@ import java.util.HashSet;
 
 public class CheckDoctorAvailabilityController {
 
-
     @FXML
     private ComboBox<String> departmentComboBox;
 
     @FXML
     private ComboBox<String> specializationComboBox;
 
-
     @FXML
     private TableView<DoctorModelClass> doctorTableView;
-
 
     @FXML
     private TableColumn<DoctorModelClass, String> doctorNameColumn;
@@ -45,240 +40,138 @@ public class CheckDoctorAvailabilityController {
     @FXML
     private TableColumn<DoctorModelClass, String> availabilityColumn;
 
-
     @FXML
     private Label messageLabel;
 
-
-    private ArrayList<DoctorModelClass> doctorList = new ArrayList<>();
-
+    private final ArrayList<DoctorModelClass> doctorList = new ArrayList<>();
 
     @FXML
     public void initialize() {
 
+        doctorNameColumn.setCellValueFactory(new PropertyValueFactory<>("doctorName"));
+        departmentColumn.setCellValueFactory(new PropertyValueFactory<>("department"));
+        specializationColumn.setCellValueFactory(new PropertyValueFactory<>("specialization"));
+        dayColumn.setCellValueFactory(new PropertyValueFactory<>("day"));
+        timeColumn.setCellValueFactory(new PropertyValueFactory<>("time"));
+        availabilityColumn.setCellValueFactory(new PropertyValueFactory<>("availability"));
+
         loadDoctors();
-
         loadDepartments();
-
         loadSpecializations();
-
-
-        doctorNameColumn.setCellValueFactory(
-                new PropertyValueFactory<>("doctorName")
-        );
-
-        departmentColumn.setCellValueFactory(
-                new PropertyValueFactory<>("department")
-        );
-
-        specializationColumn.setCellValueFactory(
-                new PropertyValueFactory<>("specialization")
-        );
-
-        dayColumn.setCellValueFactory(
-                new PropertyValueFactory<>("day")
-        );
-
-        timeColumn.setCellValueFactory(
-                new PropertyValueFactory<>("time")
-        );
-
-        availabilityColumn.setCellValueFactory(
-                new PropertyValueFactory<>("availability")
-        );
-
     }
-
-
 
     private void loadDoctors() {
 
+        doctorList.clear();
+
         File file = new File("data/doctors.bin");
 
-
         if (!file.exists()) {
-
             messageLabel.setText("Doctor data not found!");
             return;
-
         }
 
+        try (ObjectInputStream ois =
+                     new ObjectInputStream(new FileInputStream(file))) {
 
-        try(ObjectInputStream ois =
-                    new ObjectInputStream(new FileInputStream(file))) {
-
-
-            while(true){
+            while (true) {
 
                 DoctorModelClass doctor =
                         (DoctorModelClass) ois.readObject();
 
                 doctorList.add(doctor);
-
             }
 
+        } catch (EOFException e) {
 
-        }catch(EOFException e){
+            // Finished reading
 
-            // Reading completed
-
-
-        }catch(IOException | ClassNotFoundException e){
+        } catch (IOException | ClassNotFoundException e) {
 
             e.printStackTrace();
             messageLabel.setText("Error loading doctors!");
-
         }
-
     }
 
-
-
-
-    private void loadDepartments(){
+    private void loadDepartments() {
 
         HashSet<String> departments = new HashSet<>();
 
-        for(DoctorModelClass doctor : doctorList){
-
+        for (DoctorModelClass doctor : doctorList) {
             departments.add(doctor.getDepartment());
-
         }
 
-
-        departmentComboBox.getItems()
-                .addAll(departments);
-
+        departmentComboBox.getItems().clear();
+        departmentComboBox.getItems().addAll(departments);
     }
 
-
-
-
-    private void loadSpecializations(){
+    private void loadSpecializations() {
 
         HashSet<String> specializations = new HashSet<>();
 
-        for(DoctorModelClass doctor : doctorList){
-
-            specializations.add(
-                    doctor.getSpecialization()
-            );
-
+        for (DoctorModelClass doctor : doctorList) {
+            specializations.add(doctor.getSpecialization());
         }
 
-
-        specializationComboBox.getItems()
-                .addAll(specializations);
-
+        specializationComboBox.getItems().clear();
+        specializationComboBox.getItems().addAll(specializations);
     }
 
 
-
-
     @FXML
-    private void searchButton(ActionEvent event){
+    private void searchButton(ActionEvent event) {
 
+        String department = departmentComboBox.getValue();
+        String specialization = specializationComboBox.getValue();
 
-        String department =
-                departmentComboBox.getValue();
+        if (department == null || specialization == null) {
 
-
-        String specialization =
-                specializationComboBox.getValue();
-
-
-
-        if(department == null || specialization == null){
-
-            messageLabel.setText(
-                    "Please select department and specialization"
-            );
-
+            messageLabel.setText("Please select department and specialization.");
             return;
-
         }
 
+        doctorTableView.getItems().clear();
 
+        int count = 0;
 
-        ObservableList<DoctorModelClass> result =
-                FXCollections.observableArrayList();
+        for (DoctorModelClass doctor : doctorList) {
 
+            if (doctor.getDepartment().equals(department)
+                    && doctor.getSpecialization().equals(specialization)) {
 
-
-        for(DoctorModelClass doctor : doctorList){
-
-
-            if(doctor.getDepartment().equals(department)
-                    &&
-                    doctor.getSpecialization().equals(specialization)){
-
-
-                result.add(doctor);
-
+                doctorTableView.getItems().add(doctor);
+                count++;
             }
-
         }
 
+        if (count == 0) {
 
+            messageLabel.setText("No doctor found.");
 
-        doctorTableView.setItems(result);
+        } else {
 
-
-
-        if(result.isEmpty()){
-
-            messageLabel.setText(
-                    "No doctor found"
-            );
-
+            messageLabel.setText(count + " doctor(s) found.");
         }
-        else{
-
-            messageLabel.setText(
-                    result.size()+" doctor(s) found"
-            );
-
-        }
-
-
     }
 
 
-
-
-
     @FXML
-    private void clearButton(ActionEvent event){
+    private void clearButton(ActionEvent event) {
 
+        departmentComboBox.setValue(null);
+        specializationComboBox.setValue(null);
 
-        departmentComboBox.getSelectionModel()
-                .clearSelection();
-
-
-        specializationComboBox.getSelectionModel()
-                .clearSelection();
-
-
-        doctorTableView.getItems()
-                .clear();
-
+        doctorTableView.getItems().clear();
 
         messageLabel.setText("");
-
     }
-
-
 
 
     @FXML
     private void backButton(ActionEvent event) throws IOException {
 
-
-        SceneSwitcher.switchTo(
-                "jannati/receiptionistDashboard.fxml"
-        );
+            SceneSwitcher.switchTo("jannati/receiptionistDashboard.fxml");
 
 
     }
-
 }

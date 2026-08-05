@@ -4,10 +4,18 @@ import com.summer26.section1.group5.bangladesheyehospital.common.PatientRecordMo
 import com.summer26.section1.group5.bangladesheyehospital.common.SceneSwitcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-import java.io.*;
+import java.io.EOFException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 
 public class PatientRecordDoctorController {
@@ -34,10 +42,13 @@ public class PatientRecordDoctorController {
     private TableColumn<PatientRecordModelClass, String> genderColumn;
 
     @FXML
+    private TableColumn<PatientRecordModelClass, String> phoneColumn;
+
+    @FXML
     private TableColumn<PatientRecordModelClass, String> doctorColumn;
 
     @FXML
-    private TableColumn<PatientRecordModelClass, String> appointmentDateColumn;
+    private TableColumn<PatientRecordModelClass, String> appointmentColumn;
 
     @FXML
     private Label messageLabel;
@@ -66,10 +77,13 @@ public class PatientRecordDoctorController {
         genderColumn.setCellValueFactory(
                 new PropertyValueFactory<>("gender"));
 
+        phoneColumn.setCellValueFactory(
+                new PropertyValueFactory<>("phoneNumber"));
+
         doctorColumn.setCellValueFactory(
                 new PropertyValueFactory<>("assignedDoctor"));
 
-        appointmentDateColumn.setCellValueFactory(
+        appointmentColumn.setCellValueFactory(
                 new PropertyValueFactory<>("appointmentDate"));
 
         loadPatients();
@@ -81,17 +95,14 @@ public class PatientRecordDoctorController {
         patientTableView.getItems().clear();
 
         if (!patientFile.exists()) {
-
             messageLabel.setText("No patient records found.");
             return;
         }
 
         try (ObjectInputStream ois =
-                     new ObjectInputStream(
-                             new FileInputStream(patientFile))) {
+                     new ObjectInputStream(new FileInputStream(patientFile))) {
 
             while (true) {
-
                 PatientRecordModelClass patient =
                         (PatientRecordModelClass) ois.readObject();
 
@@ -99,11 +110,9 @@ public class PatientRecordDoctorController {
             }
 
         } catch (EOFException e) {
-
             // End of file
 
         } catch (IOException | ClassNotFoundException e) {
-
             e.printStackTrace();
             messageLabel.setText("Unable to load patient records.");
         }
@@ -111,166 +120,163 @@ public class PatientRecordDoctorController {
         patientTableView.getItems().addAll(patientList);
 
         if (patientList.isEmpty()) {
-
             messageLabel.setText("No patient records found.");
-
         } else {
-
             messageLabel.setText("");
         }
     }
 
 
-@FXML
-public void searchButton(ActionEvent actionEvent) {
 
-    String id = patientIdTextField.getText().trim();
-    String name = patientNameTextField.getText().trim().toLowerCase();
 
-    if (id.isEmpty() && name.isEmpty()) {
 
-        messageLabel.setText("Enter Patient ID or Patient Name.");
-        return;
-    }
+    @FXML
+    public void searchButton(ActionEvent actionEvent) {
 
-    patientTableView.getItems().clear();
+        String id = patientIdTextField.getText().trim();
+        String name = patientNameTextField.getText().trim().toLowerCase();
 
-    boolean found = false;
+        if (id.isEmpty() && name.isEmpty()) {
+            messageLabel.setText("Enter Patient ID or Patient Name.");
+            return;
+        }
 
-    for (PatientRecordModelClass patient : patientList) {
+        patientTableView.getItems().clear();
 
-        boolean match = false;
+        boolean found = false;
 
-        // Search by Patient ID
-        if (!id.isEmpty()) {
+        for (PatientRecordModelClass patient : patientList) {
 
-            try {
+            boolean match = false;
 
-                int searchId = Integer.parseInt(id);
+            if (!id.isEmpty()) {
 
-                if (patient.getPatientId() == searchId) {
+                try {
+
+                    int searchId = Integer.parseInt(id);
+
+                    if (patient.getPatientId() == searchId) {
+                        match = true;
+                    }
+
+                } catch (NumberFormatException e) {
+
+                    messageLabel.setText("Patient ID must be numeric.");
+                    return;
+                }
+            }
+
+            if (!name.isEmpty()) {
+
+                if (patient.getPatientName().toLowerCase().contains(name)) {
                     match = true;
                 }
+            }
 
-            } catch (NumberFormatException e) {
+            if (match) {
 
-                messageLabel.setText("Patient ID must be numeric.");
-                return;
+                patientTableView.getItems().add(patient);
+                found = true;
             }
         }
 
-        // Search by Patient Name
-        if (!name.isEmpty()) {
-
-            if (patient.getPatientName().toLowerCase().contains(name)) {
-                match = true;
-            }
-        }
-
-        if (match) {
-
-            patientTableView.getItems().add(patient);
-            found = true;
+        if (found) {
+            messageLabel.setText("Search completed.");
+        } else {
+            messageLabel.setText("No matching patient found.");
         }
     }
 
-    if (found) {
+    @FXML
+    public void showAllButton(ActionEvent actionEvent) {
 
-        messageLabel.setText("Search completed.");
+        patientIdTextField.clear();
+        patientNameTextField.clear();
 
-    } else {
+        loadPatients();
 
-        messageLabel.setText("No matching patient found.");
-    }
-}
-
-@FXML
-public void refreshButton(ActionEvent actionEvent) {
-
-    patientIdTextField.clear();
-    patientNameTextField.clear();
-
-    messageLabel.setText("");
-
-    loadPatients();
-}
-@FXML
-public void viewHistoryButton(ActionEvent actionEvent) {
-
-    PatientRecordModelClass patient =
-            patientTableView.getSelectionModel().getSelectedItem();
-
-    if (patient == null) {
-
-        messageLabel.setText("Please select a patient.");
-        return;
+        messageLabel.setText("Showing all patient records.");
     }
 
-    Alert alert = new Alert(Alert.AlertType.INFORMATION);
 
-    alert.setTitle("Patient Full History");
-    alert.setHeaderText(patient.getPatientName());
+    @FXML
+    public void viewHistoryButton(ActionEvent actionEvent) {
 
-    alert.setContentText(
+        PatientRecordModelClass patient =
+                patientTableView.getSelectionModel().getSelectedItem();
 
-            "Patient ID : " + patient.getPatientId() +
+        if (patient == null) {
 
-                    "\nPatient Name : " + patient.getPatientName() +
+            messageLabel.setText("Please select a patient.");
+            return;
+        }
 
-                    "\nAge : " + patient.getAge() +
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
 
-                    "\nGender : " + patient.getGender() +
+        alert.setTitle("Patient Full History");
+        alert.setHeaderText(patient.getPatientName());
 
-                    "\nPhone : " + patient.getPhoneNumber() +
+        alert.setContentText(
 
-                    "\nAddress : " + patient.getAddress() +
+                "Patient ID : " + patient.getPatientId() +
 
-                    "\n\nAssigned Doctor : " + patient.getAssignedDoctor() +
+                        "\nPatient Name : " + patient.getPatientName() +
 
-                    "\nAppointment Date : " + patient.getAppointmentDate() +
+                        "\nAge : " + patient.getAge() +
 
-                    "\nAppointment Time : " + patient.getAppointmentTime() +
+                        "\nGender : " + patient.getGender() +
 
-                    "\nDepartment : " + patient.getDepartment() +
+                        "\nPhone : " + patient.getPhoneNumber() +
 
-                    "\n\nDisease : " + patient.getDisease() +
+                        "\nAddress : " + patient.getAddress() +
 
-                    "\nDiagnosis : " + patient.getDiagnosis() +
+                        "\n\nAssigned Doctor : " + patient.getAssignedDoctor() +
 
-                    "\nPrescription : " + patient.getPrescription() +
+                        "\nAppointment Date : " + patient.getAppointmentDate() +
 
-                    "\nTest Reports : " + patient.getTestReports() +
+                        "\nAppointment Time : " + patient.getAppointmentTime() +
 
-                    "\nDoctor Remarks : " + patient.getDoctorRemarks() +
+                        "\nDepartment : " + patient.getDepartment() +
 
-                    "\n\nEye Power : " + patient.getEyePowerPrescription() +
+                        "\n\nDisease : " + patient.getDisease() +
 
-                    "\nLens Type : " + patient.getLensType() +
+                        "\nDiagnosis : " + patient.getDiagnosis() +
 
-                    "\nGlasses Recommendation : " + patient.getGlassesRecommendation() +
+                        "\nPrescription : " + patient.getPrescription() +
 
-                    "\n\nDoctor Fee : " + patient.getDoctorFee() +
+                        "\nTest Reports : " + patient.getTestReports() +
 
-                    "\nTest Fee : " + patient.getTestFee() +
+                        "\nDoctor Remarks : " + patient.getDoctorRemarks() +
 
-                    "\nBill Amount : " + patient.getBillAmount() +
+                        "\n\nEye Power : " + patient.getEyePowerPrescription() +
 
-                    "\nPayment Status : " + patient.getPaymentStatus()
-    );
+                        "\nLens Type : " + patient.getLensType() +
 
-    alert.showAndWait();
-}
+                        "\nGlasses Recommendation : " + patient.getGlassesRecommendation() +
 
-@FXML
-public void backButton(ActionEvent actionEvent) {
+                        "\n\nDoctor Fee : " + patient.getDoctorFee() +
 
-    try {
+                        "\nTest Fee : " + patient.getTestFee() +
 
-        SceneSwitcher.switchTo("jannati/doctorDashboard.fxml");
+                        "\nBill Amount : " + patient.getBillAmount() +
 
-    } catch (IOException e) {
+                        "\nPayment Status : " + patient.getPaymentStatus()
+        );
 
-        e.printStackTrace();
-        messageLabel.setText("Unable to open dashboard.");
+        alert.showAndWait();
     }
-}}
+
+    @FXML
+    public void backButton(ActionEvent actionEvent) {
+
+        try {
+
+            SceneSwitcher.switchTo("jannati/doctorDashboard.fxml");
+
+        } catch (IOException e) {
+
+            e.printStackTrace();
+            messageLabel.setText("Unable to open dashboard.");
+        }
+    }
+}
