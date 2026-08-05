@@ -14,7 +14,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Optional;
 
-public class PharmacistDashboard {
+public class OpticianDashboard {
 
     @FXML
     private Label pageTitleLabel;
@@ -23,10 +23,10 @@ public class PharmacistDashboard {
     private Label pageDescriptionLabel;
 
     @FXML
-    private Label pendingPrescriptionCountLabel;
+    private Label pendingOrderCountLabel;
 
     @FXML
-    private Label lowStockCountLabel;
+    private Label readyDeliveryCountLabel;
 
     @FXML
     private Label todaySalesLabel;
@@ -37,12 +37,13 @@ public class PharmacistDashboard {
     @FXML
     public void initialize() {
         pageTitleLabel.setText("Dashboard Overview");
+
         pageDescriptionLabel.setText(
-                "Welcome to the Pharmacist Dashboard."
+                "Welcome to the Optician Dashboard."
         );
 
-        pendingPrescriptionCountLabel.setText("0");
-        lowStockCountLabel.setText("0");
+        pendingOrderCountLabel.setText("0");
+        readyDeliveryCountLabel.setText("0");
         todaySalesLabel.setText("৳0.00");
 
         statusLabel.setText(
@@ -54,71 +55,71 @@ public class PharmacistDashboard {
     private void dashboardButton(ActionEvent event) {
         showFeature(
                 "Dashboard Overview",
-                "Welcome to the Pharmacist Dashboard."
+                "Welcome to the Optician Dashboard."
         );
     }
 
     @FXML
     private void viewPrescriptionButton(ActionEvent event) {
         showFeature(
-                "View Prescription",
-                "Search and view a patient's medicine prescription."
+                "View Eyeglass Prescription",
+                "Search and view a patient's eyeglass prescription."
         );
     }
 
     @FXML
-    private void checkMedicineStockButton(ActionEvent event) {
+    private void recommendFrameButton(ActionEvent event) {
         showFeature(
-                "Check Medicine Stock",
-                "Search medicines and check available stock."
+                "Recommend Frame",
+                "Recommend a suitable frame for the patient."
         );
     }
 
     @FXML
-    private void updateInventoryButton(ActionEvent event) {
+    private void createOrderButton(ActionEvent event) {
         showFeature(
-                "Update Inventory",
-                "Add new medicine stock or update existing stock."
+                "Create Eyeglass Order",
+                "Create a new eyeglass order using a selected lens and frame."
         );
     }
 
     @FXML
-    private void dispenseMedicineButton(ActionEvent event) {
+    private void trackProductionButton(ActionEvent event) {
         showFeature(
-                "Dispense Medicine",
-                "Verify a prescription and dispense medicines."
+                "Track Production",
+                "View and update the production status of eyeglass orders."
         );
     }
 
     @FXML
-    private void generateMedicineBillButton(ActionEvent event) {
+    private void deliverEyeglassButton(ActionEvent event) {
         showFeature(
-                "Generate Medicine Bill",
-                "Calculate medicine costs and generate a bill."
+                "Deliver Eyeglass",
+                "Confirm delivery of a completed eyeglass order."
         );
     }
 
     @FXML
-    private void expiredMedicineButton(ActionEvent event) {
+    private void inventoryButton(ActionEvent event) {
         showFeature(
-                "Expired Medicines",
-                "View expired and nearly expired medicines."
+                "Lens and Frame Inventory",
+                "Manage available lenses and frames."
         );
     }
 
     @FXML
-    private void orderMedicineButton(ActionEvent event) {
+    private void frameSaleButton(ActionEvent event) {
         showFeature(
-                "Order Medicine",
-                "Create a new medicine restock order."
+                "Process Frame Sale",
+                "Calculate and save a frame sale."
         );
     }
 
     @FXML
-    private void medicineSalesButton(ActionEvent event) {
+    private void opticalReportButton(ActionEvent event) {
         showFeature(
-                "Medicine Sales",
-                "View medicine sales and pharmacy records."
+                "Optical Report",
+                "Generate optical sales, order, and inventory reports."
         );
     }
 

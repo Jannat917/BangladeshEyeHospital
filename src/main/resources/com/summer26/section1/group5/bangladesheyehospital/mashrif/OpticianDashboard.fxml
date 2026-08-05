@@ -15,7 +15,7 @@
             style="-fx-background-color: white;"
             xmlns="http://javafx.com/javafx/23.0.1"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.summer26.section1.group5.bangladesheyehospital.mashrif.PharmacistDashboard">
+            fx:controller="com.summer26.section1.group5.bangladesheyehospital.mashrif.OpticianDashboard">
 
     <children>
         <BorderPane prefHeight="650.0" prefWidth="1000.0">
@@ -34,7 +34,7 @@
                                         <Font name="System Bold" size="25.0"/>
                                     </font>
                                 </Label>
-                                <Label text="Pharmacist Dashboard" textFill="WHITE">
+                                <Label text="Optician Dashboard" textFill="WHITE">
                                     <font>
                                         <Font size="14.0"/>
                                     </font>
@@ -52,7 +52,7 @@
                         <Insets bottom="18.0" left="14.0" right="14.0" top="18.0"/>
                     </padding>
                     <children>
-                        <Label text="PHARMACIST MENU" textFill="BLACK">
+                        <Label text="OPTICIAN MENU" textFill="BLACK">
                             <font>
                                 <Font name="System Bold" size="14.0"/>
                             </font>
@@ -65,35 +65,35 @@
                                 style="-fx-background-color: black; -fx-text-fill: white; -fx-font-weight: bold;"/>
 
                         <Button maxWidth="1.7976931348623157E308" prefHeight="38.0"
-                                text="View Prescription" onAction="#viewPrescriptionButton"
+                                text="View Eyeglass Prescription" onAction="#viewPrescriptionButton"
                                 style="-fx-background-color: white; -fx-text-fill: black; -fx-border-color: black;"/>
 
                         <Button maxWidth="1.7976931348623157E308" prefHeight="38.0"
-                                text="Check Medicine Stock" onAction="#checkMedicineStockButton"
+                                text="Recommend Frame" onAction="#recommendFrameButton"
                                 style="-fx-background-color: white; -fx-text-fill: black; -fx-border-color: black;"/>
 
                         <Button maxWidth="1.7976931348623157E308" prefHeight="38.0"
-                                text="Update Inventory" onAction="#updateInventoryButton"
+                                text="Create Eyeglass Order" onAction="#createOrderButton"
                                 style="-fx-background-color: white; -fx-text-fill: black; -fx-border-color: black;"/>
 
                         <Button maxWidth="1.7976931348623157E308" prefHeight="38.0"
-                                text="Dispense Medicine" onAction="#dispenseMedicineButton"
+                                text="Track Production" onAction="#trackProductionButton"
                                 style="-fx-background-color: white; -fx-text-fill: black; -fx-border-color: black;"/>
 
                         <Button maxWidth="1.7976931348623157E308" prefHeight="38.0"
-                                text="Generate Medicine Bill" onAction="#generateMedicineBillButton"
+                                text="Deliver Eyeglass" onAction="#deliverEyeglassButton"
                                 style="-fx-background-color: white; -fx-text-fill: black; -fx-border-color: black;"/>
 
                         <Button maxWidth="1.7976931348623157E308" prefHeight="38.0"
-                                text="Expired Medicines" onAction="#expiredMedicineButton"
+                                text="Lens and Frame Inventory" onAction="#inventoryButton"
                                 style="-fx-background-color: white; -fx-text-fill: black; -fx-border-color: black;"/>
 
                         <Button maxWidth="1.7976931348623157E308" prefHeight="38.0"
-                                text="Order Medicine" onAction="#orderMedicineButton"
+                                text="Process Frame Sale" onAction="#frameSaleButton"
                                 style="-fx-background-color: white; -fx-text-fill: black; -fx-border-color: black;"/>
 
                         <Button maxWidth="1.7976931348623157E308" prefHeight="38.0"
-                                text="Medicine Sales" onAction="#medicineSalesButton"
+                                text="Optical Report" onAction="#opticalReportButton"
                                 style="-fx-background-color: white; -fx-text-fill: black; -fx-border-color: black;"/>
 
                         <Separator/>
@@ -118,7 +118,7 @@
                         </Label>
 
                         <Label fx:id="pageDescriptionLabel"
-                               text="Welcome to the Pharmacist Dashboard."
+                               text="Welcome to the Optician Dashboard."
                                textFill="BLACK"
                                wrapText="true">
                             <font>
@@ -134,13 +134,13 @@
                                         <Insets bottom="14.0" left="17.0" right="17.0" top="14.0"/>
                                     </padding>
                                     <children>
-                                        <Label text="Pending Prescriptions" textFill="BLACK"/>
-                                        <Label fx:id="pendingPrescriptionCountLabel" text="0" textFill="BLACK">
+                                        <Label text="Pending Orders" textFill="BLACK"/>
+                                        <Label fx:id="pendingOrderCountLabel" text="0" textFill="BLACK">
                                             <font>
                                                 <Font name="System Bold" size="32.0"/>
                                             </font>
                                         </Label>
-                                        <Label text="Waiting for processing" textFill="BLACK"/>
+                                        <Label text="Waiting for production" textFill="BLACK"/>
                                     </children>
                                 </VBox>
 
@@ -150,13 +150,13 @@
                                         <Insets bottom="14.0" left="17.0" right="17.0" top="14.0"/>
                                     </padding>
                                     <children>
-                                        <Label text="Low Stock Medicines" textFill="BLACK"/>
-                                        <Label fx:id="lowStockCountLabel" text="0" textFill="BLACK">
+                                        <Label text="Ready for Delivery" textFill="BLACK"/>
+                                        <Label fx:id="readyDeliveryCountLabel" text="0" textFill="BLACK">
                                             <font>
                                                 <Font name="System Bold" size="32.0"/>
                                             </font>
                                         </Label>
-                                        <Label text="Need restocking" textFill="BLACK"/>
+                                        <Label text="Completed eyeglasses" textFill="BLACK"/>
                                     </children>
                                 </VBox>
 
@@ -166,13 +166,13 @@
                                         <Insets bottom="14.0" left="17.0" right="17.0" top="14.0"/>
                                     </padding>
                                     <children>
-                                        <Label text="Today's Medicine Sales" textFill="BLACK"/>
+                                        <Label text="Today's Optical Sales" textFill="BLACK"/>
                                         <Label fx:id="todaySalesLabel" text="৳0.00" textFill="BLACK">
                                             <font>
                                                 <Font name="System Bold" size="29.0"/>
                                             </font>
                                         </Label>
-                                        <Label text="Current total" textFill="BLACK"/>
+                                        <Label text="Frames and lenses" textFill="BLACK"/>
                                     </children>
                                 </VBox>
                             </children>
@@ -189,7 +189,7 @@
                                         <Font name="System Bold" size="19.0"/>
                                     </font>
                                 </Label>
-                                <Label text="Use the menu to view prescriptions, manage stock, dispense medicine, generate bills and track sales."
+                                <Label text="Use the menu to view prescriptions, recommend frames, create orders, track production and process sales."
                                        textFill="BLACK"
                                        wrapText="true"/>
                             </children>
