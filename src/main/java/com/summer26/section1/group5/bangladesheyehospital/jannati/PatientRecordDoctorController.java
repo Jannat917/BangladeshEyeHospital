@@ -16,6 +16,9 @@ public class PatientRecordDoctorController {
     private TextField patientIdTextField;
 
     @FXML
+    private TextField patientNameTextField;
+
+    @FXML
     private TableView<PatientRecordModelClass> patientTableView;
 
     @FXML
@@ -41,17 +44,33 @@ public class PatientRecordDoctorController {
 
     private final ArrayList<PatientRecordModelClass> patientList = new ArrayList<>();
 
-    private final File patientFile = new File("/Users/jannati/Desktop/BangladeshEyeHospital/data/patients.bin");
+    private final File dataFolder = new File("data");
+    private final File patientFile = new File(dataFolder, "patients.bin");
 
     @FXML
     public void initialize() {
 
-        patientIdColumn.setCellValueFactory(new PropertyValueFactory<>("patientId"));
-        patientNameColumn.setCellValueFactory(new PropertyValueFactory<>("patientName"));
-        ageColumn.setCellValueFactory(new PropertyValueFactory<>("age"));
-        genderColumn.setCellValueFactory(new PropertyValueFactory<>("gender"));
-        doctorColumn.setCellValueFactory(new PropertyValueFactory<>("assignedDoctor"));
-        appointmentDateColumn.setCellValueFactory(new PropertyValueFactory<>("appointmentDate"));
+        if (!dataFolder.exists()) {
+            dataFolder.mkdirs();
+        }
+
+        patientIdColumn.setCellValueFactory(
+                new PropertyValueFactory<>("patientId"));
+
+        patientNameColumn.setCellValueFactory(
+                new PropertyValueFactory<>("patientName"));
+
+        ageColumn.setCellValueFactory(
+                new PropertyValueFactory<>("age"));
+
+        genderColumn.setCellValueFactory(
+                new PropertyValueFactory<>("gender"));
+
+        doctorColumn.setCellValueFactory(
+                new PropertyValueFactory<>("assignedDoctor"));
+
+        appointmentDateColumn.setCellValueFactory(
+                new PropertyValueFactory<>("appointmentDate"));
 
         loadPatients();
     }
@@ -62,120 +81,196 @@ public class PatientRecordDoctorController {
         patientTableView.getItems().clear();
 
         if (!patientFile.exists()) {
+
+            messageLabel.setText("No patient records found.");
             return;
         }
 
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(patientFile))) {
+        try (ObjectInputStream ois =
+                     new ObjectInputStream(
+                             new FileInputStream(patientFile))) {
 
             while (true) {
 
-                PatientRecordModelClass patient = (PatientRecordModelClass) ois.readObject();
+                PatientRecordModelClass patient =
+                        (PatientRecordModelClass) ois.readObject();
+
                 patientList.add(patient);
             }
 
         } catch (EOFException e) {
 
+            // End of file
 
         } catch (IOException | ClassNotFoundException e) {
 
             e.printStackTrace();
+            messageLabel.setText("Unable to load patient records.");
         }
 
         patientTableView.getItems().addAll(patientList);
+
+        if (patientList.isEmpty()) {
+
+            messageLabel.setText("No patient records found.");
+
+        } else {
+
+            messageLabel.setText("");
+        }
     }
 
-    @FXML
-    public void searchButton(ActionEvent actionEvent) {
 
-        if (patientIdTextField.getText().isEmpty()) {
-            messageLabel.setText("Please enter Patient ID.");
-            return;
-        }
+@FXML
+public void searchButton(ActionEvent actionEvent) {
 
-        int searchId;
+    String id = patientIdTextField.getText().trim();
+    String name = patientNameTextField.getText().trim().toLowerCase();
 
-        try {
+    if (id.isEmpty() && name.isEmpty()) {
 
-            searchId = Integer.parseInt(patientIdTextField.getText());
+        messageLabel.setText("Enter Patient ID or Patient Name.");
+        return;
+    }
 
-        } catch (NumberFormatException e) {
+    patientTableView.getItems().clear();
 
-            messageLabel.setText("Patient ID must be Numbers.");
-            return;
-        }
+    boolean found = false;
 
-        patientTableView.getItems().clear();
+    for (PatientRecordModelClass patient : patientList) {
 
-        boolean found = false;
+        boolean match = false;
 
-        for (PatientRecordModelClass patient : patientList) {
+        // Search by Patient ID
+        if (!id.isEmpty()) {
 
-            if (patient.getPatientId() == searchId) {
-                patientTableView.getItems().add(patient);
-                found = true;
-                break;
+            try {
+
+                int searchId = Integer.parseInt(id);
+
+                if (patient.getPatientId() == searchId) {
+                    match = true;
+                }
+
+            } catch (NumberFormatException e) {
+
+                messageLabel.setText("Patient ID must be numeric.");
+                return;
             }
         }
 
-        if (found) {
-            messageLabel.setText("Patient found.");
-        } else {
-            messageLabel.setText("Patient not found.");
+        // Search by Patient Name
+        if (!name.isEmpty()) {
+
+            if (patient.getPatientName().toLowerCase().contains(name)) {
+                match = true;
+            }
+        }
+
+        if (match) {
+
+            patientTableView.getItems().add(patient);
+            found = true;
         }
     }
 
-    @FXML
-    public void refreshButton(ActionEvent actionEvent) {
+    if (found) {
 
-        patientIdTextField.clear();
-        messageLabel.setText("");
+        messageLabel.setText("Search completed.");
 
-        loadPatients();
-    }
+    } else {
 
-    @FXML
-    public void viewHistoryButton(ActionEvent actionEvent) {
-
-        PatientRecordModelClass patient =
-                patientTableView.getSelectionModel().getSelectedItem();
-
-        if (patient == null) {
-
-            messageLabel.setText("Please select a patient.");
-            return;
-        }
-
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-
-        alert.setTitle("Patient History");
-        alert.setHeaderText(patient.getPatientName());
-
-        alert.setContentText(
-                "Patient ID : " + patient.getPatientId() +
-                        "\n\nAge : " + patient.getAge() +
-                        "\nGender : " + patient.getGender() +
-                        "\nPhone : " + patient.getPhoneNumber() +
-                        "\nAddress : " + patient.getAddress() +
-                        "\nAssigned Doctor : " + patient.getAssignedDoctor() +
-                        "\nAppointment Date : " + patient.getAppointmentDate() +
-                        "\n\nDisease : " + patient.getDisease() +
-                        "\nDiagnosis : " + patient.getDiagnosis() +
-                        "\nPrescription : " + patient.getPrescription() +
-                        "\nTest Reports : " + patient.getTestReports() +
-                        "\nDoctor Remarks : " + patient.getDoctorRemarks() +
-                        "\nEye Power : " + patient.getEyePowerPrescription() +
-                        "\nLens Type : " + patient.getLensType() +
-                        "\nGlasses Recommendation : " + patient.getGlassesRecommendation() +
-                        "\nBill Amount : " + patient.getBillAmount() +
-                        "\nPayment Status : " + patient.getPaymentStatus()
-        );
-
-        alert.showAndWait();
-    }
-
-    @FXML
-    public void backButton(ActionEvent actionEvent) throws IOException {
-
-        SceneSwitcher.switchTo("jannati/doctorDashboard.fxml");
+        messageLabel.setText("No matching patient found.");
     }
 }
+
+@FXML
+public void refreshButton(ActionEvent actionEvent) {
+
+    patientIdTextField.clear();
+    patientNameTextField.clear();
+
+    messageLabel.setText("");
+
+    loadPatients();
+}
+@FXML
+public void viewHistoryButton(ActionEvent actionEvent) {
+
+    PatientRecordModelClass patient =
+            patientTableView.getSelectionModel().getSelectedItem();
+
+    if (patient == null) {
+
+        messageLabel.setText("Please select a patient.");
+        return;
+    }
+
+    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+
+    alert.setTitle("Patient Full History");
+    alert.setHeaderText(patient.getPatientName());
+
+    alert.setContentText(
+
+            "Patient ID : " + patient.getPatientId() +
+
+                    "\nPatient Name : " + patient.getPatientName() +
+
+                    "\nAge : " + patient.getAge() +
+
+                    "\nGender : " + patient.getGender() +
+
+                    "\nPhone : " + patient.getPhoneNumber() +
+
+                    "\nAddress : " + patient.getAddress() +
+
+                    "\n\nAssigned Doctor : " + patient.getAssignedDoctor() +
+
+                    "\nAppointment Date : " + patient.getAppointmentDate() +
+
+                    "\nAppointment Time : " + patient.getAppointmentTime() +
+
+                    "\nDepartment : " + patient.getDepartment() +
+
+                    "\n\nDisease : " + patient.getDisease() +
+
+                    "\nDiagnosis : " + patient.getDiagnosis() +
+
+                    "\nPrescription : " + patient.getPrescription() +
+
+                    "\nTest Reports : " + patient.getTestReports() +
+
+                    "\nDoctor Remarks : " + patient.getDoctorRemarks() +
+
+                    "\n\nEye Power : " + patient.getEyePowerPrescription() +
+
+                    "\nLens Type : " + patient.getLensType() +
+
+                    "\nGlasses Recommendation : " + patient.getGlassesRecommendation() +
+
+                    "\n\nDoctor Fee : " + patient.getDoctorFee() +
+
+                    "\nTest Fee : " + patient.getTestFee() +
+
+                    "\nBill Amount : " + patient.getBillAmount() +
+
+                    "\nPayment Status : " + patient.getPaymentStatus()
+    );
+
+    alert.showAndWait();
+}
+
+@FXML
+public void backButton(ActionEvent actionEvent) {
+
+    try {
+
+        SceneSwitcher.switchTo("jannati/doctorDashboard.fxml");
+
+    } catch (IOException e) {
+
+        e.printStackTrace();
+        messageLabel.setText("Unable to open dashboard.");
+    }
+}}

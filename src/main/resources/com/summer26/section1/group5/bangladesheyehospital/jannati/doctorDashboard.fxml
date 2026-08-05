@@ -22,7 +22,7 @@
 
         <Button layoutX="493.0" layoutY="128.0" onAction="#uploadPrescriptionButton" prefHeight="67.0" prefWidth="180.0" text="Upload Prescription" />
 
-        <Button layoutX="59.0" layoutY="273.0" onAction="#accessReportsButton" prefHeight="67.0" prefWidth="180.0" text="Access Reports" />
+        <Button layoutX="58.0" layoutY="267.0" onAction="#accessReportsButton" prefHeight="67.0" prefWidth="180.0" text="Access Reports" />
 
         <Button layoutX="282.0" layoutY="273.0" onAction="#updatePatientButton" prefHeight="67.0" prefWidth="180.0" text="Update Patient" />
 

@@ -1,6 +1,5 @@
 package com.summer26.section1.group5.bangladesheyehospital.jannati;
 
-import com.summer26.section1.group5.bangladesheyehospital.common.DoctorModelClass;
 import com.summer26.section1.group5.bangladesheyehospital.common.PatientRecordModelClass;
 import com.summer26.section1.group5.bangladesheyehospital.common.SceneSwitcher;
 import javafx.event.ActionEvent;
@@ -30,19 +29,12 @@ public class RegisterPatientController {
     private TextField addressTextField;
 
     @FXML
-    private ComboBox<String> doctorComboBox;
-
-    @FXML
     private Label messageLabel;
 
-    // Data Folder
     private final File dataFolder = new File("data");
 
     private final File patientFile =
             new File(dataFolder, "patients.bin");
-
-    private final File doctorFile =
-            new File(dataFolder, "doctors.bin");
 
     @FXML
     public void initialize() {
@@ -57,43 +49,12 @@ public class RegisterPatientController {
                 "Other"
         );
 
-        loadDoctors();
-    }
-
-    private void loadDoctors() {
-
-        doctorComboBox.getItems().clear();
-
-        if (!doctorFile.exists()) {
-            return;
-        }
-
-        try (ObjectInputStream ois =
-                     new ObjectInputStream(new FileInputStream(doctorFile))) {
-
-            while (true) {
-
-                DoctorModelClass doctor =
-                        (DoctorModelClass) ois.readObject();
-
-                doctorComboBox.getItems().add(
-                        doctor.getDoctorName()
-                );
-            }
-
-        } catch (EOFException e) {
-
-            // End of file
-
-        } catch (Exception e) {
-
-            e.printStackTrace();
-        }
+        messageLabel.setText("");
     }
 
     private int generatePatientId() {
 
-        int id = 5010;
+        int id = 5001;
 
         if (!patientFile.exists()) {
             return id;
@@ -122,20 +83,19 @@ public class RegisterPatientController {
         }
 
         return id;
-
-
     }
+
+
 
 
     @FXML
     public void confirmButton(ActionEvent actionEvent) {
 
-        if (patientNameTextField.getText().isEmpty()
-                || ageTextField.getText().isEmpty()
-                || phoneNumberTextField.getText().isEmpty()
-                || addressTextField.getText().isEmpty()
-                || genderComboBox.getValue() == null
-                || doctorComboBox.getValue() == null) {
+        if (patientNameTextField.getText().trim().isEmpty()
+                || ageTextField.getText().trim().isEmpty()
+                || phoneNumberTextField.getText().trim().isEmpty()
+                || addressTextField.getText().trim().isEmpty()
+                || genderComboBox.getValue() == null) {
 
             messageLabel.setText("Please fill all fields.");
             return;
@@ -145,11 +105,17 @@ public class RegisterPatientController {
 
         try {
 
-            age = Integer.parseInt(ageTextField.getText());
+            age = Integer.parseInt(ageTextField.getText().trim());
 
         } catch (NumberFormatException e) {
 
             messageLabel.setText("Age must be numeric.");
+            return;
+        }
+
+        if (age <= 0 || age > 120) {
+
+            messageLabel.setText("Enter a valid age.");
             return;
         }
 
@@ -170,7 +136,7 @@ public class RegisterPatientController {
 
             } catch (EOFException e) {
 
-                // End of file reached
+                // End of file
 
             } catch (Exception e) {
 
@@ -178,41 +144,52 @@ public class RegisterPatientController {
             }
         }
 
-        // Generate Patient ID
+        // Optional: Prevent duplicate phone numbers
+        for (PatientRecordModelClass p : patientList) {
+
+            if (p.getPhoneNumber().equals(phoneNumberTextField.getText().trim())) {
+
+                messageLabel.setText("Phone number already exists.");
+                return;
+            }
+        }
+
         int patientId = generatePatientId();
 
-        // Generate Password
         String password = "P" + patientId;
 
         PatientRecordModelClass patient = new PatientRecordModelClass(
 
                 patientId,
                 password,
-                patientNameTextField.getText(),
+                patientNameTextField.getText().trim(),
                 age,
                 genderComboBox.getValue(),
-                phoneNumberTextField.getText(),
-                addressTextField.getText(),
+                phoneNumberTextField.getText().trim(),
+                addressTextField.getText().trim(),
 
-                "",                         // Appointment Date
-                "",                         // Appointment Time
-                "",                         // Department
-                doctorComboBox.getValue(),  // Assigned Doctor
+                "",     // Appointment Date
+                "",     // Appointment Time
+                "",     // Department
+                "",     // Assigned Doctor
+                0,      // Assigned Doctor ID
 
-                "",                         // Disease
-                "",                         // Diagnosis
-                "",                         // Prescription
-                "",                         // Test Reports
-                "",                         // Doctor Remarks
+                "",     // Disease
+                "",     // Diagnosis
+                "",     // Prescription
+                "",     // Test Reports
+                "",     // Doctor Remarks
 
-                "",                         // Eye Power Prescription
-                "",                         // Lens Type
-                "",                         // Glasses Recommendation
+                "",     // Eye Power Prescription
+                "",     // Lens Type
+                "",     // Glasses Recommendation
 
-                0.0,                        // Doctor Fee
-                0.0,                        // Test Fee
-                0.0,                        // Bill Amount
-                "Unpaid"                    // Payment Status
+                0.0,    // Doctor Fee
+                0.0,    // Test Fee
+                0.0,    // Bill Amount
+
+                "Unpaid",
+                ""      // Appointment Type
         );
 
         patientList.add(patient);
@@ -228,9 +205,9 @@ public class RegisterPatientController {
             clearButton(null);
 
             messageLabel.setText(
-                    "Patient Registered Successfully!\n\n" +
-                            "Patient ID : " + patientId +
-                            "\nPassword : " + password
+                    "Patient Registered Successfully!\n\n"
+                            + "Patient ID : " + patientId
+                            + "\nPassword : " + password
             );
 
         } catch (IOException e) {
@@ -239,7 +216,6 @@ public class RegisterPatientController {
             messageLabel.setText("Unable to save patient.");
         }
     }
-
 
 
     @FXML
@@ -251,10 +227,9 @@ public class RegisterPatientController {
         addressTextField.clear();
 
         genderComboBox.setValue(null);
-        doctorComboBox.setValue(null);
 
-        // Do NOT clear messageLabel here.
-        // It will continue showing the generated Patient ID and Password.
+        // Keep the message label unchanged so the receptionist
+        // can still see the generated Patient ID and Password.
     }
 
     @FXML
@@ -270,7 +245,5 @@ public class RegisterPatientController {
             messageLabel.setText("Unable to open dashboard.");
         }
     }
+
 }
-
-
-

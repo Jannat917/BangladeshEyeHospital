@@ -198,6 +198,7 @@ public class OnlineAppointmentsDoctorController {
 
         messageLabel.setText("All online appointments loaded.");
     }
+
     @FXML
     public void confirmAppointmentButton(ActionEvent actionEvent) {
 

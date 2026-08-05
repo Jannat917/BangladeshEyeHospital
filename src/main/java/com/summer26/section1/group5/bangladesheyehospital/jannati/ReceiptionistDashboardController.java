@@ -27,7 +27,8 @@ public class ReceiptionistDashboardController {
     }
 
     @javafx.fxml.FXML
-    public void checkDoctorButton(ActionEvent actionEvent) {
+    public void checkDoctorButton(ActionEvent actionEvent) throws IOException {
+        SceneSwitcher.switchTo("jannati/check-doctor-availability.fxml");
     }
 
     @javafx.fxml.FXML
@@ -41,7 +42,8 @@ public class ReceiptionistDashboardController {
     }
 
     @javafx.fxml.FXML
-    public void bookAppointmentButton(ActionEvent actionEvent) {
+    public void bookAppointmentButton(ActionEvent actionEvent) throws IOException {
+        SceneSwitcher.switchTo("jannati/book-appointment.fxml");
     }
 
     @javafx.fxml.FXML

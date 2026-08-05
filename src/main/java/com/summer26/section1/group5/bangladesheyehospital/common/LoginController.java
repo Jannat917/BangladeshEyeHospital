@@ -27,9 +27,13 @@ public class LoginController {
     @FXML
     private Label messageLabel;
 
-    // Shared data folder
+    // Data folder
     private final File dataFolder = new File("data");
+
+    // Files
     private final File userFile = new File(dataFolder, "users.bin");
+    private final File doctorFile = new File(dataFolder, "doctors.bin");
+    private final File patientFile = new File(dataFolder, "patients.bin");
 
     @FXML
     public void initialize() {
@@ -69,91 +73,151 @@ public class LoginController {
         int userId;
 
         try {
-
             userId = Integer.parseInt(userIdTextField.getText());
-
         } catch (NumberFormatException e) {
-
             messageLabel.setText("User ID must be numeric.");
             return;
         }
 
-        if (!userFile.exists()) {
+        String role = roleComboBox.getValue();
 
-            messageLabel.setText("No users registered yet.");
+        // =======================
+        // Doctor Login
+        // =======================
+        if (role.equals("Doctor")) {
+
+            if (!doctorFile.exists()) {
+                messageLabel.setText("No doctors registered.");
+                return;
+            }
+
+            try (ObjectInputStream ois =
+                         new ObjectInputStream(new FileInputStream(doctorFile))) {
+
+                while (true) {
+
+                    DoctorModelClass doctor =
+                            (DoctorModelClass) ois.readObject();
+
+                    if (doctor.getDoctorId() == userId &&
+                            doctor.getPassword().equals(passwordTextField.getText())) {
+
+                        SceneSwitcher.switchTo("jannati/doctorDashboard.fxml");
+                        return;
+                    }
+                }
+
+            } catch (EOFException e) {
+
+                messageLabel.setText("Invalid Doctor ID or Password.");
+
+            } catch (Exception e) {
+
+                e.printStackTrace();
+                messageLabel.setText("Unable to read doctor data.");
+            }
+
             return;
         }
 
-        boolean found = false;
+        // =======================
+        // Patient Login
+        // =======================
+        if (role.equals("Patient")) {
+
+            if (!patientFile.exists()) {
+                messageLabel.setText("No patients registered.");
+                return;
+            }
+
+            try (ObjectInputStream ois =
+                         new ObjectInputStream(new FileInputStream(patientFile))) {
+
+                while (true) {
+
+                    PatientRecordModelClass patient =
+                            (PatientRecordModelClass) ois.readObject();
+
+                    if (patient.getPatientId() == userId &&
+                            patient.getPassword().equals(passwordTextField.getText())) {
+
+                        SceneSwitcher.switchTo("nisa/PatientDashboard.fxml");
+                        return;
+                    }
+                }
+
+            } catch (EOFException e) {
+
+                messageLabel.setText("Invalid Patient ID or Password.");
+
+            } catch (Exception e) {
+
+                e.printStackTrace();
+                messageLabel.setText("Unable to read patient data.");
+            }
+
+            return;
+        }
+
+        // =======================
+        // Other Users
+        // =======================
+        if (!userFile.exists()) {
+
+            messageLabel.setText("No users registered.");
+            return;
+        }
 
         try (ObjectInputStream ois =
                      new ObjectInputStream(new FileInputStream(userFile))) {
 
             while (true) {
 
-                UserModelClass user = (UserModelClass) ois.readObject();
+                UserModelClass user =
+                        (UserModelClass) ois.readObject();
 
                 if (user.getUserId() == userId
                         && user.getPassword().equals(passwordTextField.getText())
-                        && user.getRole().equals(roleComboBox.getValue())) {
+                        && user.getRole().equals(role)) {
 
-                    found = true;
-
-                    switch (user.getRole()) {
-
-                        case "Doctor":
-                            SceneSwitcher.switchTo("jannati/doctorDashboard.fxml");
-                            break;
+                    switch (role) {
 
                         case "Receptionist":
                             SceneSwitcher.switchTo("jannati/receiptionistDashboard.fxml");
-                            break;
-
-                        case "Patient":
-                            SceneSwitcher.switchTo("nisa/PatientDashboard.fxml");
-                            break;
+                            return;
 
                         case "Accountant":
                             SceneSwitcher.switchTo("nisa/AccountantDashboard.fxml");
-                            break;
+                            return;
 
                         case "SecurityStaff":
                             SceneSwitcher.switchTo("mdhossain/securitystaffDashboard.fxml");
-                            break;
+                            return;
 
                         case "Nurse":
                             SceneSwitcher.switchTo("mdhossain/nurseDashboard.fxml");
-                            break;
+                            return;
                     }
-
-                    break;
                 }
             }
 
         } catch (EOFException e) {
 
-            // End of file reached
-
-        } catch (IOException e) {
-
-            messageLabel.setText("Unable to read user data.");
-            e.printStackTrace();
-
-        } catch (ClassNotFoundException e) {
-
-            messageLabel.setText("User data is corrupted.");
-            e.printStackTrace();
-        }
-
-        if (!found) {
-
             messageLabel.setText("Invalid User ID, Password or Role.");
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+            messageLabel.setText("Unable to read user data.");
         }
     }
-
     @FXML
     public void signUpButton(ActionEvent actionEvent) throws IOException {
 
-        SceneSwitcher.switchTo("common/sign-up.fxml");
+
+
+            SceneSwitcher.switchTo("common/sign-up.fxml");
+
     }
+
 }

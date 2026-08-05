@@ -2,10 +2,7 @@ package com.summer26.section1.group5.bangladesheyehospital.common;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -27,40 +24,37 @@ public class SignUpController {
     @FXML
     private Label messageLabel;
 
-    // Data folder (works on every computer)
+    // Data Folder
     private final File dataFolder = new File("data");
 
+    // Save Receptionist, Accountant, Nurse & Security Staff
     private final File userFile = new File(dataFolder, "users.bin");
-
-    private final File doctorFile = new File(dataFolder, "doctors.bin");
 
     @FXML
     public void initialize() {
 
+        if (!dataFolder.exists()) {
+            dataFolder.mkdirs();
+        }
+
         roleComboBox.getItems().addAll(
-                "Doctor",
                 "Receptionist",
-                "Patient",
                 "Accountant",
                 "SecurityStaff",
                 "Nurse"
         );
 
-        roleComboBox.setValue("Doctor");
+        roleComboBox.setValue("Receptionist");
+
         messageLabel.setText("");
     }
-
     @FXML
     public void registerButton(ActionEvent actionEvent) {
 
-        // Create data folder automatically
-        if (!dataFolder.exists()) {
-            dataFolder.mkdirs();
-        }
-
         if (userIdTextField.getText().isEmpty()
                 || nameTextField.getText().isEmpty()
-                || passwordField.getText().isEmpty()) {
+                || passwordField.getText().isEmpty()
+                || roleComboBox.getValue() == null) {
 
             messageLabel.setText("Please fill all fields.");
             return;
@@ -104,7 +98,7 @@ public class SignUpController {
             }
         }
 
-        // Check duplicate user ID
+        // Check duplicate User ID
         for (UserModelClass user : userList) {
 
             if (user.getUserId() == userId) {
@@ -114,6 +108,7 @@ public class SignUpController {
             }
         }
 
+        // Create new user
         UserModelClass newUser = new UserModelClass(
                 userId,
                 nameTextField.getText(),
@@ -124,7 +119,7 @@ public class SignUpController {
 
         userList.add(newUser);
 
-        // Save users
+        // Save all users
         try (ObjectOutputStream oos =
                      new ObjectOutputStream(new FileOutputStream(userFile))) {
 
@@ -133,90 +128,30 @@ public class SignUpController {
                 oos.writeObject(user);
             }
 
+            messageLabel.setText("Registration Successful!");
+
+            userIdTextField.clear();
+            nameTextField.clear();
+            passwordField.clear();
+            roleComboBox.setValue("Receptionist");
+
         } catch (IOException e) {
 
-            messageLabel.setText("Error saving user.");
             e.printStackTrace();
-            return;
+            messageLabel.setText("Error saving user.");
         }
+    }
+    @FXML
+    public void backButton (ActionEvent actionEvent) throws IOException {
 
-        // Save doctor separately
-        if (roleComboBox.getValue().equals("Doctor")) {
 
-            ArrayList<DoctorModelClass> doctorList = new ArrayList<>();
+        SceneSwitcher.switchTo("common/login.fxml");
 
-            if (doctorFile.exists()) {
-
-                try (ObjectInputStream ois =
-                             new ObjectInputStream(new FileInputStream(doctorFile))) {
-
-                    while (true) {
-
-                        DoctorModelClass doctor =
-                                (DoctorModelClass) ois.readObject();
-
-                        doctorList.add(doctor);
-                    }
-
-                } catch (EOFException e) {
-
-                    // End of file
-
-                } catch (Exception e) {
-
-                    e.printStackTrace();
-                }
-            }
-
-            for (DoctorModelClass doctor : doctorList) {
-
-                if (doctor.getDoctorId() == userId) {
-
-                    messageLabel.setText("Doctor ID already exists.");
-                    return;
-                }
-            }
-
-            DoctorModelClass newDoctor = new DoctorModelClass(
-                    userId,
-                    nameTextField.getText(),
-                    passwordField.getText(),
-                    "",
-                    "",
-                    "",
-                    "",
-                    "",
-                    "",
-                    "",
-                    ""
-            );
-            doctorList.add(newDoctor);
-
-            try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(doctorFile))) {
-
-                for (DoctorModelClass doctor : doctorList) {
-                    oos.writeObject(doctor);
-                }
-
-            } catch (IOException e) {
-
-                messageLabel.setText("Error saving doctor.");
-                e.printStackTrace();
-                return;
-            }
-        }
-
-        messageLabel.setText("Registration Successful!");
-
-        userIdTextField.clear();
-        nameTextField.clear();
-        passwordField.clear();
-        roleComboBox.setValue("Doctor");
     }
 
     @FXML
-    public void backButton(ActionEvent actionEvent) throws IOException {
+    public void doctorSignUpPageButton(ActionEvent actionEvent) throws IOException {
+        SceneSwitcher.switchTo("jannati/doctor-signup.fxml");
 
-        SceneSwitcher.switchTo("common/login.fxml");
     }
 }
