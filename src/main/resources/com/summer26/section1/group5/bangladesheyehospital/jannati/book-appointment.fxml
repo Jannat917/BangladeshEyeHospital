@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="650.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.summer26.section1.group5.bangladesheyehospital.jannati.BookAppointmentController">
+
+    <children>
+
+        <!-- Title -->
+
+        <Label layoutX="225.0" layoutY="20.0" text="Book Patient Appointment">
+            <font>
+                <Font size="28.0" />
+            </font>
+        </Label>
+
+        <!-- Patient ID -->
+
+        <Label layoutX="120.0" layoutY="90.0" text="Patient ID" />
+
+        <TextField fx:id="patientIdTextField" layoutX="300.0" layoutY="85.0" prefWidth="220.0" promptText="Enter Patient ID" />
+
+        <!-- Patient Name -->
+
+        <Label layoutX="120.0" layoutY="140.0" text="Patient Name" />
+
+        <TextField fx:id="patientNameTextField" editable="false" layoutX="300.0" layoutY="135.0" prefWidth="220.0" />
+
+        <!-- Department -->
+
+        <Label layoutX="120.0" layoutY="190.0" text="Department" />
+
+        <ComboBox fx:id="departmentComboBox" layoutX="300.0" layoutY="185.0" prefWidth="220.0" />
+
+        <!-- Doctor -->
+
+        <Label layoutX="120.0" layoutY="240.0" text="Doctor" />
+
+        <ComboBox fx:id="doctorComboBox" layoutX="300.0" layoutY="235.0" prefWidth="220.0" />
+
+        <!-- Appointment Date -->
+
+        <Label layoutX="120.0" layoutY="290.0" text="Appointment Date" />
+
+        <DatePicker fx:id="appointmentDatePicker" layoutX="300.0" layoutY="285.0" prefWidth="220.0" />
+
+        <!-- Appointment Time -->
+
+        <Label layoutX="120.0" layoutY="340.0" text="Appointment Time" />
+
+        <ComboBox fx:id="appointmentTimeComboBox" layoutX="300.0" layoutY="335.0" prefWidth="220.0" />
+
+        <!-- Buttons -->
+
+        <Button layoutX="550.0" layoutY="85.0" onAction="#searchPatientButton" prefWidth="120.0" text="Search Patient" />
+
+        <Button layoutX="220.0" layoutY="450.0" onAction="#confirmButton" prefHeight="35.0" prefWidth="170.0" text="Confirm Appointment" />
+
+        <Button layoutX="420.0" layoutY="450.0" onAction="#clearButton" prefHeight="35.0" prefWidth="100.0" text="Clear" />
+
+        <Button layoutX="560.0" layoutY="560.0" onAction="#backButton" prefWidth="120.0" text="Back" />
+
+        <!-- Message -->
+
+        <Label fx:id="messageLabel" layoutX="120.0" layoutY="520.0" prefWidth="550.0" />
+      <Label layoutX="119.0" layoutY="375.0" text="Appointment Type" />
+      <ComboBox fx:id="appointmentTypeComboBox" layoutX="300.0" layoutY="371.0" prefWidth="220.0" />
+
+    </children>
+
+</AnchorPane>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="650.0" prefWidth="950.0"
+            xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.summer26.section1.group5.bangladesheyehospital.jannati.OnlineAppointmentsDoctorController">
+
+    <children>
+
+        <!-- Title -->
+        <Label layoutX="300.0"
+               layoutY="20.0"
+               text="Online Appointment List">
+            <font>
+                <Font size="28.0"/>
+            </font>
+        </Label>
+
+        <!-- Doctor ID Filter -->
+        <Label layoutX="40.0"
+               layoutY="80.0"
+               text="Doctor ID"/>
+
+        <TextField fx:id="doctorIdTextField"
+                   layoutX="120.0"
+                   layoutY="75.0"
+                   prefWidth="150.0"
+                   promptText="Enter Doctor ID"/>
+
+        <Button fx:id="searchButton"
+                layoutX="290.0"
+                layoutY="75.0"
+                prefWidth="80.0"
+                text="Search"
+                onAction="#searchButton"/>
+
+        <Button fx:id="refreshButton"
+                layoutX="390.0"
+                layoutY="75.0"
+                prefWidth="80.0"
+                text="Refresh"
+                onAction="#refreshButton"/>
+
+        <!-- Table -->
+        <TableView fx:id="appointmentTableView"
+                   layoutX="40.0"
+                   layoutY="130.0"
+                   prefHeight="380.0"
+                   prefWidth="870.0">
+
+            <columns>
+
+                <TableColumn fx:id="patientIdColumn"
+                             prefWidth="110.0"
+                             text="Patient ID"/>
+
+                <TableColumn fx:id="patientNameColumn"
+                             prefWidth="170.0"
+                             text="Patient Name"/>
+
+                <TableColumn fx:id="doctorIdColumn"
+                             prefWidth="130.0"
+                             text="Doctor ID"/>
+
+                <TableColumn fx:id="doctorNameColumn"
+                             prefWidth="190.0"
+                             text="Assigned Doctor"/>
+
+                <TableColumn fx:id="appointmentDateColumn"
+                             prefWidth="130.0"
+                             text="Appointment Date"/>
+
+                <TableColumn fx:id="appointmentTimeColumn"
+                             prefWidth="140.0"
+                             text="Appointment Time"/>
+
+            </columns>
+
+        </TableView>
+
+        <!-- Buttons -->
+        <Button fx:id="confirmAppointmentButton"
+                layoutX="250.0"
+                layoutY="540.0"
+                prefWidth="180.0"
+                prefHeight="35.0"
+                text="Confirm Appointment"
+                onAction="#confirmAppointmentButton"/>
+
+        <Button fx:id="backButton"
+                layoutX="470.0"
+                layoutY="540.0"
+                prefWidth="120.0"
+                prefHeight="35.0"
+                text="Back"
+                onAction="#backButton"/>
+
+        <!-- Message -->
+        <Label fx:id="messageLabel"
+               layoutX="40.0"
+               layoutY="600.0"
+               prefWidth="870.0"/>
+
+    </children>
+
+</AnchorPane>
