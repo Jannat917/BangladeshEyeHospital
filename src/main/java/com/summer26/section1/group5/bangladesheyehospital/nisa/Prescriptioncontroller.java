@@ -26,6 +26,8 @@ public class Prescriptioncontroller
     @javafx.fxml.FXML
     private TableColumn<PatientRecordModelClass, String> diagnosiscolumn;
     @javafx.fxml.FXML
+    private TableColumn<PatientRecordModelClass, String> doctorremarkscolumn;
+    @javafx.fxml.FXML
     private Label messagelabel;
 
     private final File dataFolder = new File("data");
@@ -44,6 +46,7 @@ public class Prescriptioncontroller
         doctornamecolumn.setCellValueFactory(new PropertyValueFactory<>("assignedDoctor"));
         diseasecolumn.setCellValueFactory(new PropertyValueFactory<>("disease"));
         diagnosiscolumn.setCellValueFactory(new PropertyValueFactory<>("diagnosis"));
+        doctorremarkscolumn.setCellValueFactory(new PropertyValueFactory<>("doctorRemarks") );
 
         loadPatients();
     }

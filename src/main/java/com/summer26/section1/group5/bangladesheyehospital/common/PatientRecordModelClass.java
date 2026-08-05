@@ -26,6 +26,7 @@ public class PatientRecordModelClass implements Serializable {
     private String department;
     private String assignedDoctor;
     private  int  assignedDoctorId;
+    private int serialNumber;
 
     // ==========================
 // Doctor
@@ -68,6 +69,7 @@ public class PatientRecordModelClass implements Serializable {
             String department,
             String assignedDoctor,
             int assignedDoctorId,
+            int serialNumber,
             String disease,
             String diagnosis,
             String prescription,
@@ -94,6 +96,7 @@ public class PatientRecordModelClass implements Serializable {
         this.department = department;
         this.assignedDoctor = assignedDoctor;
         this.assignedDoctorId = assignedDoctorId;
+        this.serialNumber = serialNumber;
 
 
         this.disease = disease;
@@ -219,6 +222,12 @@ public class PatientRecordModelClass implements Serializable {
 
     public void setAssignedDoctor(String assignedDoctor) {
         this.assignedDoctor = assignedDoctor;
+    }
+    public int getSerialNumber() {
+        return serialNumber;
+    }
+    public void setSerialNumber(int serialNumber){
+        this.serialNumber = serialNumber;
     }
 
     public String getDisease() {
@@ -347,6 +356,7 @@ public class PatientRecordModelClass implements Serializable {
                 ", billAmount=" + billAmount +
                 ", paymentStatus='" + paymentStatus + '\'' +
                 ", appointmentType='" + appointmentType + '\'' +
+                ", serialNumber='" + serialNumber + '\'' +
                 '}';
     }
 }

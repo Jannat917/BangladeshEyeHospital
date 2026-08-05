@@ -173,6 +173,7 @@ public class RegisterPatientController {
                 "",     // Department
                 "",     // Assigned Doctor
                 0,      // Assigned Doctor ID
+                0,    //serialNumber
 
                 "",     // Disease
                 "",     // Diagnosis

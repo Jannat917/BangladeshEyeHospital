@@ -129,8 +129,13 @@ public class BookAppointmentcontroller
 
             if (patient.getPatientId() == patientId) {
 
+                patient.setDepartment(departmentCB.getValue());
                 patient.setAssignedDoctor(doctorCB.getValue());
                 patient.setAppointmentDate(dateDatepicker.getValue().toString());
+                patient.setAppointmentTime(timeCB.getValue());
+                patient.setSerialNumber(Integer.parseInt(serialLabel.getText()));
+
+
 
                 found = true;
                 break;
@@ -152,8 +157,7 @@ public class BookAppointmentcontroller
 
             Random random = new Random();
 
-            serialLabel.setText(
-                    "Serial Number : " + (random.nextInt(100) + 1));
+            serialLabel.setText("Serial Number : " + (random.nextInt(100) + 1));
 
             messageLabel.setText("Appointment booked successfully.");
 
