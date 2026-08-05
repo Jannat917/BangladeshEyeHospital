@@ -44,7 +44,9 @@ public class LoginController {
                 "Patient",
                 "Accountant",
                 "SecurityStaff",
-                "Nurse"
+                "Nurse",
+                "Pharmacist",
+                "Optician"
         );
 
         roleComboBox.setValue("Doctor");
@@ -196,6 +198,13 @@ public class LoginController {
 
                         case "Nurse":
                             SceneSwitcher.switchTo("mdhossain/nurseDashboard.fxml");
+                            return;
+                        case "Pharmacist":
+                            SceneSwitcher.switchTo("mashrif/PharmacistDashboard.fxml");
+                            return;
+
+                        case "Optician":
+                            SceneSwitcher.switchTo("mashrif/OpticianDashboard.fxml");
                             return;
                     }
                 }

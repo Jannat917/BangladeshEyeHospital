@@ -60,66 +60,122 @@ public class PharmacistDashboard {
 
     @FXML
     private void viewPrescriptionButton(ActionEvent event) {
-        showFeature(
-                "View Prescription",
-                "Search and view a patient's medicine prescription."
-        );
+        try {
+            openScene(
+                    event,
+                    "/com/summer26/section1/group5/"
+                            + "bangladesheyehospital/mashrif/"
+                            + "ViewPharmacyPrescriptions.fxml"
+            );
+        } catch (IOException exception) {
+            showError("Could not open prescriptions.");
+            exception.printStackTrace();
+        }
     }
 
     @FXML
     private void checkMedicineStockButton(ActionEvent event) {
-        showFeature(
-                "Check Medicine Stock",
-                "Search medicines and check available stock."
-        );
+        try {
+            openScene(
+                    event,
+                    "/com/summer26/section1/group5/"
+                            + "bangladesheyehospital/mashrif/"
+                            + "CheckMedicineStock.fxml"
+            );
+        } catch (IOException exception) {
+            showError("Could not open Check Medicine Stock.");
+            exception.printStackTrace();
+        }
     }
 
     @FXML
     private void updateInventoryButton(ActionEvent event) {
-        showFeature(
-                "Update Inventory",
-                "Add new medicine stock or update existing stock."
-        );
+        try {
+            openScene(
+                    event,
+                    "/com/summer26/section1/group5/"
+                            + "bangladesheyehospital/mashrif/"
+                            + "UpdateInventory.fxml"
+            );
+        } catch (IOException exception) {
+            showError("Could not open Update Inventory.");
+            exception.printStackTrace();
+        }
     }
 
     @FXML
     private void dispenseMedicineButton(ActionEvent event) {
-        showFeature(
-                "Dispense Medicine",
-                "Verify a prescription and dispense medicines."
-        );
+        try {
+            openScene(
+                    event,
+                    "/com/summer26/section1/group5/"
+                            + "bangladesheyehospital/mashrif/"
+                            + "DispenseMedicine.fxml"
+            );
+        } catch (IOException exception) {
+            showError("Could not open Dispense Medicine.");
+            exception.printStackTrace();
+        }
     }
 
     @FXML
     private void generateMedicineBillButton(ActionEvent event) {
-        showFeature(
-                "Generate Medicine Bill",
-                "Calculate medicine costs and generate a bill."
-        );
+        try {
+            openScene(
+                    event,
+                    "/com/summer26/section1/group5/"
+                            + "bangladesheyehospital/mashrif/"
+                            + "GenerateMedicineBill.fxml"
+            );
+        } catch (IOException exception) {
+            showError("Could not open Generate Medicine Bill.");
+            exception.printStackTrace();
+        }
     }
 
     @FXML
     private void expiredMedicineButton(ActionEvent event) {
-        showFeature(
-                "Expired Medicines",
-                "View expired and nearly expired medicines."
-        );
+        try {
+            openScene(
+                    event,
+                    "/com/summer26/section1/group5/"
+                            + "bangladesheyehospital/mashrif/"
+                            + "ExpiredMedicine.fxml"
+            );
+        } catch (IOException exception) {
+            showError("Could not open Expired Medicine.");
+            exception.printStackTrace();
+        }
     }
 
     @FXML
     private void orderMedicineButton(ActionEvent event) {
-        showFeature(
-                "Order Medicine",
-                "Create a new medicine restock order."
-        );
+        try {
+            openScene(
+                    event,
+                    "/com/summer26/section1/group5/"
+                            + "bangladesheyehospital/mashrif/"
+                            + "OrderMedicine.fxml"
+            );
+        } catch (IOException exception) {
+            showError("Could not open Order Medicine.");
+            exception.printStackTrace();
+        }
     }
 
     @FXML
     private void medicineSalesButton(ActionEvent event) {
-        showFeature(
-                "Medicine Sales",
-                "View medicine sales and pharmacy records."
-        );
+        try {
+            openScene(
+                    event,
+                    "/com/summer26/section1/group5/"
+                            + "bangladesheyehospital/mashrif/"
+                            + "MedicineSales.fxml"
+            );
+        } catch (IOException exception) {
+            showError("Could not open Medicine Sales.");
+            exception.printStackTrace();
+        }
     }
 
     @FXML
@@ -137,7 +193,7 @@ public class PharmacistDashboard {
                 openScene(
                         event,
                         "/com/summer26/section1/group5/"
-                                + "bangladesheyehospital/mashrif/login.fxml"
+                                + "bangladesheyehospital/common/login.fxml"
                 );
             } catch (IOException exception) {
                 showError("Could not open the login page.");

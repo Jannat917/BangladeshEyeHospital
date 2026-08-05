@@ -31,15 +31,15 @@ public class Medicine implements Serializable {
             LocalDate expiryDate,
             String supplierName
     ) {
-        this.medicineCode = medicineCode;
-        this.medicineName = medicineName;
-        this.category = category;
-        this.batchNumber = batchNumber;
-        this.stockQuantity = stockQuantity;
-        this.reorderLevel = reorderLevel;
-        this.unitPrice = unitPrice;
-        this.expiryDate = expiryDate;
-        this.supplierName = supplierName;
+        setMedicineCode(medicineCode);
+        setMedicineName(medicineName);
+        setCategory(category);
+        setBatchNumber(batchNumber);
+        setStockQuantity(stockQuantity);
+        setReorderLevel(reorderLevel);
+        setUnitPrice(unitPrice);
+        setExpiryDate(expiryDate);
+        setSupplierName(supplierName);
     }
 
     public boolean isLowStock() {
@@ -47,18 +47,18 @@ public class Medicine implements Serializable {
     }
 
     public boolean isExpired() {
-        return expiryDate != null && expiryDate.isBefore(LocalDate.now());
+        return expiryDate != null
+                && expiryDate.isBefore(LocalDate.now());
     }
 
-    public boolean hasEnoughStock(int requestedQuantity) {
-        return requestedQuantity > 0
-                && stockQuantity >= requestedQuantity;
+    public boolean hasEnoughStock(int quantity) {
+        return quantity > 0 && stockQuantity >= quantity;
     }
 
     public void addStock(int quantity) {
         if (quantity <= 0) {
             throw new IllegalArgumentException(
-                    "Quantity must be greater than zero."
+                    "Stock quantity must be greater than zero."
             );
         }
 
@@ -74,7 +74,7 @@ public class Medicine implements Serializable {
 
         if (quantity > stockQuantity) {
             throw new IllegalArgumentException(
-                    "Not enough medicine in stock."
+                    "Not enough medicine available in stock."
             );
         }
 
@@ -102,7 +102,13 @@ public class Medicine implements Serializable {
     }
 
     public void setMedicineCode(String medicineCode) {
-        this.medicineCode = medicineCode;
+        if (medicineCode == null || medicineCode.trim().isEmpty()) {
+            throw new IllegalArgumentException(
+                    "Medicine code cannot be empty."
+            );
+        }
+
+        this.medicineCode = medicineCode.trim();
     }
 
     public String getMedicineName() {
@@ -110,7 +116,13 @@ public class Medicine implements Serializable {
     }
 
     public void setMedicineName(String medicineName) {
-        this.medicineName = medicineName;
+        if (medicineName == null || medicineName.trim().isEmpty()) {
+            throw new IllegalArgumentException(
+                    "Medicine name cannot be empty."
+            );
+        }
+
+        this.medicineName = medicineName.trim();
     }
 
     public String getCategory() {
@@ -118,7 +130,13 @@ public class Medicine implements Serializable {
     }
 
     public void setCategory(String category) {
-        this.category = category;
+        if (category == null || category.trim().isEmpty()) {
+            throw new IllegalArgumentException(
+                    "Medicine category cannot be empty."
+            );
+        }
+
+        this.category = category.trim();
     }
 
     public String getBatchNumber() {
@@ -126,7 +144,13 @@ public class Medicine implements Serializable {
     }
 
     public void setBatchNumber(String batchNumber) {
-        this.batchNumber = batchNumber;
+        if (batchNumber == null || batchNumber.trim().isEmpty()) {
+            throw new IllegalArgumentException(
+                    "Batch number cannot be empty."
+            );
+        }
+
+        this.batchNumber = batchNumber.trim();
     }
 
     public int getStockQuantity() {
@@ -176,6 +200,12 @@ public class Medicine implements Serializable {
     }
 
     public void setExpiryDate(LocalDate expiryDate) {
+        if (expiryDate == null) {
+            throw new IllegalArgumentException(
+                    "Expiry date cannot be empty."
+            );
+        }
+
         this.expiryDate = expiryDate;
     }
 
@@ -184,7 +214,13 @@ public class Medicine implements Serializable {
     }
 
     public void setSupplierName(String supplierName) {
-        this.supplierName = supplierName;
+        if (supplierName == null || supplierName.trim().isEmpty()) {
+            throw new IllegalArgumentException(
+                    "Supplier name cannot be empty."
+            );
+        }
+
+        this.supplierName = supplierName.trim();
     }
 
     @Override

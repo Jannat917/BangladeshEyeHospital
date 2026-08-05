@@ -11,20 +11,16 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.time.LocalDate;
 
-public class CheckMedicineStockController {
+public class ExpiredMedicineController {
 
     @FXML
-    private TextField searchTextField;
-
-    @FXML
-    private TableView<Medicine> medicineTableView;
+    private TableView<Medicine> expiredMedicineTableView;
 
     @FXML
     private TableColumn<Medicine, String> medicineCodeColumn;
@@ -42,19 +38,19 @@ public class CheckMedicineStockController {
     private TableColumn<Medicine, Integer> stockQuantityColumn;
 
     @FXML
-    private TableColumn<Medicine, Double> unitPriceColumn;
-
-    @FXML
     private TableColumn<Medicine, LocalDate> expiryDateColumn;
 
     @FXML
-    private TableColumn<Medicine, String> stockStatusColumn;
+    private TableColumn<Medicine, String> supplierNameColumn;
 
     @FXML
     private Label statusLabel;
 
     private final ObservableList<Medicine> medicineList =
             MedicineData.getMedicineList();
+
+    private final ObservableList<Medicine> expiredMedicineList =
+            FXCollections.observableArrayList();
 
     @FXML
     public void initialize() {
@@ -79,85 +75,60 @@ public class CheckMedicineStockController {
                 new PropertyValueFactory<>("stockQuantity")
         );
 
-        unitPriceColumn.setCellValueFactory(
-                new PropertyValueFactory<>("unitPrice")
-        );
-
         expiryDateColumn.setCellValueFactory(
                 new PropertyValueFactory<>("expiryDate")
         );
 
-        stockStatusColumn.setCellValueFactory(
-                new PropertyValueFactory<>("stockStatus")
+        supplierNameColumn.setCellValueFactory(
+                new PropertyValueFactory<>("supplierName")
         );
 
-        medicineTableView.setItems(medicineList);
+        expiredMedicineTableView.setItems(expiredMedicineList);
 
-        statusLabel.setText(
-                medicineList.size() + " medicine record(s) loaded."
-        );
+        loadExpiredMedicines();
     }
 
-    @FXML
-    private void searchMedicineButton(ActionEvent event) {
+    private void loadExpiredMedicines() {
 
-        String searchText = searchTextField
-                .getText()
-                .trim()
-                .toLowerCase();
-
-        if (searchText.isEmpty()) {
-            statusLabel.setText(
-                    "Enter a medicine code or medicine name."
-            );
-
-            return;
-        }
-
-        ObservableList<Medicine> searchResults =
-                FXCollections.observableArrayList();
+        expiredMedicineList.clear();
 
         for (Medicine medicine : medicineList) {
-
-            String medicineCode = medicine
-                    .getMedicineCode()
-                    .toLowerCase();
-
-            String medicineName = medicine
-                    .getMedicineName()
-                    .toLowerCase();
-
-            if (medicineCode.contains(searchText)
-                    || medicineName.contains(searchText)) {
-
-                searchResults.add(medicine);
+            if (medicine.isExpired()) {
+                expiredMedicineList.add(medicine);
             }
         }
 
-        medicineTableView.setItems(searchResults);
-
-        if (searchResults.isEmpty()) {
-            statusLabel.setText(
-                    "No matching medicine was found."
-            );
-        } else {
-            statusLabel.setText(
-                    searchResults.size()
-                            + " matching medicine record(s) found."
-            );
-        }
+        statusLabel.setText(
+                expiredMedicineList.size()
+                        + " expired medicine record(s) found."
+        );
     }
 
     @FXML
-    private void showAllButton(ActionEvent event) {
+    private void refreshButton(ActionEvent event) {
+        loadExpiredMedicines();
+    }
 
-        searchTextField.clear();
+    @FXML
+    private void removeSelectedButton(ActionEvent event) {
 
-        medicineTableView.setItems(medicineList);
+        Medicine selectedMedicine =
+                expiredMedicineTableView
+                        .getSelectionModel()
+                        .getSelectedItem();
+
+        if (selectedMedicine == null) {
+            statusLabel.setText(
+                    "Select an expired medicine from the table."
+            );
+            return;
+        }
+
+        medicineList.remove(selectedMedicine);
+        expiredMedicineList.remove(selectedMedicine);
 
         statusLabel.setText(
-                medicineList.size()
-                        + " medicine record(s) displayed."
+                "Expired medicine removed successfully."
         );
     }
 

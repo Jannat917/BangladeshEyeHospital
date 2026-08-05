@@ -41,7 +41,9 @@ public class SignUpController {
                 "Receptionist",
                 "Accountant",
                 "SecurityStaff",
-                "Nurse"
+                "Nurse",
+                "Pharmacist",
+                "Optician"
         );
 
         roleComboBox.setValue("Receptionist");

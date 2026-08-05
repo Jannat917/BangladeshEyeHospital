@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="680.0" prefWidth="1050.0"
+            style="-fx-background-color: white;"
+            xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.summer26.section1.group5.bangladesheyehospital.mashrif.MedicineSalesController">
+
+    <children>
+        <VBox prefHeight="680.0" prefWidth="1050.0" spacing="16.0">
+            <padding>
+                <Insets bottom="22.0" left="28.0" right="28.0" top="22.0"/>
+            </padding>
+
+            <children>
+                <Label text="Medicine Sales Report">
+                    <font>
+                        <Font name="System Bold" size="28.0"/>
+                    </font>
+                </Label>
+
+                <HBox spacing="10.0">
+                    <children>
+                        <Label text="From"/>
+                        <DatePicker fx:id="fromDatePicker"/>
+
+                        <Label text="To"/>
+                        <DatePicker fx:id="toDatePicker"/>
+
+                        <Button text="Filter"
+                                onAction="#filterButton"
+                                prefWidth="100.0"
+                                style="-fx-background-color: black; -fx-text-fill: white;"/>
+
+                        <Button text="Show All"
+                                onAction="#showAllButton"
+                                prefWidth="100.0"
+                                style="-fx-background-color: white; -fx-text-fill: black; -fx-border-color: black;"/>
+
+                        <Button text="Back"
+                                onAction="#backButton"
+                                prefWidth="100.0"
+                                style="-fx-background-color: white; -fx-text-fill: black; -fx-border-color: black;"/>
+                    </children>
+                </HBox>
+
+                <TableView fx:id="salesTableView" prefHeight="430.0">
+                    <columns>
+                        <TableColumn fx:id="saleIdColumn" prefWidth="100.0" text="Sale ID"/>
+                        <TableColumn fx:id="saleDateColumn" prefWidth="120.0" text="Date"/>
+                        <TableColumn fx:id="prescriptionIdColumn" prefWidth="130.0" text="Prescription ID"/>
+                        <TableColumn fx:id="patientNameColumn" prefWidth="170.0" text="Patient Name"/>
+                        <TableColumn fx:id="medicineNameColumn" prefWidth="180.0" text="Medicine"/>
+                        <TableColumn fx:id="quantityColumn" prefWidth="100.0" text="Quantity"/>
+                        <TableColumn fx:id="totalAmountColumn" prefWidth="130.0" text="Total Amount"/>
+                    </columns>
+                </TableView>
+
+                <GridPane hgap="14.0" vgap="10.0">
+                    <children>
+                        <Label text="Total Sales:" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                        <Label fx:id="totalSalesLabel"
+                               text="0.00"
+                               GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+                        <Label text="Total Items Sold:" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+                        <Label fx:id="totalItemsLabel"
+                               text="0"
+                               GridPane.columnIndex="3" GridPane.rowIndex="0"/>
+                    </children>
+                </GridPane>
+
+                <Label fx:id="statusLabel"
+                       text="Ready"
+                       style="-fx-background-color: white; -fx-border-color: black; -fx-padding: 10;"/>
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>

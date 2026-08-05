@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="700.0" prefWidth="1050.0"
+            style="-fx-background-color: white;"
+            xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.summer26.section1.group5.bangladesheyehospital.mashrif.DispenseMedicineController">
+
+    <children>
+        <VBox prefHeight="700.0" prefWidth="1050.0" spacing="16.0">
+            <padding>
+                <Insets bottom="22.0" left="28.0" right="28.0" top="22.0"/>
+            </padding>
+
+            <children>
+                <Label text="Dispense Medicine">
+                    <font>
+                        <Font name="System Bold" size="28.0"/>
+                    </font>
+                </Label>
+
+                <GridPane hgap="12.0" vgap="12.0">
+                    <children>
+                        <Label text="Prescription" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                        <ComboBox fx:id="prescriptionComboBox"
+                                  promptText="Select prescription"
+                                  prefWidth="260.0"
+                                  GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+                        <Label text="Patient Name" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+                        <TextField fx:id="patientNameTextField"
+                                   editable="false"
+                                   prefWidth="220.0"
+                                   GridPane.columnIndex="3" GridPane.rowIndex="0"/>
+
+                        <Label text="Medicine" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                        <ComboBox fx:id="medicineComboBox"
+                                  promptText="Select medicine"
+                                  prefWidth="260.0"
+                                  GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+                        <Label text="Available Stock" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+                        <TextField fx:id="availableStockTextField"
+                                   editable="false"
+                                   GridPane.columnIndex="3" GridPane.rowIndex="1"/>
+
+                        <Label text="Prescribed Quantity" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                        <TextField fx:id="prescribedQuantityTextField"
+                                   editable="false"
+                                   GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+                        <Label text="Dispense Quantity" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
+                        <TextField fx:id="dispenseQuantityTextField"
+                                   promptText="Enter quantity"
+                                   GridPane.columnIndex="3" GridPane.rowIndex="2"/>
+                    </children>
+                </GridPane>
+
+                <HBox spacing="10.0">
+                    <children>
+                        <Button text="Dispense"
+                                onAction="#dispenseButton"
+                                prefWidth="120.0"
+                                style="-fx-background-color: black; -fx-text-fill: white;"/>
+
+                        <Button text="Clear"
+                                onAction="#clearButton"
+                                prefWidth="100.0"
+                                style="-fx-background-color: white; -fx-text-fill: black; -fx-border-color: black;"/>
+
+                        <Button text="Back"
+                                onAction="#backButton"
+                                prefWidth="100.0"
+                                style="-fx-background-color: white; -fx-text-fill: black; -fx-border-color: black;"/>
+                    </children>
+                </HBox>
+
+                <TableView fx:id="dispensedMedicineTableView" prefHeight="350.0">
+                    <columns>
+                        <TableColumn fx:id="prescriptionIdColumn" prefWidth="130.0" text="Prescription ID"/>
+                        <TableColumn fx:id="patientNameColumn" prefWidth="180.0" text="Patient Name"/>
+                        <TableColumn fx:id="medicineNameColumn" prefWidth="190.0" text="Medicine"/>
+                        <TableColumn fx:id="prescribedQuantityColumn" prefWidth="150.0" text="Prescribed Qty"/>
+                        <TableColumn fx:id="dispensedQuantityColumn" prefWidth="150.0" text="Dispensed Qty"/>
+                        <TableColumn fx:id="statusColumn" prefWidth="130.0" text="Status"/>
+                    </columns>
+                </TableView>
+
+                <Label fx:id="statusLabel"
+                       text="Ready"
+                       style="-fx-background-color: white; -fx-border-color: black; -fx-padding: 10;"/>
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>

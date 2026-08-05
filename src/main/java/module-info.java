@@ -8,6 +8,7 @@ module com.summer26.section1.group5.bangladesheyehospital {
     opens com.summer26.section1.group5.bangladesheyehospital.mashrif to javafx.fxml;
     opens com.summer26.section1.group5.bangladesheyehospital.nisa to javafx.fxml;
 
+    exports com.summer26.section1.group5.bangladesheyehospital.common;
     exports com.summer26.section1.group5.bangladesheyehospital;
     exports com.summer26.section1.group5.bangladesheyehospital.mashrif;
     exports com.summer26.section1.group5.bangladesheyehospital.nisa;

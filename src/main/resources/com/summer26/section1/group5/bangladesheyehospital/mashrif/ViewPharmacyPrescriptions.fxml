@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="650.0" prefWidth="1000.0"
+            style="-fx-background-color: white;"
+            xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.summer26.section1.group5.bangladesheyehospital.mashrif.ViewPharmacyPrescriptionsController">
+
+    <children>
+        <VBox prefHeight="650.0" prefWidth="1000.0" spacing="16.0">
+            <padding>
+                <Insets bottom="24.0" left="28.0" right="28.0" top="24.0"/>
+            </padding>
+
+            <children>
+                <Label text="View Prescriptions">
+                    <font>
+                        <Font name="System Bold" size="28.0"/>
+                    </font>
+                </Label>
+
+                <HBox spacing="10.0">
+                    <children>
+                        <TextField fx:id="searchTextField"
+                                   promptText="Search by prescription ID or patient name"
+                                   prefWidth="370.0"/>
+
+                        <Button text="Search"
+                                onAction="#searchButton"
+                                prefWidth="100.0"
+                                style="-fx-background-color: black; -fx-text-fill: white;"/>
+
+                        <Button text="Show All"
+                                onAction="#showAllButton"
+                                prefWidth="100.0"
+                                style="-fx-background-color: white; -fx-text-fill: black; -fx-border-color: black;"/>
+
+                        <Button text="Back"
+                                onAction="#backButton"
+                                prefWidth="100.0"
+                                style="-fx-background-color: white; -fx-text-fill: black; -fx-border-color: black;"/>
+                    </children>
+                </HBox>
+
+                <TableView fx:id="prescriptionTableView" prefHeight="440.0">
+                    <columns>
+                        <TableColumn fx:id="prescriptionIdColumn" prefWidth="120.0" text="Prescription ID"/>
+                        <TableColumn fx:id="patientIdColumn" prefWidth="100.0" text="Patient ID"/>
+                        <TableColumn fx:id="patientNameColumn" prefWidth="170.0" text="Patient Name"/>
+                        <TableColumn fx:id="doctorNameColumn" prefWidth="170.0" text="Doctor Name"/>
+                        <TableColumn fx:id="prescriptionDateColumn" prefWidth="130.0" text="Date"/>
+                        <TableColumn fx:id="statusColumn" prefWidth="120.0" text="Status"/>
+                    </columns>
+                </TableView>
+
+                <Label fx:id="statusLabel"
+                       text="Ready"
+                       style="-fx-background-color: white; -fx-border-color: black; -fx-padding: 10;"/>
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>
