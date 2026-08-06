@@ -302,7 +302,7 @@ public class DiagnosticReportsController {
         alert.setContentText(
                 "Patient ID : " + report.getPatientId() +
 
-                        "\nPatient Name : " + report.getPatientName() +
+
 
                         "\nReport Date : " + report.getReportDate() +
 

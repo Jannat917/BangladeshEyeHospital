@@ -10,6 +10,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Optional;
 
 public class OnlineAppointmentsDoctorController {
@@ -41,11 +42,13 @@ public class OnlineAppointmentsDoctorController {
     @FXML
     private Label messageLabel;
 
-    private final File patientFile = new File("data/patients.bin");
+    private final File dataFolder = new File("data");
 
-    private final ObservableList<PatientRecordModelClass> appointmentList =
-            FXCollections.observableArrayList();
+    private final File patientFile =
+            new File(dataFolder, "patients.bin");
 
+    private final ArrayList<PatientRecordModelClass> appointmentList =
+            new ArrayList<>();
     @FXML
     public void initialize() {
 
@@ -73,6 +76,7 @@ public class OnlineAppointmentsDoctorController {
     private void loadAppointments() {
 
         appointmentList.clear();
+        appointmentTableView.getItems().clear();
 
         if (!patientFile.exists()) {
 
@@ -104,7 +108,7 @@ public class OnlineAppointmentsDoctorController {
             messageLabel.setText("Unable to load appointments.");
         }
 
-        appointmentTableView.setItems(appointmentList);
+        appointmentTableView.getItems().addAll(appointmentList);
 
         if (appointmentList.isEmpty()) {
 
@@ -113,77 +117,6 @@ public class OnlineAppointmentsDoctorController {
         } else {
 
             messageLabel.setText("");
-        }
-    }
-
-    @FXML
-    public void searchButton(ActionEvent actionEvent) {
-
-        if (doctorIdTextField.getText().trim().isEmpty()) {
-
-            messageLabel.setText("Enter Doctor ID.");
-            return;
-        }
-
-        int doctorId;
-
-        try {
-
-            doctorId = Integer.parseInt(
-                    doctorIdTextField.getText().trim());
-
-        } catch (NumberFormatException e) {
-
-            messageLabel.setText("Doctor ID must be numeric.");
-            return;
-        }
-
-        ObservableList<PatientRecordModelClass> filteredList =
-                FXCollections.observableArrayList();
-
-        if (!patientFile.exists()) {
-
-            messageLabel.setText("No appointments found.");
-            return;
-        }
-
-        try (ObjectInputStream ois =
-                     new ObjectInputStream(
-                             new FileInputStream(patientFile))) {
-
-            while (true) {
-
-                PatientRecordModelClass patient =
-                        (PatientRecordModelClass) ois.readObject();
-
-                if ("Online".equalsIgnoreCase(patient.getAppointmentType())
-                        && patient.getAssignedDoctorId() == doctorId) {
-
-                    filteredList.add(patient);
-                }
-            }
-
-        } catch (EOFException e) {
-
-            // End of file
-
-        } catch (IOException | ClassNotFoundException e) {
-
-            e.printStackTrace();
-            messageLabel.setText("Unable to search appointments.");
-            return;
-        }
-
-        appointmentTableView.setItems(filteredList);
-
-        if (filteredList.isEmpty()) {
-
-            messageLabel.setText("No online appointments found.");
-
-        } else {
-
-            messageLabel.setText(
-                    filteredList.size() + " appointment(s) found.");
         }
     }
 
@@ -256,6 +189,52 @@ public class OnlineAppointmentsDoctorController {
 
             e.printStackTrace();
             messageLabel.setText("Unable to open Doctor Dashboard.");
+        }
+    }
+
+
+    @FXML
+    public void searchButton(ActionEvent actionEvent) {
+
+        if (doctorIdTextField.getText().trim().isEmpty()) {
+
+            messageLabel.setText("Enter Doctor ID.");
+            return;
+        }
+
+        int doctorId;
+
+        try {
+
+            doctorId = Integer.parseInt(doctorIdTextField.getText().trim());
+
+        } catch (NumberFormatException e) {
+
+            messageLabel.setText("Doctor ID must be numeric.");
+            return;
+        }
+
+        appointmentTableView.getItems().clear();
+
+        boolean found = false;
+
+        for (PatientRecordModelClass patient : appointmentList) {
+
+            if (patient.getAssignedDoctorId() == doctorId) {
+
+                appointmentTableView.getItems().add(patient);
+                found = true;
+            }
+        }
+
+        if (found) {
+
+            messageLabel.setText(
+                    appointmentTableView.getItems().size() + " appointment(s) found.");
+
+        } else {
+
+            messageLabel.setText("No online appointments found.");
         }
     }
 

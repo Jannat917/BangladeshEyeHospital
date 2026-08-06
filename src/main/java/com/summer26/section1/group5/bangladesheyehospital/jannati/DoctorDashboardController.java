@@ -39,7 +39,9 @@ public class DoctorDashboardController {
     }
 
     @javafx.fxml.FXML
-    public void surgeryScheduleButton(ActionEvent actionEvent) {
+    public void surgeryScheduleButton(ActionEvent actionEvent) throws IOException {
+
+        SceneSwitcher.switchTo("jannati/surgery.fxml");
     }
 
     @javafx.fxml.FXML
@@ -53,7 +55,8 @@ public class DoctorDashboardController {
     }
 
     @javafx.fxml.FXML
-    public void OfflineAppointmentsButton(ActionEvent actionEvent) {
+    public void OfflineAppointmentsButton(ActionEvent actionEvent) throws IOException {
+        SceneSwitcher.switchTo("jannati/offline-appointments-doctor.fxml");
 
     }
 }
