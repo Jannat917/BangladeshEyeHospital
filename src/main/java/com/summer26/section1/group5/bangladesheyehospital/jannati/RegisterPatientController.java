@@ -28,13 +28,12 @@ public class RegisterPatientController {
     @FXML
     private TextField addressTextField;
 
-    @FXML
-    private Label messageLabel;
-
     private final File dataFolder = new File("data");
 
     private final File patientFile =
             new File(dataFolder, "patients.bin");
+    @FXML
+    private Label successLabel;
 
     @FXML
     public void initialize() {
@@ -49,7 +48,7 @@ public class RegisterPatientController {
                 "Other"
         );
 
-        messageLabel.setText("");
+        successLabel.setText("");
     }
 
     private int generatePatientId() {
@@ -97,7 +96,7 @@ public class RegisterPatientController {
                 || addressTextField.getText().trim().isEmpty()
                 || genderComboBox.getValue() == null) {
 
-            messageLabel.setText("Please fill all fields.");
+            successLabel.setText("Please fill all fields.");
             return;
         }
 
@@ -109,13 +108,13 @@ public class RegisterPatientController {
 
         } catch (NumberFormatException e) {
 
-            messageLabel.setText("Age must be numeric.");
+            successLabel.setText("Age must be numeric.");
             return;
         }
 
         if (age <= 0 || age > 120) {
 
-            messageLabel.setText("Enter a valid age.");
+            successLabel.setText("Enter a valid age.");
             return;
         }
 
@@ -149,7 +148,7 @@ public class RegisterPatientController {
 
             if (p.getPhoneNumber().equals(phoneNumberTextField.getText().trim())) {
 
-                messageLabel.setText("Phone number already exists.");
+                successLabel.setText("Phone number already exists.");
                 return;
             }
         }
@@ -202,19 +201,20 @@ public class RegisterPatientController {
 
                 oos.writeObject(p);
             }
+          clearButton(null);
 
-            clearButton(null);
-
-            messageLabel.setText(
-                    "Patient Registered Successfully!\n\n"
+            successLabel.setText(
+                            "Patient registered Successfully\n"
                             + "Patient ID : " + patientId
                             + "\nPassword : " + password
             );
 
+
+
         } catch (IOException e) {
 
             e.printStackTrace();
-            messageLabel.setText("Unable to save patient.");
+            successLabel.setText("Unable to save patient.");
         }
     }
 
@@ -243,7 +243,7 @@ public class RegisterPatientController {
         } catch (IOException e) {
 
             e.printStackTrace();
-            messageLabel.setText("Unable to open dashboard.");
+            successLabel.setText("Unable to open dashboard.");
         }
     }
 
