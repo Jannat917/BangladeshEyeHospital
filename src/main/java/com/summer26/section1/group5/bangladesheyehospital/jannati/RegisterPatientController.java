@@ -189,7 +189,10 @@ public class RegisterPatientController {
                 0.0,    // Bill Amount
 
                 "Unpaid",
-                ""      // Appointment Type
+                ""    ,
+
+
+                "Pending"// Appointment Type
         );
 
         patientList.add(patient);

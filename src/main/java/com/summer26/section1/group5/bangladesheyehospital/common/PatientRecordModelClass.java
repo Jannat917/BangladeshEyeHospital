@@ -52,6 +52,7 @@ public class PatientRecordModelClass implements Serializable {
     private double billAmount;
     private String paymentStatus;
     private String appointmentType;
+    private String appointmentStatus;
 
     public PatientRecordModelClass() {
     }
@@ -82,7 +83,8 @@ public class PatientRecordModelClass implements Serializable {
             double testFee,
             double billAmount,
             String paymentStatus,
-            String appointmentType) {
+            String appointmentType,
+            String appointmentStatus) {
 
         this.patientId = patientId;
         this.password = password;
@@ -112,6 +114,7 @@ public class PatientRecordModelClass implements Serializable {
         this.billAmount = billAmount;
         this.paymentStatus = paymentStatus;
         this.appointmentType = appointmentType;
+        this.appointmentStatus = appointmentStatus;
     }
 
 
@@ -119,6 +122,14 @@ public class PatientRecordModelClass implements Serializable {
     // ==========================
 // Getters & Setters
 // ==========================
+
+    public String getAppointmentStatus() {
+        return appointmentStatus;
+    }
+
+    public void setAppointmentStatus(String appointmentStatus) {
+        this.appointmentStatus = appointmentStatus;
+    }
 
     public int getAssignedDoctorId() {
         return assignedDoctorId;
@@ -357,6 +368,8 @@ public class PatientRecordModelClass implements Serializable {
                 ", paymentStatus='" + paymentStatus + '\'' +
                 ", appointmentType='" + appointmentType + '\'' +
                 ", serialNumber='" + serialNumber + '\'' +
+                ", appointmentStatus='" + appointmentStatus + '\'' +
+
                 '}';
     }
 }

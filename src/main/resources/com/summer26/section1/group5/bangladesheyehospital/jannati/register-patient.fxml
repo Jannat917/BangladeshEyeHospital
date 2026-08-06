@@ -45,7 +45,7 @@
         <Button layoutX="496.0" layoutY="573.0" onAction="#backButton" prefHeight="49.0" prefWidth="140.0" text="Back to Dashboard" />
 
         <!-- Message -->
-        <Label fx:id="successLabel" layoutX="105.0" layoutY="502.0" prefHeight="17.0" prefWidth="524.0" />
+        <Label fx:id="successLabel" layoutX="105.0" layoutY="389.0" prefHeight="172.0" prefWidth="524.0" />
 
     </children>
 

@@ -24,7 +24,8 @@ public class ReceiptionistDashboardController {
     }
 
     @javafx.fxml.FXML
-    public void appointmentConfirmationButton(ActionEvent actionEvent) {
+    public void appointmentConfirmationButton(ActionEvent actionEvent) throws IOException {
+        SceneSwitcher.switchTo("jannati/appointment-confirmation-receptionist.fxml");
     }
 
     @javafx.fxml.FXML
