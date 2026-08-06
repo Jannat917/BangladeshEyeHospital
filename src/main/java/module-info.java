@@ -23,7 +23,6 @@ module com.summer26.section1.group5.bangladesheyehospital {
 
     exports com.summer26.section1.group5.bangladesheyehospital.common;
     exports com.summer26.section1.group5.bangladesheyehospital;
-    exports com.summer26.section1.group5.bangladesheyehospital.common;
     exports com.summer26.section1.group5.bangladesheyehospital.jannati;
     exports com.summer26.section1.group5.bangladesheyehospital.nisa;
     exports com.summer26.section1.group5.bangladesheyehospital.mashrif;

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<AnchorPane prefHeight="500" prefWidth="760" style="-fx-background-color: white;"
+ xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+ fx:controller="com.summer26.section1.group5.bangladesheyehospital.mashrif.OpticalReportController">
+ <children><VBox spacing="16" prefWidth="760" prefHeight="500">
+  <padding><Insets top="24" right="30" bottom="24" left="30"/></padding>
+  <children>
+   <Label text="Optical Report"><font><Font name="System Bold" size="26"/></font></Label>
+   <GridPane hgap="18" vgap="14">
+    <children>
+     <Label text="Total Prescriptions" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+     <Label fx:id="totalPrescriptionsLabel" text="0" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+     <Label text="Total Frames" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+     <Label fx:id="totalFramesLabel" text="0" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+     <Label text="Pending Orders" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+     <Label fx:id="pendingOrdersLabel" text="0" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+     <Label text="Delivered Orders" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+     <Label fx:id="deliveredOrdersLabel" text="0" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+     <Label text="Total Sales" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+     <Label fx:id="totalSalesLabel" text="0.00" GridPane.columnIndex="1" GridPane.rowIndex="4"/>
+    </children>
+   </GridPane>
+   <HBox spacing="10"><children>
+    <Button text="Refresh" onAction="#refreshButton"/>
+    <Button text="Back" onAction="#backButton"/>
+   </children></HBox>
+   <Label fx:id="statusLabel" text="Ready" style="-fx-border-color: black; -fx-padding: 8;"/>
+  </children>
+ </VBox></children>
+</AnchorPane>

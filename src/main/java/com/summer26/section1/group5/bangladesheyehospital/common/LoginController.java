@@ -110,6 +110,11 @@ public class LoginController {
 
                     if (doctor.getDoctorId() == userId &&
                             doctor.getPassword().equals(password)) {
+                        UserSession.setLoggedInUser(
+                                doctor.getDoctorId(),
+                                doctor.getDoctorName(),
+                                "Doctor"
+                        );
 
                         SceneSwitcher.switchTo("jannati/doctorDashboard.fxml");
                         return;
@@ -150,6 +155,12 @@ public class LoginController {
                     if (patient.getPatientId() == userId &&
                             patient.getPassword().equals(password)) {
 
+                        UserSession.setLoggedInUser(
+                                patient.getPatientId(),
+                                patient.getPatientName(),
+                                "Patient"
+                        );
+
                         SceneSwitcher.switchTo("nisa/PatientDashboard.fxml");
                         return;
                     }
@@ -187,6 +198,12 @@ public class LoginController {
                 if (user.getUserId() == userId &&
                         user.getPassword().equals(password) &&
                         user.getRole().equalsIgnoreCase(role)) {
+
+                    UserSession.setLoggedInUser(
+                            user.getUserId(),
+                            user.getName(),
+                            user.getRole()
+                    );
 
                     switch (role) {
 

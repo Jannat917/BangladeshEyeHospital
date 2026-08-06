@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<AnchorPane prefHeight="720" prefWidth="1000" style="-fx-background-color: white;"
+ xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+ fx:controller="com.summer26.section1.group5.bangladesheyehospital.mashrif.OpticalInventoryController">
+ <children><VBox spacing="12" prefWidth="1000" prefHeight="720">
+  <padding><Insets top="20" right="24" bottom="20" left="24"/></padding>
+  <children>
+   <Label text="Frame Inventory"><font><Font name="System Bold" size="26"/></font></Label>
+   <GridPane hgap="10" vgap="10">
+    <children>
+     <Label text="Frame ID" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+     <TextField fx:id="frameIdTextField" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+     <Label text="Frame Name" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+     <TextField fx:id="frameNameTextField" GridPane.columnIndex="3" GridPane.rowIndex="0"/>
+     <Label text="Shape" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+     <TextField fx:id="shapeTextField" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+     <Label text="Material" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+     <TextField fx:id="materialTextField" GridPane.columnIndex="3" GridPane.rowIndex="1"/>
+     <Label text="Color" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+     <TextField fx:id="colorTextField" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+     <Label text="Price" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
+     <TextField fx:id="priceTextField" GridPane.columnIndex="3" GridPane.rowIndex="2"/>
+     <Label text="Stock" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+     <TextField fx:id="stockTextField" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+    </children>
+   </GridPane>
+   <HBox spacing="10"><children>
+    <Button text="Add Frame" onAction="#addFrameButton"/>
+    <Button text="Update Selected" onAction="#updateSelectedButton"/>
+    <Button text="Clear" onAction="#clearButton"/>
+    <Button text="Back" onAction="#backButton"/>
+   </children></HBox>
+   <TableView fx:id="frameTableView" prefHeight="390">
+    <columns>
+     <TableColumn fx:id="frameIdColumn" text="Frame ID" prefWidth="100"/>
+     <TableColumn fx:id="frameNameColumn" text="Frame Name" prefWidth="180"/>
+     <TableColumn fx:id="frameShapeColumn" text="Shape" prefWidth="110"/>
+     <TableColumn fx:id="materialColumn" text="Material" prefWidth="120"/>
+     <TableColumn fx:id="colorColumn" text="Color" prefWidth="100"/>
+     <TableColumn fx:id="priceColumn" text="Price" prefWidth="100"/>
+     <TableColumn fx:id="stockQuantityColumn" text="Stock" prefWidth="100"/>
+    </columns>
+   </TableView>
+   <Label fx:id="statusLabel" text="Ready" style="-fx-border-color: black; -fx-padding: 8;"/>
+  </children>
+ </VBox></children>
+</AnchorPane>

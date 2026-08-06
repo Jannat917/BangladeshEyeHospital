@@ -478,8 +478,8 @@ public class GenerateMedicineBillController {
                 String saleId =
                         "SALE-" + String.format(
                                 "%03d",
-                                MedicineSalesData
-                                        .getSalesList()
+                                MashrifData
+                                        .getMedicineSales()
                                         .size() + 1
                         );
 
@@ -496,7 +496,7 @@ public class GenerateMedicineBillController {
                                 item.getSubtotal()
                         );
 
-                MedicineSalesData.addSale(sale);
+                MashrifData.getMedicineSales().add(sale);
             }
 
             saleRecorded = true;

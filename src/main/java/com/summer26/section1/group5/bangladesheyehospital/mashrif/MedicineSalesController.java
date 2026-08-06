@@ -60,7 +60,7 @@ public class MedicineSalesController {
     private Label statusLabel;
 
     private final ObservableList<MedicineSale> salesList =
-            MedicineSalesData.getSalesList();
+            MashrifData.getMedicineSales();
 
     @FXML
     public void initialize() {

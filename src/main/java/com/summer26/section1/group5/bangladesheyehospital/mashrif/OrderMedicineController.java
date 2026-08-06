@@ -65,7 +65,7 @@ public class OrderMedicineController {
     private Label statusLabel;
 
     private final ObservableList<Medicine> medicineList =
-            MedicineData.getMedicineList();
+            MashrifData.getMedicines();
 
     private final ObservableList<MedicineOrder> orderList =
             FXCollections.observableArrayList();
@@ -302,5 +302,47 @@ public class OrderMedicineController {
 
         stage.setScene(new Scene(root));
         stage.show();
+    }
+
+    public static class MedicineOrder {
+
+        private final String orderId;
+        private final String medicineCode;
+        private final String medicineName;
+        private final String supplierName;
+        private final int orderQuantity;
+        private final LocalDate orderDate;
+        private String status;
+        private final String notes;
+
+        public MedicineOrder(
+                String orderId,
+                String medicineCode,
+                String medicineName,
+                String supplierName,
+                int orderQuantity,
+                LocalDate orderDate,
+                String status,
+                String notes
+        ) {
+            this.orderId = orderId;
+            this.medicineCode = medicineCode;
+            this.medicineName = medicineName;
+            this.supplierName = supplierName;
+            this.orderQuantity = orderQuantity;
+            this.orderDate = orderDate;
+            this.status = status;
+            this.notes = notes;
+        }
+
+        public String getOrderId() { return orderId; }
+        public String getMedicineCode() { return medicineCode; }
+        public String getMedicineName() { return medicineName; }
+        public String getSupplierName() { return supplierName; }
+        public int getOrderQuantity() { return orderQuantity; }
+        public LocalDate getOrderDate() { return orderDate; }
+        public String getStatus() { return status; }
+        public void setStatus(String status) { this.status = status; }
+        public String getNotes() { return notes; }
     }
 }
