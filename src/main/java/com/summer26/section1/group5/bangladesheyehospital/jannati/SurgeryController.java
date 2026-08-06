@@ -59,11 +59,9 @@ public class SurgeryController {
 
     private final File dataFolder = new File("data");
 
-    private final File patientFile =
-            new File(dataFolder, "patients.bin");
+    private final File patientFile = new File(dataFolder, "patients.bin");
 
-    private final File surgeryFile =
-            new File(dataFolder, "surgerySchedule.bin");
+    private final File surgeryFile = new File(dataFolder, "surgerySchedule.bin");
 
     @FXML
     public void initialize() {
@@ -74,40 +72,21 @@ public class SurgeryController {
 
         patientNameTextField.setEditable(false);
 
-        surgeryTypeComboBox.getItems().addAll(
-                "Cataract Surgery",
-                "LASIK",
-                "Retinal Surgery",
-                "Corneal Transplant",
-                "Glaucoma Surgery",
-                "Vitrectomy"
-        );
+        surgeryTypeComboBox.getItems().addAll("Cataract Surgery", "LASIK", "Retinal Surgery", "Corneal Transplant", "Glaucoma Surgery", "Vitrectomy");
 
-        timeComboBox.getItems().addAll(
-                "09:00 AM",
-                "11:00 AM",
-                "01:00 PM",
-                "03:00 PM",
-                "05:00 PM"
-        );
+        timeComboBox.getItems().addAll("09:00 AM", "11:00 AM", "01:00 PM", "03:00 PM", "05:00 PM");
 
-        patientIdColumn.setCellValueFactory(
-                new PropertyValueFactory<>("patientId"));
+        patientIdColumn.setCellValueFactory(new PropertyValueFactory<>("patientId"));
 
-        patientNameColumn.setCellValueFactory(
-                new PropertyValueFactory<>("patientName"));
+        patientNameColumn.setCellValueFactory(new PropertyValueFactory<>("patientName"));
 
-        surgeryTypeColumn.setCellValueFactory(
-                new PropertyValueFactory<>("surgeryType"));
+        surgeryTypeColumn.setCellValueFactory(new PropertyValueFactory<>("surgeryType"));
 
-        roomColumn.setCellValueFactory(
-                new PropertyValueFactory<>("operationRoom"));
+        roomColumn.setCellValueFactory(new PropertyValueFactory<>("operationRoom"));
 
-        dateColumn.setCellValueFactory(
-                new PropertyValueFactory<>("surgeryDate"));
+        dateColumn.setCellValueFactory(new PropertyValueFactory<>("surgeryDate"));
 
-        timeColumn.setCellValueFactory(
-                new PropertyValueFactory<>("surgeryTime"));
+        timeColumn.setCellValueFactory(new PropertyValueFactory<>("surgeryTime"));
 
         loadSchedules();
     }
@@ -121,14 +100,11 @@ public class SurgeryController {
             return;
         }
 
-        try (ObjectInputStream ois =
-                     new ObjectInputStream(
-                             new FileInputStream(surgeryFile))) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(surgeryFile))) {
 
             while (true) {
 
-                SurgeryScheduleModelClass schedule =
-                        (SurgeryScheduleModelClass) ois.readObject();
+                SurgeryScheduleModelClass schedule = (SurgeryScheduleModelClass) ois.readObject();
 
                 surgeryList.add(schedule);
             }
@@ -178,19 +154,15 @@ public class SurgeryController {
 
         boolean found = false;
 
-        try (ObjectInputStream ois =
-                     new ObjectInputStream(
-                             new FileInputStream(patientFile))) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(patientFile))) {
 
             while (true) {
 
-                PatientRecordModelClass patient =
-                        (PatientRecordModelClass) ois.readObject();
+                PatientRecordModelClass patient = (PatientRecordModelClass) ois.readObject();
 
                 if (patient.getPatientId() == patientId) {
 
-                    patientNameTextField.setText(
-                            patient.getPatientName());
+                    patientNameTextField.setText(patient.getPatientName());
 
                     found = true;
                     break;
@@ -222,12 +194,7 @@ public class SurgeryController {
     @FXML
     public void doneButton(ActionEvent actionEvent) {
 
-        if (patientIdTextField.getText().isEmpty()
-                || patientNameTextField.getText().isEmpty()
-                || surgeryTypeComboBox.getValue() == null
-                || roomNumberTextField.getText().isEmpty()
-                || datePicker.getValue() == null
-                || timeComboBox.getValue() == null) {
+        if (patientIdTextField.getText().isEmpty() || patientNameTextField.getText().isEmpty() || surgeryTypeComboBox.getValue() == null || roomNumberTextField.getText().isEmpty() || datePicker.getValue() == null || timeComboBox.getValue() == null) {
 
             messageLabel.setText("Please fill all fields.");
             return;
@@ -248,17 +215,14 @@ public class SurgeryController {
         int doctorId = 0;
         String doctorName = "";
 
-        // Find assigned doctor from patient record
-        try (ObjectInputStream ois =
-                     new ObjectInputStream(new FileInputStream(patientFile))) {
+        // Finding assigned doctor from patient record
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(patientFile))) {
 
             while (true) {
 
-                PatientRecordModelClass patient =
-                        (PatientRecordModelClass) ois.readObject();
+                PatientRecordModelClass patient = (PatientRecordModelClass) ois.readObject();
 
                 if (patient.getPatientId() == patientId) {
-
                     doctorId = patient.getAssignedDoctorId();
                     doctorName = patient.getAssignedDoctor();
                     break;
@@ -276,19 +240,16 @@ public class SurgeryController {
             return;
         }
 
-        // Read existing schedules
-        ArrayList<SurgeryScheduleModelClass> scheduleList =
-                new ArrayList<>();
+        // Reading existing schedules
+        ArrayList<SurgeryScheduleModelClass> scheduleList = new ArrayList<>();
 
         if (surgeryFile.exists()) {
 
-            try (ObjectInputStream ois =
-                         new ObjectInputStream(new FileInputStream(surgeryFile))) {
+            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(surgeryFile))) {
 
                 while (true) {
 
-                    scheduleList.add(
-                            (SurgeryScheduleModelClass) ois.readObject());
+                    scheduleList.add((SurgeryScheduleModelClass) ois.readObject());
 
                 }
 
@@ -304,25 +265,12 @@ public class SurgeryController {
 
         int surgeryId = scheduleList.size() + 1;
 
-        SurgeryScheduleModelClass schedule =
-                new SurgeryScheduleModelClass(
-                        surgeryId,
-                        patientId,
-                        patientNameTextField.getText(),
-                        doctorId,
-                        doctorName,
-                        surgeryTypeComboBox.getValue(),
-                        roomNumberTextField.getText(),
-                        datePicker.getValue().toString(),
-                        timeComboBox.getValue(),
-                        "Scheduled"
-                );
+        SurgeryScheduleModelClass schedule = new SurgeryScheduleModelClass(surgeryId, patientId, patientNameTextField.getText(), doctorId, doctorName, surgeryTypeComboBox.getValue(), roomNumberTextField.getText(), datePicker.getValue().toString(), timeComboBox.getValue(), "Scheduled");
 
         scheduleList.add(schedule);
 
-        // Rewrite the whole file
-        try (ObjectOutputStream oos =
-                     new ObjectOutputStream(new FileOutputStream(surgeryFile))) {
+
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(surgeryFile))) {
 
             for (SurgeryScheduleModelClass s : scheduleList) {
 
@@ -359,17 +307,10 @@ public class SurgeryController {
     }
 
     @FXML
-    public void backButton(ActionEvent actionEvent) {
+    public void backButton(ActionEvent actionEvent) throws IOException {
+        SceneSwitcher.switchTo("jannati/doctorDashboard.fxml");
 
-        try {
 
-            SceneSwitcher.switchTo("jannati/doctorDashboard.fxml");
-
-        } catch (IOException e) {
-
-            e.printStackTrace();
-            messageLabel.setText("Unable to open Doctor Dashboard.");
-        }
     }
 
 

@@ -41,11 +41,9 @@ public class ManagePaymentController {
 
     private final File dataFolder = new File("data");
 
-    private final File patientFile =
-            new File(dataFolder, "patients.bin");
+    private final File patientFile = new File(dataFolder, "patients.bin");
 
-    private final ArrayList<PatientRecordModelClass> patientList =
-            new ArrayList<>();
+    private final ArrayList<PatientRecordModelClass> patientList = new ArrayList<>();
 
     @FXML
     public void initialize() {
@@ -56,17 +54,13 @@ public class ManagePaymentController {
 
         patientNameTextField.setEditable(false);
 
-        patientIdColumn.setCellValueFactory(
-                new PropertyValueFactory<>("patientId"));
+        patientIdColumn.setCellValueFactory(new PropertyValueFactory<>("patientId"));
 
-        patientNameColumn.setCellValueFactory(
-                new PropertyValueFactory<>("patientName"));
+        patientNameColumn.setCellValueFactory(new PropertyValueFactory<>("patientName"));
 
-        billAmountColumn.setCellValueFactory(
-                new PropertyValueFactory<>("billAmount"));
+        billAmountColumn.setCellValueFactory(new PropertyValueFactory<>("billAmount"));
 
-        paymentStatusColumn.setCellValueFactory(
-                new PropertyValueFactory<>("paymentStatus"));
+        paymentStatusColumn.setCellValueFactory(new PropertyValueFactory<>("paymentStatus"));
 
         loadPatients();
     }
@@ -80,21 +74,18 @@ public class ManagePaymentController {
             return;
         }
 
-        try (ObjectInputStream ois =
-                     new ObjectInputStream(
-                             new FileInputStream(patientFile))) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(patientFile))) {
 
             while (true) {
 
-                PatientRecordModelClass patient =
-                        (PatientRecordModelClass) ois.readObject();
+                PatientRecordModelClass patient = (PatientRecordModelClass) ois.readObject();
 
                 patientList.add(patient);
             }
 
         } catch (EOFException e) {
 
-            // End of file
+
 
         } catch (IOException | ClassNotFoundException e) {
 
@@ -119,8 +110,7 @@ public class ManagePaymentController {
 
         try {
 
-            patientId = Integer.parseInt(
-                    patientIdTextField.getText().trim());
+            patientId = Integer.parseInt(patientIdTextField.getText().trim());
 
         } catch (NumberFormatException e) {
 
@@ -134,8 +124,7 @@ public class ManagePaymentController {
 
             if (patient.getPatientId() == patientId) {
 
-                patientNameTextField.setText(
-                        patient.getPatientName());
+                patientNameTextField.setText(patient.getPatientName());
 
                 found = true;
                 break;
@@ -159,10 +148,7 @@ public class ManagePaymentController {
     @FXML
     public void donePaymentButton(ActionEvent actionEvent) {
 
-        if (patientIdTextField.getText().trim().isEmpty()
-                || patientNameTextField.getText().trim().isEmpty()
-                || paymentAmountTextField.getText().trim().isEmpty()) {
-
+        if (patientIdTextField.getText().trim().isEmpty() || patientNameTextField.getText().trim().isEmpty() || paymentAmountTextField.getText().trim().isEmpty()) {
             messageLabel.setText("Please complete all fields.");
             return;
         }
@@ -172,11 +158,9 @@ public class ManagePaymentController {
 
         try {
 
-            patientId = Integer.parseInt(
-                    patientIdTextField.getText().trim());
+            patientId = Integer.parseInt(patientIdTextField.getText().trim());
 
-            paymentAmount = Double.parseDouble(
-                    paymentAmountTextField.getText().trim());
+            paymentAmount = Double.parseDouble(paymentAmountTextField.getText().trim());
 
         } catch (NumberFormatException e) {
 
@@ -204,12 +188,9 @@ public class ManagePaymentController {
             return;
         }
 
-        try (ObjectOutputStream oos =
-                     new ObjectOutputStream(
-                             new FileOutputStream(patientFile))) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(patientFile))) {
 
             for (PatientRecordModelClass patient : patientList) {
-
                 oos.writeObject(patient);
             }
 
@@ -241,26 +222,14 @@ public class ManagePaymentController {
         patientIdTextField.clear();
         patientNameTextField.clear();
         paymentAmountTextField.clear();
-
         paymentTableView.getSelectionModel().clearSelection();
 
         messageLabel.setText("");
     }
 
     @FXML
-    public void backButton(ActionEvent actionEvent) {
+    public void backButton(ActionEvent actionEvent) throws IOException {
+            SceneSwitcher.switchTo("jannati/receiptionistDashboard.fxml");
 
-        try {
-
-            SceneSwitcher.switchTo(
-                    "jannati/receiptionistDashboard.fxml");
-
-        } catch (IOException e) {
-
-            e.printStackTrace();
-
-            messageLabel.setText(
-                    "Unable to open Accountant Dashboard.");
-        }
     }
 }

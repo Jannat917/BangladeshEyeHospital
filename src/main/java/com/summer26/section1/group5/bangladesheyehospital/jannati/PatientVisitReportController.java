@@ -37,8 +37,7 @@ public class PatientVisitReportController {
 
     private final File dataFolder = new File("data");
 
-    private final File patientFile =
-            new File(dataFolder, "patients.bin");
+    private final File patientFile = new File(dataFolder, "patients.bin");
     @FXML
     private TextField doctorIdTextField;
     @FXML
@@ -69,8 +68,7 @@ public class PatientVisitReportController {
 
             while (true) {
 
-                PatientRecordModelClass patient =
-                        (PatientRecordModelClass) ois.readObject();
+                PatientRecordModelClass patient = (PatientRecordModelClass) ois.readObject();
 
                 patientList.add(patient);
             }
@@ -117,11 +115,9 @@ public class PatientVisitReportController {
 
                 patientNameTextField.setText(patient.getPatientName());
 
-                lastVisitDateTextField.setText(
-                        patient.getAppointmentDate());
+                lastVisitDateTextField.setText(patient.getAppointmentDate());
 
-                diseaseTextArea.setText(
-                        patient.getDisease());
+                diseaseTextArea.setText(patient.getDisease());
 
                doctorIdTextField.setText(Integer.toString(patient.getAssignedDoctorId()));
 
@@ -163,7 +159,7 @@ public class PatientVisitReportController {
     @FXML
     public void backButton(ActionEvent actionEvent) throws IOException {
 
-            SceneSwitcher.switchTo("jannati/receiptionistDashboard.fxml");
+        SceneSwitcher.switchTo("jannati/receiptionistDashboard.fxml");
 
 
 

@@ -37,27 +37,14 @@ public class SignUpController {
             dataFolder.mkdirs();
         }
 
-        roleComboBox.getItems().addAll(
-                "Receptionist",
-                "Accountant",
-                "SecurityStaff",
-                "Nurse",
-                "Pharmacist",
-                "Optician"
-        );
-
+        roleComboBox.getItems().addAll("Receptionist", "Accountant", "SecurityStaff", "Nurse", "Pharmacist", "Optician");
         roleComboBox.setValue("Receptionist");
-
         messageLabel.setText("");
     }
     @FXML
     public void registerButton(ActionEvent actionEvent) {
 
-        if (userIdTextField.getText().isEmpty()
-                || nameTextField.getText().isEmpty()
-                || passwordField.getText().isEmpty()
-                || roleComboBox.getValue() == null) {
-
+        if (userIdTextField.getText().isEmpty() || nameTextField.getText().isEmpty() || passwordField.getText().isEmpty() || roleComboBox.getValue() == null) {
             messageLabel.setText("Please fill all fields.");
             return;
         }
@@ -76,16 +63,14 @@ public class SignUpController {
 
         ArrayList<UserModelClass> userList = new ArrayList<>();
 
-        // Read existing users
+        //  existing users
         if (userFile.exists()) {
 
-            try (ObjectInputStream ois =
-                         new ObjectInputStream(new FileInputStream(userFile))) {
+            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(userFile))) {
 
                 while (true) {
 
-                    UserModelClass user =
-                            (UserModelClass) ois.readObject();
+                    UserModelClass user = (UserModelClass) ois.readObject();
 
                     userList.add(user);
                 }
@@ -100,7 +85,7 @@ public class SignUpController {
             }
         }
 
-        // Check duplicate User ID
+        // Checking duplicate User ID
         for (UserModelClass user : userList) {
 
             if (user.getUserId() == userId) {
@@ -110,20 +95,13 @@ public class SignUpController {
             }
         }
 
-        // Create new user
-        UserModelClass newUser = new UserModelClass(
-                userId,
-                nameTextField.getText(),
-                "",
-                passwordField.getText(),
-                roleComboBox.getValue()
-        );
+        // Creating new user
+        UserModelClass newUser = new UserModelClass(userId, nameTextField.getText(), "", passwordField.getText(), roleComboBox.getValue());
 
         userList.add(newUser);
 
-        // Save all users
-        try (ObjectOutputStream oos =
-                     new ObjectOutputStream(new FileOutputStream(userFile))) {
+        // Saving all users
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(userFile))) {
 
             for (UserModelClass user : userList) {
 
@@ -145,8 +123,6 @@ public class SignUpController {
     }
     @FXML
     public void backButton (ActionEvent actionEvent) throws IOException {
-
-
         SceneSwitcher.switchTo("common/login.fxml");
 
     }

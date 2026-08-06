@@ -47,11 +47,9 @@ public class AppointmentConfirmationReceptionistController {
 
     private final File dataFolder = new File("data");
 
-    private final File patientFile =
-            new File(dataFolder, "patients.bin");
+    private final File patientFile = new File(dataFolder, "patients.bin");
 
-    private final ArrayList<PatientRecordModelClass> patientList =
-            new ArrayList<>();
+    private final ArrayList<PatientRecordModelClass> patientList = new ArrayList<>();
 
     @FXML
     public void initialize() {
@@ -60,29 +58,21 @@ public class AppointmentConfirmationReceptionistController {
             dataFolder.mkdirs();
         }
 
-        patientIdColumn.setCellValueFactory(
-                new PropertyValueFactory<>("patientId"));
+        patientIdColumn.setCellValueFactory(new PropertyValueFactory<>("patientId"));
 
-        patientNameColumn.setCellValueFactory(
-                new PropertyValueFactory<>("patientName"));
+        patientNameColumn.setCellValueFactory(new PropertyValueFactory<>("patientName"));
 
-        doctorColumn.setCellValueFactory(
-                new PropertyValueFactory<>("assignedDoctor"));
+        doctorColumn.setCellValueFactory(new PropertyValueFactory<>("assignedDoctor"));
 
-        doctorIdColumn.setCellValueFactory(
-                new PropertyValueFactory<>("assignedDoctorId"));
+        doctorIdColumn.setCellValueFactory(new PropertyValueFactory<>("assignedDoctorId"));
 
-        dateColumn.setCellValueFactory(
-                new PropertyValueFactory<>("appointmentDate"));
+        dateColumn.setCellValueFactory(new PropertyValueFactory<>("appointmentDate"));
 
-        timeColumn.setCellValueFactory(
-                new PropertyValueFactory<>("appointmentTime"));
+        timeColumn.setCellValueFactory(new PropertyValueFactory<>("appointmentTime"));
 
-        typeColumn.setCellValueFactory(
-                new PropertyValueFactory<>("appointmentType"));
+        typeColumn.setCellValueFactory(new PropertyValueFactory<>("appointmentType"));
 
-        statusColumn.setCellValueFactory(
-                new PropertyValueFactory<>("appointmentStatus"));
+        statusColumn.setCellValueFactory(new PropertyValueFactory<>("appointmentStatus"));
 
         loadAppointments();
     }
@@ -93,31 +83,23 @@ public class AppointmentConfirmationReceptionistController {
         appointmentTableView.getItems().clear();
 
         if (!patientFile.exists()) {
-
             messageLabel.setText("No appointments found.");
             return;
         }
 
-        try (ObjectInputStream ois =
-                     new ObjectInputStream(
-                             new FileInputStream(patientFile))) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(patientFile))) {
 
             while (true) {
 
-                PatientRecordModelClass patient =
-                        (PatientRecordModelClass) ois.readObject();
+                PatientRecordModelClass patient = (PatientRecordModelClass) ois.readObject();
 
-                // Only patients who have booked an appointment
-                if (patient.getAppointmentDate() != null
-                        && !patient.getAppointmentDate().isEmpty()) {
-
+                if (patient.getAppointmentDate() != null && !patient.getAppointmentDate().isEmpty()) {
                     patientList.add(patient);
                 }
             }
 
         } catch (EOFException e) {
 
-            // End of file
 
         } catch (IOException | ClassNotFoundException e) {
 
@@ -129,39 +111,31 @@ public class AppointmentConfirmationReceptionistController {
     }
 
 
-
     @FXML
     public void confirmButton(ActionEvent actionEvent) {
 
-        PatientRecordModelClass selectedPatient =
-                appointmentTableView.getSelectionModel().getSelectedItem();
+        PatientRecordModelClass selectedPatient = appointmentTableView.getSelectionModel().getSelectedItem();
 
         if (selectedPatient == null) {
-
             messageLabel.setText("Please select an appointment.");
             return;
         }
 
-        // Update status
+
         selectedPatient.setAppointmentStatus("Confirmed");
 
-        // Update the ArrayList
         for (PatientRecordModelClass patient : patientList) {
 
             if (patient.getPatientId() == selectedPatient.getPatientId()) {
-
                 patient.setAppointmentStatus("Confirmed");
                 break;
             }
         }
 
-        // Save updated data back to patients.bin
-        try (ObjectOutputStream oos =
-                     new ObjectOutputStream(
-                             new FileOutputStream(patientFile))) {
+
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(patientFile))) {
 
             for (PatientRecordModelClass patient : patientList) {
-
                 oos.writeObject(patient);
             }
 
@@ -177,7 +151,7 @@ public class AppointmentConfirmationReceptionistController {
             return;
         }
 
-        // Refresh the table
+
         loadAppointments();
     }
 
@@ -190,9 +164,7 @@ public class AppointmentConfirmationReceptionistController {
 
     @FXML
     public void backButton(ActionEvent actionEvent) throws IOException {
-
         SceneSwitcher.switchTo("jannati/receiptionistDashboard.fxml");
-
 
     }
 }

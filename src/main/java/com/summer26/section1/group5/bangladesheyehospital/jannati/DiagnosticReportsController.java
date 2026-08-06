@@ -55,15 +55,11 @@ public class DiagnosticReportsController {
             dataFolder.mkdirs();
         }
 
-        dateColumn.setCellValueFactory(
-                new PropertyValueFactory<>("reportDate"));
+        dateColumn.setCellValueFactory(new PropertyValueFactory<>("reportDate"));
 
-        testNameColumn.setCellValueFactory(
-                new PropertyValueFactory<>("testName"));
+        testNameColumn.setCellValueFactory(new PropertyValueFactory<>("testName"));
 
-        diagnosisColumn.setCellValueFactory(
-                new PropertyValueFactory<>("diagnosis"));
-
+        diagnosisColumn.setCellValueFactory(new PropertyValueFactory<>("diagnosis"));
 
         loadReports();
     }
@@ -79,21 +75,18 @@ public class DiagnosticReportsController {
             return;
         }
 
-        try (ObjectInputStream ois =
-                     new ObjectInputStream(
-                             new FileInputStream(reportFile))) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(reportFile))) {
 
             while (true) {
 
-                DiagnosticReportModelClass report =
-                        (DiagnosticReportModelClass) ois.readObject();
+                DiagnosticReportModelClass report = (DiagnosticReportModelClass) ois.readObject();
 
                 reportList.add(report);
             }
 
         } catch (EOFException e) {
 
-            // End of file
+
 
         } catch (IOException | ClassNotFoundException e) {
 
@@ -158,11 +151,7 @@ public class DiagnosticReportsController {
         String diagnosis = diagnosisTextArea.getText().trim();
         String result = resultTextArea.getText().trim();
 
-        if (patientIdText.isEmpty()
-                || reportDate == null
-                || testName.isEmpty()
-                || diagnosis.isEmpty()
-                || result.isEmpty()) {
+        if (patientIdText.isEmpty() || reportDate == null || testName.isEmpty() || diagnosis.isEmpty() || result.isEmpty()) {
 
             messageLabel.setText("Please fill up all fields.");
             return;
@@ -186,24 +175,13 @@ public class DiagnosticReportsController {
         String patientName = "";
         String doctorRemarks = "";
 
-        DiagnosticReportModelClass report =
-                new DiagnosticReportModelClass(
-                        patientId,
-                        patientName,
-                        reportDate,
-                        testName,
-                        diagnosis,
-                        result,
-                        doctorRemarks,
-                        ""
-                );
-        // Read existing reports
+        DiagnosticReportModelClass report = new DiagnosticReportModelClass(patientId, patientName, reportDate, testName, diagnosis, result, doctorRemarks, "");
+
         ArrayList<DiagnosticReportModelClass> reports = new ArrayList<>();
 
         if (reportFile.exists()) {
 
-            try (ObjectInputStream ois =
-                         new ObjectInputStream(new FileInputStream(reportFile))) {
+            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(reportFile))) {
 
                 while (true) {
 
@@ -213,7 +191,6 @@ public class DiagnosticReportsController {
 
             } catch (EOFException e) {
 
-                // End of file
 
             } catch (IOException | ClassNotFoundException e) {
 
@@ -221,15 +198,13 @@ public class DiagnosticReportsController {
             }
         }
 
-        // Add new report
+
         reports.add(report);
 
-        // Rewrite the entire file
-        try (ObjectOutputStream oos =
-                     new ObjectOutputStream(new FileOutputStream(reportFile))) {
+
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(reportFile))) {
 
             for (DiagnosticReportModelClass r : reports) {
-
                 oos.writeObject(r);
 
             }
@@ -257,17 +232,12 @@ public class DiagnosticReportsController {
     }
 
     @FXML
-    public void backButton(ActionEvent actionEvent) {
+    public void backButton(ActionEvent actionEvent) throws IOException {
 
-        try {
+
 
             SceneSwitcher.switchTo("jannati/doctorDashboard.fxml");
 
-        } catch (IOException e) {
-
-            e.printStackTrace();
-            messageLabel.setText("Unable to open dashboard.");
-        }
     }
 
     @FXML
@@ -301,8 +271,6 @@ public class DiagnosticReportsController {
 
         alert.setContentText(
                 "Patient ID : " + report.getPatientId() +
-
-
 
                         "\nReport Date : " + report.getReportDate() +
 

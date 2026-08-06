@@ -71,20 +71,18 @@ public class CheckDoctorAvailabilityController {
             return;
         }
 
-        try (ObjectInputStream ois =
-                     new ObjectInputStream(new FileInputStream(file))) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
 
             while (true) {
 
-                DoctorModelClass doctor =
-                        (DoctorModelClass) ois.readObject();
+                DoctorModelClass doctor = (DoctorModelClass) ois.readObject();
 
                 doctorList.add(doctor);
             }
 
         } catch (EOFException e) {
 
-            // Finished reading
+
 
         } catch (IOException | ClassNotFoundException e) {
 
@@ -125,7 +123,6 @@ public class CheckDoctorAvailabilityController {
         String specialization = specializationComboBox.getValue();
 
         if (department == null || specialization == null) {
-
             messageLabel.setText("Please select department and specialization.");
             return;
         }
@@ -136,8 +133,7 @@ public class CheckDoctorAvailabilityController {
 
         for (DoctorModelClass doctor : doctorList) {
 
-            if (doctor.getDepartment().equals(department)
-                    && doctor.getSpecialization().equals(specialization)) {
+            if (doctor.getDepartment().equals(department) && doctor.getSpecialization().equals(specialization)) {
 
                 doctorTableView.getItems().add(doctor);
                 count++;

@@ -44,13 +44,11 @@ public class UploadPrescriptionController {
     @FXML
     private TextArea medicationTextArea;
 
-    private final ArrayList<PatientRecordModelClass> patientList =
-            new ArrayList<>();
+    private final ArrayList<PatientRecordModelClass> patientList = new ArrayList<>();
 
     private final File dataFolder = new File("data");
 
-    private final File patientFile =
-            new File(dataFolder, "patients.bin");
+    private final File patientFile = new File(dataFolder, "patients.bin");
     @FXML
     private TextField diseaseTextField;
 
@@ -63,11 +61,7 @@ public class UploadPrescriptionController {
 
 
 
-        genderComboBox.getItems().addAll(
-                "Male",
-                "Female",
-                "Other"
-        );
+        genderComboBox.getItems().addAll("Male", "Female", "Other");
 
         patientNameTextField.setEditable(false);
         ageTextField.setEditable(false);

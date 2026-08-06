@@ -59,14 +59,11 @@ public class GenerateTestBillController {
 
     private final File dataFolder = new File("data");
 
-    private final File patientFile =
-            new File(dataFolder, "patients.bin");
+    private final File patientFile = new File(dataFolder, "patients.bin");
 
-    private final File billFile =
-            new File(dataFolder, "testBills.bin");
+    private final File billFile = new File(dataFolder, "testBills.bin");
 
-    private final ArrayList<TestBillModelClass> billList =
-            new ArrayList<>();
+    private final ArrayList<TestBillModelClass> billList = new ArrayList<>();
 
     @FXML
     public void initialize() {
@@ -78,18 +75,13 @@ public class GenerateTestBillController {
         patientNameTextField.setEditable(false);
         totalBillTextField.setEditable(false);
 
-        patientIdColumn.setCellValueFactory(
-                new PropertyValueFactory<>("patientId"));
+        patientIdColumn.setCellValueFactory(new PropertyValueFactory<>("patientId"));
 
-        patientNameColumn.setCellValueFactory(
-                new PropertyValueFactory<>("patientName"));
+        patientNameColumn.setCellValueFactory(new PropertyValueFactory<>("patientName"));
 
-        testsColumn.setCellValueFactory(
-                new PropertyValueFactory<>("selectedTests"));
+        testsColumn.setCellValueFactory(new PropertyValueFactory<>("selectedTests"));
 
-        totalColumn.setCellValueFactory(
-                new PropertyValueFactory<>("totalAmount"));
-
+        totalColumn.setCellValueFactory(new PropertyValueFactory<>("totalAmount"));
         loadBills();
     }
 
@@ -97,26 +89,21 @@ public class GenerateTestBillController {
 
         billList.clear();
         billTableView.getItems().clear();
-
         if (!billFile.exists()) {
             return;
         }
 
-        try (ObjectInputStream ois =
-                     new ObjectInputStream(
-                             new FileInputStream(billFile))) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(billFile))) {
 
             while (true) {
 
-                TestBillModelClass bill =
-                        (TestBillModelClass) ois.readObject();
-
+                TestBillModelClass bill = (TestBillModelClass) ois.readObject();
                 billList.add(bill);
             }
 
         } catch (EOFException e) {
 
-            // End of file
+
 
         } catch (IOException | ClassNotFoundException e) {
 
@@ -130,7 +117,6 @@ public class GenerateTestBillController {
     public void searchButton(ActionEvent actionEvent) {
 
         if (patientIdTextField.getText().trim().isEmpty()) {
-
             messageLabel.setText("Enter Patient ID.");
             return;
         }
@@ -139,8 +125,7 @@ public class GenerateTestBillController {
 
         try {
 
-            patientId = Integer.parseInt(
-                    patientIdTextField.getText().trim());
+            patientId = Integer.parseInt(patientIdTextField.getText().trim());
 
         } catch (NumberFormatException e) {
 
@@ -156,14 +141,11 @@ public class GenerateTestBillController {
 
         boolean found = false;
 
-        try (ObjectInputStream ois =
-                     new ObjectInputStream(
-                             new FileInputStream(patientFile))) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(patientFile))) {
 
             while (true) {
 
-                PatientRecordModelClass patient =
-                        (PatientRecordModelClass) ois.readObject();
+                PatientRecordModelClass patient = (PatientRecordModelClass) ois.readObject();
 
                 if (patient.getPatientId() == patientId) {
 
@@ -177,7 +159,6 @@ public class GenerateTestBillController {
 
         } catch (EOFException e) {
 
-            // End of file
 
         } catch (IOException | ClassNotFoundException e) {
 
@@ -256,15 +237,12 @@ public class GenerateTestBillController {
     @FXML
     public void generateButton(ActionEvent actionEvent) {
 
-        if (patientIdTextField.getText().trim().isEmpty()
-                || patientNameTextField.getText().trim().isEmpty()) {
-
+        if (patientIdTextField.getText().trim().isEmpty() || patientNameTextField.getText().trim().isEmpty()) {
             messageLabel.setText("Search a patient first.");
             return;
         }
 
         if (totalBillTextField.getText().trim().isEmpty()) {
-
             messageLabel.setText("Calculate the bill first.");
             return;
         }
@@ -300,22 +278,11 @@ public class GenerateTestBillController {
             tests.delete(tests.length() - 2, tests.length());
         }
 
-        TestBillModelClass bill = new TestBillModelClass(
-
-                Integer.parseInt(patientIdTextField.getText()),
-
-                patientNameTextField.getText(),
-
-                tests.toString(),
-
-                Double.parseDouble(totalBillTextField.getText())
-        );
+        TestBillModelClass bill = new TestBillModelClass(Integer.parseInt(patientIdTextField.getText()), patientNameTextField.getText(), tests.toString(), Double.parseDouble(totalBillTextField.getText()));
 
         billList.add(bill);
 
-        try (ObjectOutputStream oos =
-                     new ObjectOutputStream(
-                             new FileOutputStream(billFile))) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(billFile))) {
 
             for (TestBillModelClass testBill : billList) {
 
@@ -347,7 +314,6 @@ public class GenerateTestBillController {
         patientIdTextField.clear();
         patientNameTextField.clear();
         totalBillTextField.clear();
-
         bloodTestCheckBox.setSelected(false);
         eyePressureCheckBox.setSelected(false);
         visualFieldCheckBox.setSelected(false);
@@ -359,16 +325,8 @@ public class GenerateTestBillController {
     }
 
     @FXML
-    public void backButton(ActionEvent actionEvent) {
+    public void backButton(ActionEvent actionEvent) throws IOException {
+            SceneSwitcher.switchTo("jannati/receiptionistDashboard.fxml");
 
-        try {
-
-            SceneSwitcher.switchTo(
-                    "jannati/receiptionistDashboard.fxml");
-
-        } catch (IOException e) {
-
-            e.printStackTrace();
-        }
     }
 }

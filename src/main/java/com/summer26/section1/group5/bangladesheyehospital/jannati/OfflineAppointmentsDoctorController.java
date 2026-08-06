@@ -46,13 +46,11 @@ public class OfflineAppointmentsDoctorController {
     @FXML
     private Label messageLabel;
 
-    private final ArrayList<PatientRecordModelClass> patientList =
-            new ArrayList<>();
+    private final ArrayList<PatientRecordModelClass> patientList = new ArrayList<>();
 
     private final File dataFolder = new File("data");
 
-    private final File patientFile =
-            new File(dataFolder, "patients.bin");
+    private final File patientFile = new File(dataFolder, "patients.bin");
 
     @FXML
     public void initialize() {
@@ -61,31 +59,20 @@ public class OfflineAppointmentsDoctorController {
             dataFolder.mkdirs();
         }
 
-        patientIdColumn.setCellValueFactory(
-                new PropertyValueFactory<>("patientId"));
+        patientIdColumn.setCellValueFactory(new PropertyValueFactory<>("patientId"));
 
-        patientNameColumn.setCellValueFactory(
-                new PropertyValueFactory<>("patientName"));
+        patientNameColumn.setCellValueFactory(new PropertyValueFactory<>("patientName"));
 
-        doctorIdColumn.setCellValueFactory(
-                new PropertyValueFactory<>("assignedDoctorId"));
+        doctorIdColumn.setCellValueFactory(new PropertyValueFactory<>("assignedDoctorId"));
 
-        dateColumn.setCellValueFactory(
-                new PropertyValueFactory<>("appointmentDate"));
+        dateColumn.setCellValueFactory(new PropertyValueFactory<>("appointmentDate"));
 
-        timeColumn.setCellValueFactory(
-                new PropertyValueFactory<>("appointmentTime"));
+        timeColumn.setCellValueFactory(new PropertyValueFactory<>("appointmentTime"));
 
-        statusColumn.setCellValueFactory(
-                new PropertyValueFactory<>("appointmentType"));
+        statusColumn.setCellValueFactory(new PropertyValueFactory<>("appointmentType"));
 
         timeComboBox.getItems().addAll(
-                "09:00 AM - 11:00 AM",
-                "11:00 AM - 01:00 PM",
-                "02:00 PM - 04:00 PM",
-                "04:00 PM - 06:00 PM",
-                "06:00 PM - 08:00 PM"
-        );
+                "09:00 AM - 11:00 AM", "11:00 AM - 01:00 PM", "02:00 PM - 04:00 PM", "04:00 PM - 06:00 PM", "06:00 PM - 08:00 PM");
 
         loadAppointments();
     }
@@ -99,18 +86,14 @@ public class OfflineAppointmentsDoctorController {
             return;
         }
 
-        try (ObjectInputStream ois =
-                     new ObjectInputStream(
-                             new FileInputStream(patientFile))) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(patientFile))) {
 
             while (true) {
 
                 PatientRecordModelClass patient =
                         (PatientRecordModelClass) ois.readObject();
 
-                // Only load OFFLINE appointments
-                if (patient.getAppointmentType() != null
-                        && patient.getAppointmentType().equalsIgnoreCase("Offline")) {
+                if (patient.getAppointmentType() != null && patient.getAppointmentType().equalsIgnoreCase("Offline")) {
 
                     patientList.add(patient);
                 }
@@ -118,7 +101,7 @@ public class OfflineAppointmentsDoctorController {
 
         } catch (EOFException e) {
 
-            // End of file reached
+
 
         } catch (IOException | ClassNotFoundException e) {
 
@@ -144,7 +127,6 @@ public class OfflineAppointmentsDoctorController {
 
             boolean match = true;
 
-            // Filter by Doctor ID
             if (!doctorId.isEmpty()) {
 
                 try {

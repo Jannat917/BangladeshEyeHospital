@@ -68,45 +68,19 @@ public class DoctorSignUpController {
         if (!dataFolder.exists()) {
             dataFolder.mkdirs();
         }
-        doctorAvailableTimeCombobox.getItems().addAll(
-                "09:00 AM - 11:00 AM",
-                "11:00 AM - 01:00 PM",
-                "02:00 PM - 04:00 PM",
-                "04:00 PM - 06:00 PM",
-                "06:00 PM - 08:00 PM"
+        doctorAvailableTimeCombobox.getItems().addAll("09:00 AM - 11:00 AM", "11:00 AM - 01:00 PM", "02:00 PM - 04:00 PM", "04:00 PM - 06:00 PM", "06:00 PM - 08:00 PM"
         );
-        departmentCombobox.getItems().addAll(
-                "General Eye",
-                "Cornea",
-                "Retina",
-                "Glaucoma",
-                "Pediatric Eye",
-                "Optometry"
-        );
+        departmentCombobox.getItems().addAll( "Cornea", "Retina", "Glaucoma", "Pediatric Eye", "Optometry");
         availabilityOnCombobox.getItems().addAll("Online","Offline");
 
-        spealizationCombobox.getItems().addAll(
-                "Ophthalmologist",
-                "Retina Specialist",
-                "Cornea Specialist",
-                "Glaucoma Specialist",
-                "Pediatric Ophthalmologist",
-                "Optometrist"
-        );
+        spealizationCombobox.getItems().addAll("Ophthalmologist", "Retina Specialist", "Cornea Specialist", "Glaucoma Specialist", "Pediatric Ophthalmologist", "Optometrist");
 
         messageLabel.setText("");
     }
     @FXML
     public void registerButton(ActionEvent actionEvent) {
 
-        if (userIdTextField.getText().isEmpty()
-                || nameTextField.getText().isEmpty()
-                || passwordField.getText().isEmpty()
-                || departmentCombobox.getValue() == null
-                || spealizationCombobox.getValue() == null
-                || doctorAvailableTimeCombobox.getValue().isEmpty()
-                || availabilityOnCombobox.getValue()== null) {
-
+        if (userIdTextField.getText().isEmpty() || nameTextField.getText().isEmpty() || passwordField.getText().isEmpty() || departmentCombobox.getValue() == null || spealizationCombobox.getValue() == null || doctorAvailableTimeCombobox.getValue().isEmpty() || availabilityOnCombobox.getValue()== null) {
             messageLabel.setText("Please fill all fields.");
             return;
         }
@@ -123,23 +97,18 @@ public class DoctorSignUpController {
 
         ArrayList<DoctorModelClass> doctorList = new ArrayList<>();
 
-        // Read existing doctors
         if (doctorFile.exists()) {
 
-            try (ObjectInputStream ois =
-                         new ObjectInputStream(new FileInputStream(doctorFile))) {
+            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(doctorFile))) {
 
                 while (true) {
 
                     DoctorModelClass doctor = (DoctorModelClass) ois.readObject();
-
                     doctorList.add(doctor);
                 }
 
             }
             catch (EOFException e) {
-
-                // End of file
 
             }
             catch (Exception e) {
@@ -147,9 +116,8 @@ public class DoctorSignUpController {
             }
         }
 
-        // Duplicate ID check
-        for (DoctorModelClass doctor : doctorList) {
 
+        for (DoctorModelClass doctor : doctorList) {
             if (doctor.getDoctorId() == doctorId) {
 
                 messageLabel.setText("Doctor ID already exists.");
@@ -157,7 +125,7 @@ public class DoctorSignUpController {
             }
         }
 
-        // Available Days
+
         String days = "";
 
         if (sat.isSelected()) days += "Saturday ";
@@ -170,28 +138,16 @@ public class DoctorSignUpController {
 
 
         DoctorModelClass doctor = new DoctorModelClass(
-
-                doctorId,
-                nameTextField.getText(),
-                passwordField.getText(),
+                doctorId, nameTextField.getText(), passwordField.getText(),
                 spealizationCombobox.getValue().toString(),
-
-                "",                         // Gender
-                "",                         // Phone
-                "",                         // Email
-
-                availabilityOnCombobox.getValue(),
-
-                departmentCombobox.getValue().toString(),
-
-                days.trim(),
-
-                doctorAvailableTimeCombobox.getValue()
-        );
+                "",
+                "",
+                "", availabilityOnCombobox.getValue(), departmentCombobox.getValue().toString(), days.trim(),
+                doctorAvailableTimeCombobox.getValue() );
 
         doctorList.add(doctor);
 
-        // Save all doctors
+
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(doctorFile))) {
 
             for (DoctorModelClass d : doctorList) {
@@ -200,7 +156,6 @@ public class DoctorSignUpController {
             }
 
             messageLabel.setText("Doctor Registered Successfully!");
-
             userIdTextField.clear();
             nameTextField.clear();
             passwordField.clear();
@@ -224,16 +179,12 @@ public class DoctorSignUpController {
         }
     }
     @FXML
-    public void backButton(ActionEvent actionEvent) {
+    public void backButton(ActionEvent actionEvent) throws IOException {
 
-        try {
+
 
             SceneSwitcher.switchTo("common/login.fxml");
 
-        } catch (IOException e) {
 
-            e.printStackTrace();
-            messageLabel.setText("Unable to open Login page.");
-        }
     }
 }

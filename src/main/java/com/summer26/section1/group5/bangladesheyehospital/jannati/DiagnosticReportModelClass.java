@@ -22,14 +22,7 @@ public class DiagnosticReportModelClass implements Serializable {
     public DiagnosticReportModelClass() {
     }
 
-    public DiagnosticReportModelClass(int patientId,
-                                      String patientName,
-                                      LocalDate reportDate,
-                                      String testName,
-                                      String diagnosis,
-                                      String testResult,
-                                      String doctorRemarks,
-                                      String doctorName) {
+    public DiagnosticReportModelClass(int patientId, String patientName, LocalDate reportDate, String testName, String diagnosis, String testResult, String doctorRemarks, String doctorName) {
 
         this.patientId = patientId;
         this.patientName = patientName;

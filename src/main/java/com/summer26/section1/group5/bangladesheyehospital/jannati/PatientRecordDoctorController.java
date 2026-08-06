@@ -65,26 +65,19 @@ public class PatientRecordDoctorController {
             dataFolder.mkdirs();
         }
 
-        patientIdColumn.setCellValueFactory(
-                new PropertyValueFactory<>("patientId"));
+        patientIdColumn.setCellValueFactory(new PropertyValueFactory<>("patientId"));
 
-        patientNameColumn.setCellValueFactory(
-                new PropertyValueFactory<>("patientName"));
+        patientNameColumn.setCellValueFactory(new PropertyValueFactory<>("patientName"));
 
-        ageColumn.setCellValueFactory(
-                new PropertyValueFactory<>("age"));
+        ageColumn.setCellValueFactory(new PropertyValueFactory<>("age"));
 
-        genderColumn.setCellValueFactory(
-                new PropertyValueFactory<>("gender"));
+        genderColumn.setCellValueFactory(new PropertyValueFactory<>("gender"));
 
-        phoneColumn.setCellValueFactory(
-                new PropertyValueFactory<>("phoneNumber"));
+        phoneColumn.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
 
-        doctorColumn.setCellValueFactory(
-                new PropertyValueFactory<>("assignedDoctor"));
+        doctorColumn.setCellValueFactory(new PropertyValueFactory<>("assignedDoctor"));
 
-        appointmentColumn.setCellValueFactory(
-                new PropertyValueFactory<>("appointmentDate"));
+        appointmentColumn.setCellValueFactory(new PropertyValueFactory<>("appointmentDate"));
 
         loadPatients();
     }
@@ -99,12 +92,10 @@ public class PatientRecordDoctorController {
             return;
         }
 
-        try (ObjectInputStream ois =
-                     new ObjectInputStream(new FileInputStream(patientFile))) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(patientFile))) {
 
             while (true) {
-                PatientRecordModelClass patient =
-                        (PatientRecordModelClass) ois.readObject();
+                PatientRecordModelClass patient = (PatientRecordModelClass) ois.readObject();
 
                 patientList.add(patient);
             }
@@ -202,11 +193,9 @@ public class PatientRecordDoctorController {
     @FXML
     public void viewHistoryButton(ActionEvent actionEvent) {
 
-        PatientRecordModelClass patient =
-                patientTableView.getSelectionModel().getSelectedItem();
+        PatientRecordModelClass patient = patientTableView.getSelectionModel().getSelectedItem();
 
         if (patient == null) {
-
             messageLabel.setText("Please select a patient.");
             return;
         }
@@ -216,9 +205,7 @@ public class PatientRecordDoctorController {
         alert.setTitle("Patient Full History");
         alert.setHeaderText(patient.getPatientName());
         int fee = 1000;
-        alert.setContentText(
-
-                "Patient ID : " + patient.getPatientId() +
+        alert.setContentText("Patient ID : " + patient.getPatientId() +
 
                         "\nPatient Name : " + patient.getPatientName() +
 
@@ -240,39 +227,19 @@ public class PatientRecordDoctorController {
 
                         "\n\nDisease : " + patient.getDisease() +
 
-                        "\nDiagnosis : " + patient.getDiagnosis() +
-
-
-                        "\nDoctor Remarks : " + patient.getDoctorRemarks() +
-
-                        "\n\nEye Power : " + patient.getEyePowerPrescription() +
-
-
-
-
-                        "\n\nDoctor Fee : " + fee +
-
-
-
-                        "\nBill Amount : " + patient.getBillAmount() +
-
-                        "\nPayment Status : " + patient.getPaymentStatus()
+                        "\nDiagnosis : " + patient.getDiagnosis() + "\nDoctor Remarks : " + patient.getDoctorRemarks() +
+                "\n\nEye Power : " + patient.getEyePowerPrescription() + "\n\nDoctor Fee : " + fee +
+                "\nBill Amount : " + patient.getBillAmount() +
+                "\nPayment Status : " + patient.getPaymentStatus()
         );
 
         alert.showAndWait();
     }
 
     @FXML
-    public void backButton(ActionEvent actionEvent) {
+    public void backButton(ActionEvent actionEvent) throws IOException {
+        SceneSwitcher.switchTo("jannati/doctorDashboard.fxml");
 
-        try {
 
-            SceneSwitcher.switchTo("jannati/doctorDashboard.fxml");
-
-        } catch (IOException e) {
-
-            e.printStackTrace();
-            messageLabel.setText("Unable to open dashboard.");
-        }
     }
 }

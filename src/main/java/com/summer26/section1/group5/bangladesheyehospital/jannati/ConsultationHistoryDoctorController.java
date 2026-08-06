@@ -52,13 +52,11 @@ public class ConsultationHistoryDoctorController {
             return;
         }
 
-        try (ObjectInputStream ois =
-                     new ObjectInputStream(new FileInputStream(patientFile))) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(patientFile))) {
 
             while (true) {
 
-                PatientRecordModelClass patient =
-                        (PatientRecordModelClass) ois.readObject();
+                PatientRecordModelClass patient = (PatientRecordModelClass) ois.readObject();
 
                 patientList.add(patient);
             }
@@ -110,11 +108,9 @@ public class ConsultationHistoryDoctorController {
         boolean found = false;
 
         for (PatientRecordModelClass patient : patientList) {
-
             if (patient.getPatientId() == patientId) {
 
                 patientNameTextField.setText(patient.getPatientName());
-
                 historyTextArea.setText(
                         "Diagnosis : " + patient.getDiagnosis() +
 
@@ -151,16 +147,10 @@ public class ConsultationHistoryDoctorController {
     }
 
     @FXML
-    public void backButton(ActionEvent actionEvent) {
+    public void backButton(ActionEvent actionEvent) throws IOException {
 
-        try {
+        SceneSwitcher.switchTo("jannati/doctorDashboard.fxml");
 
-            SceneSwitcher.switchTo("jannati/doctorDashboard.fxml");
 
-        } catch (IOException e) {
-
-            e.printStackTrace();
-            messageLabel.setText("Unable to open dashboard.");
-        }
     }
 }

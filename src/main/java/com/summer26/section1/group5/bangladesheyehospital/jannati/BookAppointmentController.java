@@ -41,11 +41,9 @@ public class BookAppointmentController {
 
     private final File dataFolder = new File("data");
 
-    private final File patientFile =
-            new File(dataFolder, "patients.bin");
+    private final File patientFile = new File(dataFolder, "patients.bin");
 
-    private final File doctorFile =
-            new File(dataFolder, "doctors.bin");
+    private final File doctorFile = new File(dataFolder, "doctors.bin");
 
     @FXML
     public void initialize() {
@@ -53,29 +51,18 @@ public class BookAppointmentController {
         if (!dataFolder.exists()) {
             dataFolder.mkdirs();
         }
-
         patientNameTextField.setEditable(false);
 
         departmentComboBox.getItems().addAll(
-                "General Eye",
-                "Cornea",
-                "Retina",
-                "Glaucoma",
-                "Pediatric Eye",
-                "Optometry"
+                "General Eye", "Cornea", "Retina", "Glaucoma", "Pediatric Eye", "Optometry"
         );
 
         appointmentTypeComboBox.getItems().addAll(
-                "Online",
-                "Offline"
+                "Online", "Offline"
         );
 
         appointmentTimeComboBox.getItems().addAll(
-                "09:00 AM - 11:00 AM",
-                "11:00 AM - 01:00 PM",
-                "02:00 PM - 04:00 PM",
-                "04:00 PM - 06:00 PM",
-                "06:00 PM - 08:00 PM"
+                "09:00 AM - 11:00 AM", "11:00 AM - 01:00 PM", "02:00 PM - 04:00 PM", "04:00 PM - 06:00 PM", "06:00 PM - 08:00 PM"
         );
 
         loadDoctors();
@@ -91,22 +78,18 @@ public class BookAppointmentController {
             return;
         }
 
-        try (ObjectInputStream ois =
-                     new ObjectInputStream(new FileInputStream(doctorFile))) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(doctorFile))) {
 
             while (true) {
 
-                DoctorModelClass doctor =
-                        (DoctorModelClass) ois.readObject();
+                DoctorModelClass doctor = (DoctorModelClass) ois.readObject();
 
-                doctorComboBox.getItems().add(
-                        doctor.getDoctorId() + " - " + doctor.getDoctorName()
-                );
+                doctorComboBox.getItems().add( doctor.getDoctorId() + " - " + doctor.getDoctorName());
             }
 
         } catch (EOFException e) {
 
-            // End of file
+
 
         } catch (Exception e) {
 
@@ -118,7 +101,6 @@ public class BookAppointmentController {
     public void searchPatientButton(ActionEvent actionEvent) {
 
         if (patientIdTextField.getText().isEmpty()) {
-
             messageLabel.setText("Enter Patient ID.");
             return;
         }
@@ -126,7 +108,6 @@ public class BookAppointmentController {
         int patientId;
 
         try {
-
             patientId = Integer.parseInt(patientIdTextField.getText());
 
         } catch (NumberFormatException e) {
@@ -136,20 +117,17 @@ public class BookAppointmentController {
         }
 
         if (!patientFile.exists()) {
-
             messageLabel.setText("No patient records found.");
             return;
         }
 
         boolean found = false;
 
-        try (ObjectInputStream ois =
-                     new ObjectInputStream(new FileInputStream(patientFile))) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(patientFile))) {
 
             while (true) {
 
-                PatientRecordModelClass patient =
-                        (PatientRecordModelClass) ois.readObject();
+                PatientRecordModelClass patient = (PatientRecordModelClass) ois.readObject();
 
                 if (patient.getPatientId() == patientId) {
 
@@ -164,7 +142,6 @@ public class BookAppointmentController {
 
         } catch (EOFException e) {
 
-            // End of file
 
         } catch (Exception e) {
 
@@ -184,13 +161,7 @@ public class BookAppointmentController {
     @FXML
     public void confirmButton(ActionEvent actionEvent) {
 
-        if (patientIdTextField.getText().isEmpty()
-                || patientNameTextField.getText().isEmpty()
-                || departmentComboBox.getValue() == null
-                || doctorComboBox.getValue() == null
-                || appointmentDatePicker.getValue() == null
-                || appointmentTimeComboBox.getValue() == null
-                || appointmentTypeComboBox.getValue() == null) {
+        if (patientIdTextField.getText().isEmpty() || patientNameTextField.getText().isEmpty() || departmentComboBox.getValue() == null || doctorComboBox.getValue() == null || appointmentDatePicker.getValue() == null || appointmentTimeComboBox.getValue() == null || appointmentTypeComboBox.getValue() == null) {
 
             messageLabel.setText("Please fill all fields.");
             return;
@@ -213,49 +184,38 @@ public class BookAppointmentController {
         boolean found = false;
 
         if (!patientFile.exists()) {
-
             messageLabel.setText("No patient records found.");
             return;
         }
 
-        try (ObjectInputStream ois =
-                     new ObjectInputStream(new FileInputStream(patientFile))) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(patientFile))) {
 
             while (true) {
 
-                PatientRecordModelClass patient =
-                        (PatientRecordModelClass) ois.readObject();
+                PatientRecordModelClass patient = (PatientRecordModelClass) ois.readObject();
 
                 if (patient.getPatientId() == patientId) {
 
-                    patient.setAppointmentDate(
-                            appointmentDatePicker.getValue().toString());
+                    patient.setAppointmentDate(appointmentDatePicker.getValue().toString());
 
-                    patient.setAppointmentTime(
-                            appointmentTimeComboBox.getValue());
+                    patient.setAppointmentTime(appointmentTimeComboBox.getValue());
 
-                    patient.setDepartment(
-                            departmentComboBox.getValue());
+                    patient.setDepartment(departmentComboBox.getValue());
 
-                    // Get Doctor ID and Name
+
                     String selectedDoctor = doctorComboBox.getValue();
 
                     String[] doctorInfo = selectedDoctor.split(" - ");
 
-                    int assignedDoctorId =
-                            Integer.parseInt(doctorInfo[0]);
+                    int assignedDoctorId = Integer.parseInt(doctorInfo[0]);
 
-                    String assignedDoctorName =
-                            doctorInfo[1];
+                    String assignedDoctorName = doctorInfo[1];
 
-                    patient.setAssignedDoctorId(
-                            assignedDoctorId);
+                    patient.setAssignedDoctorId(assignedDoctorId);
 
-                    patient.setAssignedDoctor(
-                            assignedDoctorName);
+                    patient.setAssignedDoctor(assignedDoctorName);
 
-                    patient.setAppointmentType(
-                            appointmentTypeComboBox.getValue());
+                    patient.setAppointmentType(appointmentTypeComboBox.getValue());
 
                     found = true;
                 }
@@ -265,7 +225,7 @@ public class BookAppointmentController {
 
         } catch (EOFException e) {
 
-            // End of file reached
+
 
         } catch (Exception e) {
 
@@ -280,11 +240,9 @@ public class BookAppointmentController {
             return;
         }
 
-        try (ObjectOutputStream oos =
-                     new ObjectOutputStream(new FileOutputStream(patientFile))) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(patientFile))) {
 
             for (PatientRecordModelClass patient : patientList) {
-
                 oos.writeObject(patient);
             }
 
@@ -316,17 +274,13 @@ public class BookAppointmentController {
     }
 
     @FXML
-    public void backButton(ActionEvent actionEvent) {
+    public void backButton(ActionEvent actionEvent) throws IOException {
 
-        try {
+
 
             SceneSwitcher.switchTo("jannati/receiptionistDashboard.fxml");
 
-        } catch (IOException e) {
 
-            e.printStackTrace();
-            messageLabel.setText("Unable to open dashboard.");
-        }
     }
 
 }

@@ -38,16 +38,7 @@ public class LoginController {
     @FXML
     public void initialize() {
 
-        roleComboBox.getItems().addAll(
-                "Doctor",
-                "Receptionist",
-                "Patient",
-                "Accountant",
-                "SecurityStaff",
-                "Nurse",
-                "Pharmacist",
-                "Optician"
-        );
+        roleComboBox.getItems().addAll("Doctor", "Receptionist", "Patient", "Accountant", "SecurityStaff","Nurse", "Pharmacist", "Optician");
 
         roleComboBox.setValue("Doctor");
         messageLabel.setText("");
@@ -66,9 +57,7 @@ public class LoginController {
     @FXML
     public void loginButton(ActionEvent actionEvent) {
 
-        if (userIdTextField.getText().isBlank() ||
-                passwordTextField.getText().isBlank()) {
-
+        if (userIdTextField.getText().isBlank() || passwordTextField.getText().isBlank()) {
             messageLabel.setText("Please enter User ID and Password.");
             return;
         }
@@ -90,9 +79,8 @@ public class LoginController {
             return;
         }
 
-        // =======================
         // Doctor Login
-        // =======================
+
         if (role.equals("Doctor")) {
 
             if (!doctorFile.exists()) {
@@ -100,21 +88,18 @@ public class LoginController {
                 return;
             }
 
-            try (ObjectInputStream ois =
-                         new ObjectInputStream(new FileInputStream(doctorFile))) {
+            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(doctorFile))) {
 
                 while (true) {
 
-                    DoctorModelClass doctor =
-                            (DoctorModelClass) ois.readObject();
+                    DoctorModelClass doctor = (DoctorModelClass) ois.readObject();
 
                     if (doctor.getDoctorId() == userId &&
                             doctor.getPassword().equals(password)) {
-                        UserSession.setLoggedInUser(
+                              UserSession.setLoggedInUser(
                                 doctor.getDoctorId(),
                                 doctor.getDoctorName(),
-                                "Doctor"
-                        );
+                                "Doctor");
 
                         SceneSwitcher.switchTo("jannati/doctorDashboard.fxml");
                         return;
@@ -134,9 +119,8 @@ public class LoginController {
             return;
         }
 
-        // =======================
         // Patient Login
-        // =======================
+
         if (role.equals("Patient")) {
 
             if (!patientFile.exists()) {
@@ -144,13 +128,11 @@ public class LoginController {
                 return;
             }
 
-            try (ObjectInputStream ois =
-                         new ObjectInputStream(new FileInputStream(patientFile))) {
+            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(patientFile))) {
 
                 while (true) {
 
-                    PatientRecordModelClass patient =
-                            (PatientRecordModelClass) ois.readObject();
+                    PatientRecordModelClass patient = (PatientRecordModelClass) ois.readObject();
 
                     if (patient.getPatientId() == userId &&
                             patient.getPassword().equals(password)) {
@@ -179,30 +161,24 @@ public class LoginController {
             return;
         }
 
-        // =======================
+
         // Other Users
-        // =======================
+
         if (!userFile.exists()) {
 
             messageLabel.setText("User file not found.");
             return;
         }
 
-        try (ObjectInputStream ois =
-                     new ObjectInputStream(new FileInputStream(userFile))) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(userFile))) {
 
             while (true) {
 
                 UserModelClass user = (UserModelClass) ois.readObject();
 
-                if (user.getUserId() == userId &&
-                        user.getPassword().equals(password) &&
-                        user.getRole().equalsIgnoreCase(role)) {
+                if (user.getUserId() == userId && user.getPassword().equals(password) && user.getRole().equalsIgnoreCase(role)) {
 
-                    UserSession.setLoggedInUser(
-                            user.getUserId(),
-                            user.getName(),
-                            user.getRole()
+                    UserSession.setLoggedInUser(user.getUserId(), user.getName(), user.getRole()
                     );
 
                     switch (role) {
@@ -245,10 +221,7 @@ public class LoginController {
     }
     @FXML
     public void signUpButton(ActionEvent actionEvent) throws IOException {
-
-
-
-            SceneSwitcher.switchTo("common/sign-up.fxml");
+        SceneSwitcher.switchTo("common/sign-up.fxml");
 
     }
 

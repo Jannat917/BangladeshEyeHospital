@@ -62,8 +62,7 @@ public class UpdatePatientProgressDoctorController {
             return;
         }
 
-        try (ObjectInputStream ois =
-                     new ObjectInputStream(new FileInputStream(patientFile))) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(patientFile))) {
 
             while (true) {
 
@@ -190,8 +189,7 @@ public class UpdatePatientProgressDoctorController {
             return;
         }
 
-        try (ObjectOutputStream oos =
-                     new ObjectOutputStream(new FileOutputStream(patientFile))) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(patientFile))) {
 
             for (PatientRecordModelClass patient : patientList) {
 

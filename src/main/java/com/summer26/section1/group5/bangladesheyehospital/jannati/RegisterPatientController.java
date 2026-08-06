@@ -30,8 +30,7 @@ public class RegisterPatientController {
 
     private final File dataFolder = new File("data");
 
-    private final File patientFile =
-            new File(dataFolder, "patients.bin");
+    private final File patientFile = new File(dataFolder, "patients.bin");
     @FXML
     private Label successLabel;
 
@@ -42,10 +41,7 @@ public class RegisterPatientController {
             dataFolder.mkdirs();
         }
 
-        genderComboBox.getItems().addAll(
-                "Male",
-                "Female",
-                "Other"
+        genderComboBox.getItems().addAll("Male", "Female", "Other"
         );
 
         successLabel.setText("");
@@ -59,13 +55,11 @@ public class RegisterPatientController {
             return id;
         }
 
-        try (ObjectInputStream ois =
-                     new ObjectInputStream(new FileInputStream(patientFile))) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(patientFile))) {
 
             while (true) {
 
-                PatientRecordModelClass patient =
-                        (PatientRecordModelClass) ois.readObject();
+                PatientRecordModelClass patient = (PatientRecordModelClass) ois.readObject();
 
                 if (patient.getPatientId() >= id) {
                     id = patient.getPatientId() + 1;
@@ -90,12 +84,7 @@ public class RegisterPatientController {
     @FXML
     public void confirmButton(ActionEvent actionEvent) {
 
-        if (patientNameTextField.getText().trim().isEmpty()
-                || ageTextField.getText().trim().isEmpty()
-                || phoneNumberTextField.getText().trim().isEmpty()
-                || addressTextField.getText().trim().isEmpty()
-                || genderComboBox.getValue() == null) {
-
+        if (patientNameTextField.getText().trim().isEmpty() || ageTextField.getText().trim().isEmpty() || phoneNumberTextField.getText().trim().isEmpty() || addressTextField.getText().trim().isEmpty() || genderComboBox.getValue() == null) {
             successLabel.setText("Please fill all fields.");
             return;
         }
@@ -122,14 +111,11 @@ public class RegisterPatientController {
 
         if (patientFile.exists()) {
 
-            try (ObjectInputStream ois =
-                         new ObjectInputStream(new FileInputStream(patientFile))) {
+            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(patientFile))) {
 
                 while (true) {
 
-                    PatientRecordModelClass patient =
-                            (PatientRecordModelClass) ois.readObject();
-
+                    PatientRecordModelClass patient = (PatientRecordModelClass) ois.readObject();
                     patientList.add(patient);
                 }
 
@@ -195,11 +181,9 @@ public class RegisterPatientController {
 
         patientList.add(patient);
 
-        try (ObjectOutputStream oos =
-                     new ObjectOutputStream(new FileOutputStream(patientFile))) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(patientFile))) {
 
             for (PatientRecordModelClass p : patientList) {
-
                 oos.writeObject(p);
             }
           clearButton(null);
@@ -229,23 +213,12 @@ public class RegisterPatientController {
         addressTextField.clear();
 
         genderComboBox.setValue(null);
-
-        // Keep the message label unchanged so the receptionist
-        // can still see the generated Patient ID and Password.
     }
 
     @FXML
-    public void backButton(ActionEvent actionEvent) {
+    public void backButton(ActionEvent actionEvent) throws IOException {
+        SceneSwitcher.switchTo("jannati/receiptionistDashboard.fxml");
 
-        try {
-
-            SceneSwitcher.switchTo("jannati/receiptionistDashboard.fxml");
-
-        } catch (IOException e) {
-
-            e.printStackTrace();
-            successLabel.setText("Unable to open dashboard.");
-        }
     }
 
 }

@@ -135,11 +135,9 @@ public class OnlineAppointmentsDoctorController {
     @FXML
     public void confirmAppointmentButton(ActionEvent actionEvent) {
 
-        PatientRecordModelClass selectedPatient =
-                appointmentTableView.getSelectionModel().getSelectedItem();
+        PatientRecordModelClass selectedPatient = appointmentTableView.getSelectionModel().getSelectedItem();
 
         if (selectedPatient == null) {
-
             messageLabel.setText("Please select a patient.");
             return;
         }
@@ -148,17 +146,14 @@ public class OnlineAppointmentsDoctorController {
 
         confirmAlert.setTitle("Confirm Appointment");
         confirmAlert.setHeaderText("Online Appointment");
-        confirmAlert.setContentText(
-                "Do you want to confirm the appointment for\n\n"
+        confirmAlert.setContentText("Do you want to confirm the appointment for\n\n"
                         + "Patient ID : " + selectedPatient.getPatientId()
                         + "\nPatient Name : " + selectedPatient.getPatientName()
                         + "\nDoctor : " + selectedPatient.getAssignedDoctor()
         );
 
         Optional<ButtonType> result = confirmAlert.showAndWait();
-
         if (result.isPresent() && result.get() == ButtonType.OK) {
-
             Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
 
             successAlert.setTitle("Success");
@@ -179,17 +174,11 @@ public class OnlineAppointmentsDoctorController {
     }
 
     @FXML
-    public void backButton(ActionEvent actionEvent) {
+    public void backButton(ActionEvent actionEvent) throws IOException {
 
-        try {
+        SceneSwitcher.switchTo("jannati/doctorDashboard.fxml");
 
-            SceneSwitcher.switchTo("jannati/doctorDashboard.fxml");
 
-        } catch (IOException e) {
-
-            e.printStackTrace();
-            messageLabel.setText("Unable to open Doctor Dashboard.");
-        }
     }
 
 
@@ -229,11 +218,8 @@ public class OnlineAppointmentsDoctorController {
 
         if (found) {
 
-            messageLabel.setText(
-                    appointmentTableView.getItems().size() + " appointment(s) found.");
-
+            messageLabel.setText(appointmentTableView.getItems().size() + " appointment(s) found.");
         } else {
-
             messageLabel.setText("No online appointments found.");
         }
     }

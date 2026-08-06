@@ -34,13 +34,11 @@ public class UpdatePatientInfoReceptionistController {
     @FXML
     private Label messageLabel;
 
-    private final ArrayList<PatientRecordModelClass> patientList =
-            new ArrayList<>();
+    private final ArrayList<PatientRecordModelClass> patientList = new ArrayList<>();
 
     private final File dataFolder = new File("data");
 
-    private final File patientFile =
-            new File(dataFolder, "patients.bin");
+    private final File patientFile = new File(dataFolder, "patients.bin");
 
     @FXML
     public void initialize() {
@@ -49,11 +47,7 @@ public class UpdatePatientInfoReceptionistController {
             dataFolder.mkdirs();
         }
 
-        genderComboBox.getItems().addAll(
-                "Male",
-                "Female",
-                "Other"
-        );
+        genderComboBox.getItems().addAll("Male", "Female", "Other");
 
         loadPatients();
 
@@ -74,14 +68,11 @@ public class UpdatePatientInfoReceptionistController {
             return;
         }
 
-        try (ObjectInputStream ois =
-                     new ObjectInputStream(
-                             new FileInputStream(patientFile))) {
-
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(patientFile)))
+        {
             while (true) {
 
-                PatientRecordModelClass patient =
-                        (PatientRecordModelClass) ois.readObject();
+                PatientRecordModelClass patient = (PatientRecordModelClass) ois.readObject();
 
                 patientList.add(patient);
             }
@@ -128,19 +119,15 @@ public class UpdatePatientInfoReceptionistController {
 
                 patientNameTextField.setText(patient.getPatientName());
 
-                ageTextField.setText(
-                        String.valueOf(patient.getAge()));
+                ageTextField.setText(String.valueOf(patient.getAge()));
 
-                genderComboBox.setValue(
-                        patient.getGender());
+                genderComboBox.setValue(patient.getGender());
 
-                phoneTextField.setText(
-                        patient.getPhoneNumber());
+                phoneTextField.setText(patient.getPhoneNumber());
 
-                addressTextField.setText(
-                        patient.getAddress());
+                addressTextField.setText(patient.getAddress());
 
-                // Enable editing
+                // Enabling editing
                 patientNameTextField.setEditable(true);
                 ageTextField.setEditable(true);
                 phoneTextField.setEditable(true);
@@ -175,12 +162,7 @@ public class UpdatePatientInfoReceptionistController {
     @FXML
     public void updateButton(ActionEvent actionEvent) {
 
-        if (patientIdTextField.getText().trim().isEmpty()
-                || patientNameTextField.getText().trim().isEmpty()
-                || ageTextField.getText().trim().isEmpty()
-                || genderComboBox.getValue() == null
-                || phoneTextField.getText().trim().isEmpty()
-                || addressTextField.getText().trim().isEmpty()) {
+        if (patientIdTextField.getText().trim().isEmpty() || patientNameTextField.getText().trim().isEmpty() || ageTextField.getText().trim().isEmpty() || genderComboBox.getValue() == null || phoneTextField.getText().trim().isEmpty() || addressTextField.getText().trim().isEmpty()) {
 
             messageLabel.setText("Please fill all fields.");
             return;
@@ -208,19 +190,15 @@ public class UpdatePatientInfoReceptionistController {
 
             if (patient.getPatientId() == patientId) {
 
-                patient.setPatientName(
-                        patientNameTextField.getText().trim());
+                patient.setPatientName(patientNameTextField.getText().trim());
 
                 patient.setAge(age);
 
-                patient.setGender(
-                        genderComboBox.getValue());
+                patient.setGender(genderComboBox.getValue());
 
-                patient.setPhoneNumber(
-                        phoneTextField.getText().trim());
+                patient.setPhoneNumber(phoneTextField.getText().trim());
 
-                patient.setAddress(
-                        addressTextField.getText().trim());
+                patient.setAddress(addressTextField.getText().trim());
 
                 found = true;
                 break;
@@ -233,9 +211,7 @@ public class UpdatePatientInfoReceptionistController {
             return;
         }
 
-        try (ObjectOutputStream oos =
-                     new ObjectOutputStream(
-                             new FileOutputStream(patientFile))) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(patientFile))) {
 
             for (PatientRecordModelClass patient : patientList) {
 
@@ -257,9 +233,12 @@ public class UpdatePatientInfoReceptionistController {
 
         patientIdTextField.clear();
         patientNameTextField.clear();
-ageTextField.clear();
-genderComboBox.setValue(null);
-phoneTextField.clear();
+
+        ageTextField.clear();
+
+        genderComboBox.setValue(null);
+
+        phoneTextField.clear();
 
 
         messageLabel.setText("");
