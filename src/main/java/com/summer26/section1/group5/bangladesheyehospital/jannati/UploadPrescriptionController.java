@@ -29,6 +29,10 @@ public class UploadPrescriptionController {
     @FXML
     private TextField phoneTextField;
 
+    // Disease field in your FXML (phoneTextField1)
+    @FXML
+    private TextField phoneTextField1;
+
     @FXML
     private TextField addressTextField;
 
@@ -36,7 +40,7 @@ public class UploadPrescriptionController {
     private TextArea diagnosisTextArea;
 
     @FXML
-    private TextArea prescriptionTextArea;
+    private TextArea eyePowerTextArea;
 
     @FXML
     private TextArea recommendationTextArea;
@@ -44,13 +48,13 @@ public class UploadPrescriptionController {
     @FXML
     private Label messageLabel;
 
+    private final ArrayList<PatientRecordModelClass> patientList =
+            new ArrayList<>();
+
     private final File dataFolder = new File("data");
 
     private final File patientFile =
             new File(dataFolder, "patients.bin");
-
-    private final File prescriptionFile =
-            new File(dataFolder, "prescriptions.bin");
 
     @FXML
     public void initialize() {
@@ -60,8 +64,8 @@ public class UploadPrescriptionController {
         }
 
         patientTypeComboBox.getItems().addAll(
-                "New Patient",
-                "Existing Patient"
+                "Existing Patient",
+                "Walk-in Patient"
         );
 
         genderComboBox.getItems().addAll(
@@ -70,13 +74,11 @@ public class UploadPrescriptionController {
                 "Other"
         );
 
-        patientNameTextField.setDisable(true);
-        ageTextField.setDisable(true);
+        patientNameTextField.setEditable(false);
+        ageTextField.setEditable(false);
         genderComboBox.setDisable(true);
-        phoneTextField.setDisable(true);
-        addressTextField.setDisable(true);
-
-        patientIdTextField.setDisable(true);
+        phoneTextField.setEditable(false);
+        addressTextField.setEditable(false);
 
         messageLabel.setText("");
     }
@@ -84,108 +86,68 @@ public class UploadPrescriptionController {
     @FXML
     public void patientTypeComboBoxOnAction(ActionEvent actionEvent) {
 
-        String type = patientTypeComboBox.getValue();
-
-        clearPatientFields();
-
-        if (type.equals("New Patient")) {
-
-            patientIdTextField.clear();
-            patientIdTextField.setDisable(true);
-
-            patientNameTextField.setDisable(false);
-            ageTextField.setDisable(false);
-            genderComboBox.setDisable(false);
-            phoneTextField.setDisable(false);
-            addressTextField.setDisable(false);
-
-        } else {
+        if ("Existing Patient".equals(patientTypeComboBox.getValue())) {
 
             patientIdTextField.setDisable(false);
 
-            patientNameTextField.setDisable(true);
-            ageTextField.setDisable(true);
+            patientNameTextField.setEditable(false);
+            ageTextField.setEditable(false);
             genderComboBox.setDisable(true);
-            phoneTextField.setDisable(true);
-            addressTextField.setDisable(true);
+            phoneTextField.setEditable(false);
+            addressTextField.setEditable(false);
+
+        } else {
+
+            patientIdTextField.clear();
+            patientNameTextField.clear();
+            ageTextField.clear();
+            genderComboBox.setValue(null);
+            phoneTextField.clear();
+            addressTextField.clear();
+
+            patientNameTextField.setEditable(true);
+            ageTextField.setEditable(true);
+            genderComboBox.setDisable(false);
+            phoneTextField.setEditable(true);
+            addressTextField.setEditable(true);
         }
     }
 
-    private int generatePatientId() {
+    private void loadPatients() {
 
-        int id = 5001;
+        patientList.clear();
 
         if (!patientFile.exists()) {
-            return id;
+            return;
         }
 
         try (ObjectInputStream ois =
-                     new ObjectInputStream(
-                             new FileInputStream(patientFile))) {
+                     new ObjectInputStream(new FileInputStream(patientFile))) {
 
             while (true) {
 
                 PatientRecordModelClass patient =
                         (PatientRecordModelClass) ois.readObject();
 
-                if (patient.getPatientId() >= id) {
-
-                    id = patient.getPatientId() + 1;
-                }
+                patientList.add(patient);
             }
 
         } catch (EOFException e) {
 
             // End of file
 
-        } catch (Exception e) {
+        } catch (IOException | ClassNotFoundException e) {
 
             e.printStackTrace();
         }
-
-        return id;
     }
-
-    private int generatePrescriptionId() {
-
-        int id = 10001;
-
-        if (!prescriptionFile.exists()) {
-            return id;
-        }
-
-        try (ObjectInputStream ois =
-                     new ObjectInputStream(
-                             new FileInputStream(prescriptionFile))) {
-
-            while (true) {
-
-                PrescriptionModelClass prescription =
-                        (PrescriptionModelClass) ois.readObject();
-
-                if (prescription.getPrescriptionId() >= id) {
-
-                    id = prescription.getPrescriptionId() + 1;
-                }
-            }
-
-        } catch (EOFException e) {
-
-            // End of file
-
-        } catch (Exception e) {
-
-            e.printStackTrace();
-        }
-
-        return id;
-    }
-
 
     @FXML
     public void searchButton(ActionEvent actionEvent) {
 
-        if (patientIdTextField.getText().isEmpty()) {
+        loadPatients();
+
+        if (patientIdTextField.getText().trim().isEmpty()) {
 
             messageLabel.setText("Enter Patient ID.");
             return;
@@ -195,7 +157,7 @@ public class UploadPrescriptionController {
 
         try {
 
-            patientId = Integer.parseInt(patientIdTextField.getText());
+            patientId = Integer.parseInt(patientIdTextField.getText().trim());
 
         } catch (NumberFormatException e) {
 
@@ -203,351 +165,110 @@ public class UploadPrescriptionController {
             return;
         }
 
-        if (!patientFile.exists()) {
+        for (PatientRecordModelClass patient : patientList) {
 
-            messageLabel.setText("Patient records not found.");
+            if (patient.getPatientId() == patientId) {
+
+                patientNameTextField.setText(patient.getPatientName());
+                ageTextField.setText(String.valueOf(patient.getAge()));
+                genderComboBox.setValue(patient.getGender());
+                phoneTextField.setText(patient.getPhoneNumber());
+                addressTextField.setText(patient.getAddress());
+
+                phoneTextField1.setText(patient.getDisease());
+                diagnosisTextArea.setText(patient.getDiagnosis());
+                eyePowerTextArea.setText(patient.getEyePowerPrescription());
+                recommendationTextArea.setText(patient.getDoctorRemarks());
+
+                messageLabel.setText("Patient found.");
+                return;
+            }
+        }
+
+        messageLabel.setText("Patient not found.");
+
+        patientNameTextField.clear();
+        ageTextField.clear();
+        genderComboBox.setValue(null);
+        phoneTextField.clear();
+        addressTextField.clear();
+
+        phoneTextField1.clear();
+        diagnosisTextArea.clear();
+        eyePowerTextArea.clear();
+        recommendationTextArea.clear();
+    }
+
+    @FXML
+    public void saveButton(ActionEvent actionEvent) {
+
+        if (patientIdTextField.getText().trim().isEmpty()
+                || phoneTextField1.getText().trim().isEmpty()
+                || diagnosisTextArea.getText().trim().isEmpty()
+                || eyePowerTextArea.getText().trim().isEmpty()
+                || recommendationTextArea.getText().trim().isEmpty()) {
+
+            messageLabel.setText("Please complete all required fields.");
+            return;
+        }
+
+        loadPatients();
+
+        int patientId;
+
+        try {
+
+            patientId = Integer.parseInt(patientIdTextField.getText().trim());
+
+        } catch (NumberFormatException e) {
+
+            messageLabel.setText("Invalid Patient ID.");
             return;
         }
 
         boolean found = false;
 
-        try (ObjectInputStream ois =
-                     new ObjectInputStream(
-                             new FileInputStream(patientFile))) {
+        for (PatientRecordModelClass patient : patientList) {
 
-            while (true) {
+            if (patient.getPatientId() == patientId) {
 
-                PatientRecordModelClass patient =
-                        (PatientRecordModelClass) ois.readObject();
+                patient.setDisease(phoneTextField1.getText().trim());
 
-                if (patient.getPatientId() == patientId) {
+                patient.setDiagnosis(
+                        diagnosisTextArea.getText().trim());
 
-                    patientNameTextField.setText(
-                            patient.getPatientName());
+                patient.setEyePowerPrescription(
+                        eyePowerTextArea.getText().trim());
 
-                    ageTextField.setText(
-                            String.valueOf(patient.getAge()));
+                patient.setDoctorRemarks(
+                        recommendationTextArea.getText().trim());
 
-                    genderComboBox.setValue(
-                            patient.getGender());
-
-                    phoneTextField.setText(
-                            patient.getPhoneNumber());
-
-                    addressTextField.setText(
-                            patient.getAddress());
-
-                    found = true;
-                    break;
-                }
+                found = true;
+                break;
             }
-
-        } catch (EOFException e) {
-
-            // End of file
-
-        } catch (Exception e) {
-
-            e.printStackTrace();
-            messageLabel.setText("Unable to read patient file.");
-            return;
         }
 
-        if (found) {
-
-            messageLabel.setText("Patient found.");
-
-        } else {
+        if (!found) {
 
             messageLabel.setText("Patient not found.");
-            clearPatientFields();
-        }
-    }
-
-
-    private void clearPatientFields() {
-
-        patientIdTextField.clear();
-
-        patientNameTextField.clear();
-
-        ageTextField.clear();
-
-        genderComboBox.setValue(null);
-
-        phoneTextField.clear();
-
-        addressTextField.clear();
-
-        diagnosisTextArea.clear();
-
-        prescriptionTextArea.clear();
-
-        recommendationTextArea.clear();
-    }
-
-
-    private String generatePassword(int patientId) {
-
-        return "P" + patientId;
-    }
-
-
-    @FXML
-    public void saveButton(ActionEvent actionEvent) {
-
-        if (patientTypeComboBox.getValue() == null) {
-
-            messageLabel.setText("Select Patient Type.");
             return;
         }
-
-        if (patientNameTextField.getText().isEmpty()
-                || ageTextField.getText().isEmpty()
-                || genderComboBox.getValue() == null
-                || phoneTextField.getText().isEmpty()
-                || addressTextField.getText().isEmpty()
-                || diagnosisTextArea.getText().isEmpty()
-                || prescriptionTextArea.getText().isEmpty()
-                || recommendationTextArea.getText().isEmpty()) {
-
-            messageLabel.setText("Please fill all required fields.");
-            return;
-        }
-
-        ArrayList<PatientRecordModelClass> patientList =
-                new ArrayList<>();
-
-        ArrayList<PrescriptionModelClass> prescriptionList =
-                new ArrayList<>();
-
-        /* ---------------- Read Existing Patients ---------------- */
-
-        if (patientFile.exists()) {
-
-            try (ObjectInputStream ois =
-                         new ObjectInputStream(
-                                 new FileInputStream(patientFile))) {
-
-                while (true) {
-
-                    patientList.add(
-                            (PatientRecordModelClass) ois.readObject());
-                }
-
-            } catch (EOFException e) {
-
-            } catch (Exception e) {
-
-                e.printStackTrace();
-            }
-        }
-
-        /* ---------------- Read Existing Prescriptions ---------------- */
-
-        if (prescriptionFile.exists()) {
-
-            try (ObjectInputStream ois =
-                         new ObjectInputStream(
-                                 new FileInputStream(prescriptionFile))) {
-
-                while (true) {
-
-                    prescriptionList.add(
-                            (PrescriptionModelClass) ois.readObject());
-                }
-
-            } catch (EOFException e) {
-
-            } catch (Exception e) {
-
-                e.printStackTrace();
-            }
-        }
-
-        int patientId;
-
-        String patientName;
-
-    /* ==========================================================
-                       EXISTING PATIENT
-       ========================================================== */
-
-        if (patientTypeComboBox.getValue().equals("Existing Patient")) {
-
-            patientId = Integer.parseInt(patientIdTextField.getText());
-
-            boolean found = false;
-
-            for (PatientRecordModelClass patient : patientList) {
-
-                if (patient.getPatientId() == patientId) {
-
-                    patient.setDiagnosis(
-                            diagnosisTextArea.getText());
-
-                    patient.setPrescription(
-                            prescriptionTextArea.getText());
-
-                    patient.setDoctorRemarks(
-                            recommendationTextArea.getText());
-
-                    patientName = patient.getPatientName();
-
-                    PrescriptionModelClass prescription =
-                            new PrescriptionModelClass(
-
-                                    generatePrescriptionId(),
-
-                                    patient.getPatientId(),
-
-                                    patientName,
-
-                                    0,
-
-                                    "",
-
-                                    patient.getAppointmentDate(),
-
-                                    diagnosisTextArea.getText(),
-
-                                    prescriptionTextArea.getText(),
-
-                                    recommendationTextArea.getText()
-                            );
-
-                    prescriptionList.add(prescription);
-
-                    found = true;
-
-                    break;
-                }
-            }
-
-            if (!found) {
-
-                messageLabel.setText("Patient not found.");
-                return;
-            }
-
-        }
-
-    /* ==========================================================
-                           NEW PATIENT
-       ========================================================== */
-
-        else {
-
-            patientId = generatePatientId();
-
-            patientName = patientNameTextField.getText();
-
-            PatientRecordModelClass patient =
-                    new PatientRecordModelClass(
-
-                            patientId,
-                            generatePassword(patientId),
-                            patientName,
-                            Integer.parseInt(ageTextField.getText()),
-                            genderComboBox.getValue(),
-                            phoneTextField.getText(),
-                            addressTextField.getText(),
-
-                            "",                     // appointmentDate
-                            "",                     // appointmentTime
-                            "",                     // department
-                            "",                     // assignedDoctor
-                            0,                      // assignedDoctorId
-                            0,                      // serialNumber
-
-                            "",                     // disease
-                            diagnosisTextArea.getText(),
-                            prescriptionTextArea.getText(),
-                            "",                     // testReports
-                            recommendationTextArea.getText(),
-
-                            "",                     // eyePowerPrescription
-                            "",                     // lensType
-                            "",                     // glassesRecommendation
-
-                            0.0,                    // doctorFee
-                            0.0,                    // testFee
-                            0.0,                    // billAmount
-
-                            "Unpaid",
-                            ""                      // appointmentType
-                    );;
-
-            patientList.add(patient);
-
-            PrescriptionModelClass prescription =
-                    new PrescriptionModelClass(
-
-                            generatePrescriptionId(),
-
-                            patientId,
-
-                            patientName,
-
-                            0,
-
-                            "",
-
-                            "",
-
-                            diagnosisTextArea.getText(),
-
-                            prescriptionTextArea.getText(),
-
-                            recommendationTextArea.getText()
-                    );
-
-            prescriptionList.add(prescription);
-        }
-
-        /* ---------------- Save Patients ---------------- */
 
         try (ObjectOutputStream oos =
-                     new ObjectOutputStream(
-                             new FileOutputStream(patientFile))) {
+                     new ObjectOutputStream(new FileOutputStream(patientFile))) {
 
             for (PatientRecordModelClass patient : patientList) {
 
                 oos.writeObject(patient);
             }
 
-        } catch (IOException e) {
-
-            e.printStackTrace();
-
-            messageLabel.setText("Unable to save patient.");
-
-            return;
-        }
-
-        /* ---------------- Save Prescriptions ---------------- */
-
-        try (ObjectOutputStream oos =
-                     new ObjectOutputStream(
-                             new FileOutputStream(prescriptionFile))) {
-
-            for (PrescriptionModelClass prescription : prescriptionList) {
-
-                oos.writeObject(prescription);
-            }
+            messageLabel.setText("Prescription uploaded successfully.");
 
         } catch (IOException e) {
 
             e.printStackTrace();
-
             messageLabel.setText("Unable to save prescription.");
-
-            return;
         }
-
-        messageLabel.setText("Prescription saved successfully.");
-
-        clearButton(null);
     }
 
     @FXML
@@ -555,26 +276,41 @@ public class UploadPrescriptionController {
 
         patientTypeComboBox.setValue(null);
 
-        clearPatientFields();
+        patientIdTextField.clear();
 
-        patientNameTextField.setDisable(true);
-        ageTextField.setDisable(true);
+        patientNameTextField.clear();
+        ageTextField.clear();
+        genderComboBox.setValue(null);
+        phoneTextField.clear();
+        addressTextField.clear();
+
+        phoneTextField1.clear();          // Disease
+        diagnosisTextArea.clear();
+        eyePowerTextArea.clear();         // Eye Power
+        recommendationTextArea.clear();
+
+        patientIdTextField.setDisable(false);
+
+        patientNameTextField.setEditable(false);
+        ageTextField.setEditable(false);
         genderComboBox.setDisable(true);
-        phoneTextField.setDisable(true);
-        addressTextField.setDisable(true);
-
-        patientIdTextField.setDisable(true);
+        phoneTextField.setEditable(false);
+        addressTextField.setEditable(false);
 
         messageLabel.setText("");
     }
 
     @FXML
-    public void backButton(ActionEvent actionEvent) throws IOException {
+    public void backButton(ActionEvent actionEvent) {
 
+        try {
 
-        SceneSwitcher.switchTo(
-                "jannati/doctorDashboard.fxml");
+            SceneSwitcher.switchTo("jannati/doctorDashboard.fxml");
 
+        } catch (IOException e) {
 
+            e.printStackTrace();
+            messageLabel.setText("Unable to open Doctor Dashboard.");
+        }
     }
 }

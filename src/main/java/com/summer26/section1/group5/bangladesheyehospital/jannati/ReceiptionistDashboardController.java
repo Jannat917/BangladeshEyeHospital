@@ -11,7 +11,8 @@ public class ReceiptionistDashboardController {
     private Label messageLabel;
 
     @javafx.fxml.FXML
-    public void updatePatientInformationButton(ActionEvent actionEvent) {
+    public void updatePatientInformationButton(ActionEvent actionEvent) throws IOException {
+        SceneSwitcher.switchTo("jannati/update-patient-info-receptionist.fxml");
     }
 
     @javafx.fxml.FXML

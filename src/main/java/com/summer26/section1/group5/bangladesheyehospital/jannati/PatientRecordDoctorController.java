@@ -215,7 +215,7 @@ public class PatientRecordDoctorController {
 
         alert.setTitle("Patient Full History");
         alert.setHeaderText(patient.getPatientName());
-
+        int fee = 1000;
         alert.setContentText(
 
                 "Patient ID : " + patient.getPatientId() +
@@ -242,19 +242,15 @@ public class PatientRecordDoctorController {
 
                         "\nDiagnosis : " + patient.getDiagnosis() +
 
-                        "\nPrescription : " + patient.getPrescription() +
-
-                        "\nTest Reports : " + patient.getTestReports() +
 
                         "\nDoctor Remarks : " + patient.getDoctorRemarks() +
 
                         "\n\nEye Power : " + patient.getEyePowerPrescription() +
 
-                        "\nLens Type : " + patient.getLensType() +
 
-                        "\nGlasses Recommendation : " + patient.getGlassesRecommendation() +
 
-                        "\n\nDoctor Fee : " + patient.getDoctorFee() +
+
+                        "\n\nDoctor Fee : " + fee +
 
                         "\nTest Fee : " + patient.getTestFee() +
 

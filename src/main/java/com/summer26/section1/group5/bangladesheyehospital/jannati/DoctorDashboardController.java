@@ -22,7 +22,7 @@ public class DoctorDashboardController {
 
     @javafx.fxml.FXML
     public void updatePatientButton(ActionEvent actionEvent) throws IOException {
-        SceneSwitcher.switchTo("jannati/upload-prescription.fxml");
+        SceneSwitcher.switchTo("jannati/update-patient-progress-doctor.fxml");
 
     }
 

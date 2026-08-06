@@ -119,7 +119,7 @@ public class UpdatePatientProgressDoctorController {
 
                 conditionTextArea.setText(patient.getDiagnosis());
 
-                medicationTextArea.setText(patient.getPrescription());
+                medicationTextArea.setText(patient.getEyePowerPrescription());
 
                 remarksTextArea.setText(patient.getDoctorRemarks());
 

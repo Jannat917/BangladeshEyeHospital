@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="650.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.summer26.section1.group5.bangladesheyehospital.jannati.UpdatePatientProgressDoctorController">
+<AnchorPane prefHeight="650.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.summer26.section1.group5.bangladesheyehospital.jannati.UpdatePatientProgressDoctorController">
 
     <children>
 
@@ -39,19 +39,19 @@
 
         <Label layoutX="40.0" layoutY="200.0" text="Current Condition" />
 
-        <TextArea fx:id="conditionTextArea" layoutX="170.0" layoutY="195.0" prefHeight="70.0" prefWidth="650.0" />
+        <TextArea fx:id="conditionTextArea" layoutX="170.0" layoutY="195.0" prefHeight="57.0" prefWidth="650.0" />
 
         <!-- Medication -->
 
-        <Label layoutX="46.0" layoutY="325.0" text="Medication" />
+        <Label layoutX="47.0" layoutY="317.0" text="Medication" />
 
-        <TextArea fx:id="medicationTextArea" layoutX="165.0" layoutY="310.0" prefHeight="80.0" prefWidth="650.0" />
+        <TextArea fx:id="medicationTextArea" layoutX="165.0" layoutY="310.0" prefHeight="48.0" prefWidth="650.0" />
 
         <!-- Doctor Remarks -->
 
-        <Label layoutX="33.0" layoutY="422.0" text="Doctor Remarks" />
+        <Label layoutX="34.0" layoutY="416.0" text="Doctor Remarks" />
 
-        <TextArea fx:id="remarksTextArea" layoutX="170.0" layoutY="409.0" prefHeight="90.0" prefWidth="650.0" />
+        <TextArea fx:id="remarksTextArea" layoutX="170.0" layoutY="409.0" prefHeight="48.0" prefWidth="650.0" />
 
         <!-- Buttons -->
 
