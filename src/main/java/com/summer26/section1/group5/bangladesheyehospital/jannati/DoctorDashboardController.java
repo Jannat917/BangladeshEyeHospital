@@ -46,6 +46,9 @@ public class DoctorDashboardController {
     }
 
     @javafx.fxml.FXML
-    public void accessReportsButton(ActionEvent actionEvent) {
+    public void accessReportsButton(ActionEvent actionEvent) throws IOException {
+        SceneSwitcher.switchTo("jannati/diagonstic-reports.fxml");
     }
-}
+
+    }
+
