@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="650.0" prefWidth="900.0"
+            xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.summer26.section1.group5.bangladesheyehospital.jannati.PatientVisitReportReceptionistController">
+
+    <children>
+
+        <!-- Title -->
+
+        <Label layoutX="300.0"
+               layoutY="20.0"
+               text="Patient Visit Report">
+            <font>
+                <Font size="24.0"/>
+            </font>
+        </Label>
+
+        <!-- Search -->
+
+        <Label layoutX="40.0"
+               layoutY="85.0"
+               text="Patient ID"/>
+
+        <TextField fx:id="patientIdTextField"
+                   layoutX="130.0"
+                   layoutY="80.0"
+                   prefWidth="180.0"/>
+
+        <Button layoutX="340.0"
+                layoutY="80.0"
+                prefWidth="100.0"
+                text="Search"
+                onAction="#searchButton"/>
+
+        <!-- Patient Information -->
+
+        <Label layoutX="40.0"
+               layoutY="150.0"
+               text="Patient Name"/>
+
+        <TextField fx:id="patientNameTextField"
+                   layoutX="160.0"
+                   layoutY="145.0"
+                   editable="false"
+                   prefWidth="250.0"/>
+
+        <Label layoutX="470.0"
+               layoutY="150.0"
+               text="Last Visit Date"/>
+
+        <TextField fx:id="lastVisitDateTextField"
+                   layoutX="590.0"
+                   layoutY="145.0"
+                   editable="false"
+                   prefWidth="200.0"/>
+
+        <!-- Disease -->
+
+        <Label layoutX="40.0"
+               layoutY="215.0"
+               text="Disease"/>
+
+        <TextArea fx:id="diseaseTextArea"
+                  layoutX="160.0"
+                  layoutY="205.0"
+                  prefWidth="630.0"
+                  prefHeight="70.0"
+                  editable="false"
+                  wrapText="true"/>
+
+        <!-- Diagnostic Report -->
+
+        <Label layoutX="40.0"
+               layoutY="315.0"
+               text="Diagnostic Report"/>
+
+        <TextArea fx:id="reportTextArea"
+                  layoutX="160.0"
+                  layoutY="305.0"
+                  prefWidth="630.0"
+                  prefHeight="100.0"
+                  editable="false"
+                  wrapText="true"/>
+
+        <!-- Doctor Remarks -->
+
+        <Label layoutX="40.0"
+               layoutY="445.0"
+               text="Doctor Remarks"/>
+
+        <TextArea fx:id="remarksTextArea"
+                  layoutX="160.0"
+                  layoutY="435.0"
+                  prefWidth="630.0"
+                  prefHeight="100.0"
+                  editable="false"
+                  wrapText="true"/>
+
+        <!-- Buttons -->
+
+        <Button layoutX="330.0"
+                layoutY="575.0"
+                prefWidth="100.0"
+                text="Clear"
+                onAction="#clearButton"/>
+
+        <Button layoutX="470.0"
+                layoutY="575.0"
+                prefWidth="100.0"
+                text="Back"
+                onAction="#backButton"/>
+
+        <!-- Message -->
+
+        <Label fx:id="messageLabel"
+               layoutX="40.0"
+               layoutY="620.0"
+               prefWidth="700.0"/>
+
+    </children>
+
+</AnchorPane>

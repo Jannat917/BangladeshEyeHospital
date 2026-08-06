@@ -14,11 +14,16 @@ public class DoctorDashboardController {
     }
 
     @javafx.fxml.FXML
-    public void consultationHistoryButton(ActionEvent actionEvent) {
+
+    public void consultationHistoryButton(ActionEvent actionEvent) throws IOException {
+
+        SceneSwitcher.switchTo("jannati/consultation-history-doctor.fxml");
     }
 
     @javafx.fxml.FXML
-    public void updatePatientButton(ActionEvent actionEvent) {
+    public void updatePatientButton(ActionEvent actionEvent) throws IOException {
+        SceneSwitcher.switchTo("jannati/upload-prescription.fxml");
+
     }
 
     @javafx.fxml.FXML
@@ -26,10 +31,7 @@ public class DoctorDashboardController {
         SceneSwitcher.switchTo("jannati/upload-prescription.fxml");
     }
 
-    @javafx.fxml.FXML
-    public void viewAppointmentsButton(ActionEvent actionEvent) {
 
-    }
 
     @javafx.fxml.FXML
     public void viewPatientRecordsButton(ActionEvent actionEvent) throws IOException {
@@ -37,7 +39,9 @@ public class DoctorDashboardController {
     }
 
     @javafx.fxml.FXML
-    public void surgeryScheduleButton(ActionEvent actionEvent) {
+    public void surgeryScheduleButton(ActionEvent actionEvent) throws IOException {
+
+        SceneSwitcher.switchTo("jannati/surgery.fxml");
     }
 
     @javafx.fxml.FXML
@@ -46,6 +50,14 @@ public class DoctorDashboardController {
     }
 
     @javafx.fxml.FXML
-    public void accessReportsButton(ActionEvent actionEvent) {
+    public void accessReportsButton(ActionEvent actionEvent) throws IOException {
+        SceneSwitcher.switchTo("jannati/diagonstic-reports.fxml");
+    }
+
+    @javafx.fxml.FXML
+    public void OfflineAppointmentsButton(ActionEvent actionEvent) throws IOException {
+        SceneSwitcher.switchTo("jannati/offline-appointments-doctor.fxml");
+
     }
 }
+

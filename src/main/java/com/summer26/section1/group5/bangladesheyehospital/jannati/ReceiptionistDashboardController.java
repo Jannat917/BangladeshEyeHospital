@@ -49,4 +49,5 @@ public class ReceiptionistDashboardController {
     @javafx.fxml.FXML
     public void patientVisitReportButton(ActionEvent actionEvent) {
     }
+
 }
