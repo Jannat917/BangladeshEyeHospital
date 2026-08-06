@@ -12,9 +12,6 @@ import java.util.ArrayList;
 public class UploadPrescriptionController {
 
     @FXML
-    private ComboBox<String> patientTypeComboBox;
-
-    @FXML
     private TextField patientIdTextField;
 
     @FXML
@@ -29,9 +26,6 @@ public class UploadPrescriptionController {
     @FXML
     private TextField phoneTextField;
 
-    // Disease field in your FXML (phoneTextField1)
-    @FXML
-    private TextField phoneTextField1;
 
     @FXML
     private TextField addressTextField;
@@ -47,6 +41,8 @@ public class UploadPrescriptionController {
 
     @FXML
     private Label messageLabel;
+    @FXML
+    private TextArea medicationTextArea;
 
     private final ArrayList<PatientRecordModelClass> patientList =
             new ArrayList<>();
@@ -56,7 +52,7 @@ public class UploadPrescriptionController {
     private final File patientFile =
             new File(dataFolder, "patients.bin");
     @FXML
-    private TextArea medicationTextArea;
+    private TextField diseaseTextField;
 
     @FXML
     public void initialize() {
@@ -65,10 +61,7 @@ public class UploadPrescriptionController {
             dataFolder.mkdirs();
         }
 
-        patientTypeComboBox.getItems().addAll(
-                "Existing Patient",
-                "Walk-in Patient"
-        );
+
 
         genderComboBox.getItems().addAll(
                 "Male",
@@ -85,35 +78,6 @@ public class UploadPrescriptionController {
         messageLabel.setText("");
     }
 
-    @FXML
-    public void patientTypeComboBoxOnAction(ActionEvent actionEvent) {
-
-        if ("Existing Patient".equals(patientTypeComboBox.getValue())) {
-
-            patientIdTextField.setDisable(false);
-
-            patientNameTextField.setEditable(false);
-            ageTextField.setEditable(false);
-            genderComboBox.setDisable(true);
-            phoneTextField.setEditable(false);
-            addressTextField.setEditable(false);
-
-        } else {
-
-            patientIdTextField.clear();
-            patientNameTextField.clear();
-            ageTextField.clear();
-            genderComboBox.setValue(null);
-            phoneTextField.clear();
-            addressTextField.clear();
-
-            patientNameTextField.setEditable(true);
-            ageTextField.setEditable(true);
-            genderComboBox.setDisable(false);
-            phoneTextField.setEditable(true);
-            addressTextField.setEditable(true);
-        }
-    }
 
     private void loadPatients() {
 
@@ -123,8 +87,7 @@ public class UploadPrescriptionController {
             return;
         }
 
-        try (ObjectInputStream ois =
-                     new ObjectInputStream(new FileInputStream(patientFile))) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(patientFile))) {
 
             while (true) {
 
@@ -136,7 +99,6 @@ public class UploadPrescriptionController {
 
         } catch (EOFException e) {
 
-            // End of file
 
         } catch (IOException | ClassNotFoundException e) {
 
@@ -154,7 +116,6 @@ public class UploadPrescriptionController {
             messageLabel.setText("Enter Patient ID.");
             return;
         }
-
         int patientId;
 
         try {
@@ -177,11 +138,6 @@ public class UploadPrescriptionController {
                 phoneTextField.setText(patient.getPhoneNumber());
                 addressTextField.setText(patient.getAddress());
 
-                phoneTextField1.setText(patient.getDisease());
-                diagnosisTextArea.setText(patient.getDiagnosis());
-                eyePowerTextArea.setText(patient.getEyePowerPrescription());
-                recommendationTextArea.setText(patient.getDoctorRemarks());
-                medicationTextArea.setText(patient.getPrescription());
 
                 messageLabel.setText("Patient found.");
                 return;
@@ -195,8 +151,7 @@ public class UploadPrescriptionController {
         genderComboBox.setValue(null);
         phoneTextField.clear();
         addressTextField.clear();
-
-        phoneTextField1.clear();
+        diseaseTextField.clear();
         diagnosisTextArea.clear();
         eyePowerTextArea.clear();
         recommendationTextArea.clear();
@@ -206,13 +161,7 @@ public class UploadPrescriptionController {
     @FXML
     public void saveButton(ActionEvent actionEvent) {
 
-        if (patientIdTextField.getText().trim().isEmpty()
-                || phoneTextField1.getText().trim().isEmpty()
-                || diagnosisTextArea.getText().trim().isEmpty()
-                || eyePowerTextArea.getText().trim().isEmpty()
-                || recommendationTextArea.getText().trim().isEmpty()
-                || medicationTextArea.getText().trim().isEmpty()) {
-
+        if (patientIdTextField.getText().trim().isEmpty() || diseaseTextField.getText().trim().isEmpty() || diagnosisTextArea.getText().trim().isEmpty() || eyePowerTextArea.getText().trim().isEmpty() || recommendationTextArea.getText().trim().isEmpty() || medicationTextArea.getText().trim().isEmpty()) {
             messageLabel.setText("Please complete all required fields.");
             return;
         }
@@ -237,16 +186,13 @@ public class UploadPrescriptionController {
 
             if (patient.getPatientId() == patientId) {
 
-                patient.setDisease(phoneTextField1.getText().trim());
+                patient.setDisease(diseaseTextField.getText().trim());
 
-                patient.setDiagnosis(
-                        diagnosisTextArea.getText().trim());
+                patient.setDiagnosis(diagnosisTextArea.getText().trim());
 
-                patient.setEyePowerPrescription(
-                        eyePowerTextArea.getText().trim());
+                patient.setEyePowerPrescription(eyePowerTextArea.getText().trim());
 
-                patient.setDoctorRemarks(
-                        recommendationTextArea.getText().trim());
+                patient.setDoctorRemarks(recommendationTextArea.getText().trim());
                 patient.setPrescription(medicationTextArea.getText().trim());
 
                 found = true;
@@ -260,11 +206,9 @@ public class UploadPrescriptionController {
             return;
         }
 
-        try (ObjectOutputStream oos =
-                     new ObjectOutputStream(new FileOutputStream(patientFile))) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(patientFile))) {
 
             for (PatientRecordModelClass patient : patientList) {
-
                 oos.writeObject(patient);
             }
 
@@ -280,7 +224,6 @@ public class UploadPrescriptionController {
     @FXML
     public void clearButton(ActionEvent actionEvent) {
 
-        patientTypeComboBox.setValue(null);
 
         patientIdTextField.clear();
 
@@ -291,9 +234,9 @@ public class UploadPrescriptionController {
         addressTextField.clear();
         medicationTextArea.clear();
 
-        phoneTextField1.clear();          // Disease
+        diseaseTextField.clear();
         diagnosisTextArea.clear();
-        eyePowerTextArea.clear();         // Eye Power
+        eyePowerTextArea.clear();
         recommendationTextArea.clear();
 
         patientIdTextField.setDisable(false);
@@ -308,16 +251,9 @@ public class UploadPrescriptionController {
     }
 
     @FXML
-    public void backButton(ActionEvent actionEvent) {
+    public void backButton(ActionEvent actionEvent) throws IOException {
 
-        try {
-
-            SceneSwitcher.switchTo("jannati/doctorDashboard.fxml");
-
-        } catch (IOException e) {
-
-            e.printStackTrace();
-            messageLabel.setText("Unable to open Doctor Dashboard.");
-        }
+        SceneSwitcher.switchTo("jannati/doctorDashboard.fxml");
     }
+
 }

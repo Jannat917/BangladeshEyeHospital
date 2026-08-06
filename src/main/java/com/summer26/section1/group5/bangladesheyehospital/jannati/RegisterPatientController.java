@@ -177,19 +177,17 @@ public class RegisterPatientController {
                 "",     // Disease
                 "",     // Diagnosis
                 "",     // Prescription
-                "",     // Test Reports
+
                 "",     // Doctor Remarks
 
                 "",     // Eye Power Prescription
-                "",     // Lens Type
                 "",     // Glasses Recommendation
 
-                0.0,    // Doctor Fee
-                0.0,    // Test Fee
+
                 0.0,    // Bill Amount
 
                 "Unpaid",
-                ""    ,
+                "" ,
 
 
                 "Pending"// Appointment Type

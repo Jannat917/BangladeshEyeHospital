@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.summer26.section1.group5.bangladesheyehospital.jannati.UploadPrescriptionController">
+<AnchorPane prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.summer26.section1.group5.bangladesheyehospital.jannati.UploadPrescriptionController">
 
     <children>
 
@@ -27,20 +27,13 @@
         </Label>
 
 
-        <!-- Patient Type -->
-
-        <Label layoutX="60.0" layoutY="120.0" text="Patient Type" />
-
-        <ComboBox fx:id="patientTypeComboBox" layoutX="170.0" layoutY="115.0" onAction="#patientTypeComboBoxOnAction" prefWidth="180.0" />
-
-
         <!-- Existing Patient -->
 
-        <Label layoutX="390.0" layoutY="120.0" text="Patient ID" />
+        <Label layoutX="65.0" layoutY="121.0" text="Patient ID" />
 
-        <TextField fx:id="patientIdTextField" layoutX="470.0" layoutY="115.0" prefWidth="120.0" />
+        <TextField fx:id="patientIdTextField" layoutX="175.0" layoutY="116.0" prefWidth="120.0" />
 
-        <Button layoutX="610.0" layoutY="114.0" onAction="#searchButton" prefWidth="100.0" text="Search" />
+        <Button layoutX="362.0" layoutY="116.0" onAction="#searchButton" prefHeight="26.0" prefWidth="177.0" text="Search" />
 
 
         <!-- Patient Information -->
@@ -95,7 +88,7 @@
 
         <Button layoutX="649.0" layoutY="639.0" onAction="#backButton" prefWidth="100.0" text="Back" />
       <Label layoutX="66.0" layoutY="267.0" text="Disease" />
-      <TextField fx:id="phoneTextField1" layoutX="170.0" layoutY="254.0" prefWidth="220.0" />
+      <TextField fx:id="diseaseTextField" layoutX="170.0" layoutY="254.0" prefWidth="220.0" />
       <Label layoutX="67.0" layoutY="351.0" text="Eye Power " />
       <TextArea fx:id="eyePowerTextArea" layoutX="171.0" layoutY="351.0" prefHeight="17.0" prefWidth="610.0" />
       <Label layoutX="61.0" layoutY="425.0" text="Medication" />

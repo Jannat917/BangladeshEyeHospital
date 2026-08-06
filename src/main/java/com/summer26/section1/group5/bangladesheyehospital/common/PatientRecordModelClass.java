@@ -34,21 +34,21 @@ public class PatientRecordModelClass implements Serializable {
     private String disease;
     private String diagnosis;
     private String prescription;
-    private String testReports;
+
     private String doctorRemarks;
 
     // ==========================
 // Optician
 // ==========================
     private String eyePowerPrescription;
-    private String lensType;
+
     private String glassesRecommendation;
 
     // ==========================
 // Accountant
 // ==========================
     private double doctorFee;
-    private double testFee;
+
     private double billAmount;
     private String paymentStatus;
     private String appointmentType;
@@ -74,13 +74,12 @@ public class PatientRecordModelClass implements Serializable {
             String disease,
             String diagnosis,
             String prescription,
-            String testReports,
+
             String doctorRemarks,
             String eyePowerPrescription,
-            String lensType,
+
             String glassesRecommendation,
-            double doctorFee,
-            double testFee,
+
             double billAmount,
             String paymentStatus,
             String appointmentType,
@@ -104,13 +103,12 @@ public class PatientRecordModelClass implements Serializable {
         this.disease = disease;
         this.diagnosis = diagnosis;
         this.prescription = prescription;
-        this.testReports = testReports;
+
         this.doctorRemarks = doctorRemarks;
         this.eyePowerPrescription = eyePowerPrescription;
-        this.lensType = lensType;
+
         this.glassesRecommendation = glassesRecommendation;
-        this.doctorFee = doctorFee;
-        this.testFee = testFee;
+
         this.billAmount = billAmount;
         this.paymentStatus = paymentStatus;
         this.appointmentType = appointmentType;
@@ -265,13 +263,13 @@ public class PatientRecordModelClass implements Serializable {
         this.prescription = prescription;
     }
 
-    public String getTestReports() {
-        return testReports;
-    }
-
-    public void setTestReports(String testReports) {
-        this.testReports = testReports;
-    }
+//    public String getTestReports() {
+//        return testReports;
+//    }
+//
+//    public void setTestReports(String testReports) {
+//        this.testReports = testReports;
+//    }
 
     public String getDoctorRemarks() {
         return doctorRemarks;
@@ -288,22 +286,22 @@ public class PatientRecordModelClass implements Serializable {
     public void setEyePowerPrescription(String eyePowerPrescription) {
         this.eyePowerPrescription = eyePowerPrescription;
     }
-
-    public String getLensType() {
-        return lensType;
-    }
-
-    public void setLensType(String lensType) {
-        this.lensType = lensType;
-    }
-
-    public String getGlassesRecommendation() {
-        return glassesRecommendation;
-    }
-
-    public void setGlassesRecommendation(String glassesRecommendation) {
-        this.glassesRecommendation = glassesRecommendation;
-    }
+//
+//    public String getLensType() {
+//        return lensType;
+//    }
+//
+//    public void setLensType(String lensType) {
+//        this.lensType = lensType;
+////    }
+//
+//    public String getGlassesRecommendation() {
+//        return glassesRecommendation;
+//    }
+//
+//    public void setGlassesRecommendation(String glassesRecommendation) {
+//        this.glassesRecommendation = glassesRecommendation;
+//    }
 
     public double getDoctorFee() {
         return doctorFee;
@@ -312,14 +310,14 @@ public class PatientRecordModelClass implements Serializable {
     public void setDoctorFee(double doctorFee) {
         this.doctorFee = doctorFee;
     }
-
-    public double getTestFee() {
-        return testFee;
-    }
-
-    public void setTestFee(double testFee) {
-        this.testFee = testFee;
-    }
+//
+//    public double getTestFee() {
+//        return testFee;
+//    }
+//
+//    public void setTestFee(double testFee) {
+//        this.testFee = testFee;
+//    }
 
     public double getBillAmount() {
         return billAmount;
@@ -357,13 +355,12 @@ public class PatientRecordModelClass implements Serializable {
                 ", disease='" + disease + '\'' +
                 ", diagnosis='" + diagnosis + '\'' +
                 ", prescription='" + prescription + '\'' +
-                ", testReports='" + testReports + '\'' +
+
                 ", doctorRemarks='" + doctorRemarks + '\'' +
                 ", eyePowerPrescription='" + eyePowerPrescription + '\'' +
-                ", lensType='" + lensType + '\'' +
+
                 ", glassesRecommendation='" + glassesRecommendation + '\'' +
                 ", doctorFee=" + doctorFee +
-                ", testFee=" + testFee +
                 ", billAmount=" + billAmount +
                 ", paymentStatus='" + paymentStatus + '\'' +
                 ", appointmentType='" + appointmentType + '\'' +
