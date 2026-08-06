@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<AnchorPane prefHeight="500" prefWidth="800" style="-fx-background-color: white;"
+ xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+ fx:controller="com.summer26.section1.group5.bangladesheyehospital.mashrif.CreateEyeglassOrderController">
+ <children><VBox spacing="14" prefWidth="800" prefHeight="500">
+  <padding><Insets top="24" right="30" bottom="24" left="30"/></padding>
+  <children>
+   <Label text="Create Eyeglass Order"><font><Font name="System Bold" size="26"/></font></Label>
+   <GridPane hgap="12" vgap="12">
+    <children>
+     <Label text="Prescription" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+     <ComboBox fx:id="prescriptionComboBox" prefWidth="260" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+     <Label text="Patient" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+     <TextField fx:id="patientNameTextField" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+     <Label text="Frame" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+     <ComboBox fx:id="frameComboBox" prefWidth="260" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+     <Label text="Total Amount" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+     <TextField fx:id="totalAmountTextField" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+    </children>
+   </GridPane>
+   <HBox spacing="10"><children>
+    <Button text="Create Order" onAction="#createOrderButton"/>
+    <Button text="Clear" onAction="#clearButton"/>
+    <Button text="Back" onAction="#backButton"/>
+   </children></HBox>
+   <Label fx:id="statusLabel" text="Ready" style="-fx-border-color: black; -fx-padding: 8;"/>
+  </children>
+ </VBox></children>
+</AnchorPane>

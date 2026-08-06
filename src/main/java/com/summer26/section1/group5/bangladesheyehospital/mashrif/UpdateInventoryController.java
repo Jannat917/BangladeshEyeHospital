@@ -81,7 +81,7 @@ public class UpdateInventoryController {
     private Label statusLabel;
 
     private final ObservableList<Medicine> medicineList =
-            MedicineData.getMedicineList();
+            MashrifData.getMedicines();
 
     @FXML
     public void initialize() {

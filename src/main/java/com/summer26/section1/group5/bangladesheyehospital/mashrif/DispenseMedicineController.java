@@ -73,7 +73,7 @@ public class DispenseMedicineController {
             FXCollections.observableArrayList();
 
     private final ObservableList<Medicine> medicineStock =
-            MedicineData.getMedicineList();
+            MashrifData.getMedicines();
 
     @FXML
     public void initialize() {

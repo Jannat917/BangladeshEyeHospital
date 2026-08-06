@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<AnchorPane prefHeight="700" prefWidth="1000" style="-fx-background-color: white;"
+ xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+ fx:controller="com.summer26.section1.group5.bangladesheyehospital.mashrif.RecommendFrameController">
+ <children><VBox spacing="12" prefWidth="1000" prefHeight="700">
+  <padding><Insets top="20" right="24" bottom="20" left="24"/></padding>
+  <children>
+   <Label text="Recommend Frame"><font><Font name="System Bold" size="26"/></font></Label>
+   <GridPane hgap="10" vgap="10">
+    <children>
+     <Label text="Prescription" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+     <ComboBox fx:id="prescriptionComboBox" prefWidth="240" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+     <Label text="Patient" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+     <TextField fx:id="patientNameTextField" editable="false" GridPane.columnIndex="3" GridPane.rowIndex="0"/>
+     <Label text="Face Shape" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+     <ComboBox fx:id="faceShapeComboBox" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+     <Label text="Material" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+     <ComboBox fx:id="materialComboBox" GridPane.columnIndex="3" GridPane.rowIndex="1"/>
+     <Label text="Budget" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+     <TextField fx:id="budgetTextField" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+    </children>
+   </GridPane>
+   <HBox spacing="10"><children>
+    <Button text="Find Frames" onAction="#findFramesButton"/>
+    <Button text="Recommend Selected" onAction="#recommendSelectedButton"/>
+    <Button text="Show All" onAction="#showAllButton"/>
+    <Button text="Clear" onAction="#clearButton"/>
+    <Button text="Back" onAction="#backButton"/>
+   </children></HBox>
+   <TableView fx:id="frameTableView" prefHeight="430">
+    <columns>
+     <TableColumn fx:id="frameIdColumn" text="Frame ID" prefWidth="100"/>
+     <TableColumn fx:id="frameNameColumn" text="Frame Name" prefWidth="180"/>
+     <TableColumn fx:id="frameShapeColumn" text="Shape" prefWidth="110"/>
+     <TableColumn fx:id="materialColumn" text="Material" prefWidth="120"/>
+     <TableColumn fx:id="colorColumn" text="Color" prefWidth="100"/>
+     <TableColumn fx:id="priceColumn" text="Price" prefWidth="100"/>
+     <TableColumn fx:id="stockQuantityColumn" text="Stock" prefWidth="100"/>
+    </columns>
+   </TableView>
+   <Label fx:id="statusLabel" text="Ready" style="-fx-border-color: black; -fx-padding: 8;"/>
+  </children>
+ </VBox></children>
+</AnchorPane>

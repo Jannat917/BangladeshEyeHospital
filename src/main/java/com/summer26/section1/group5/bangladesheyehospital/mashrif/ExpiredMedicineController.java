@@ -47,7 +47,7 @@ public class ExpiredMedicineController {
     private Label statusLabel;
 
     private final ObservableList<Medicine> medicineList =
-            MedicineData.getMedicineList();
+            MashrifData.getMedicines();
 
     private final ObservableList<Medicine> expiredMedicineList =
             FXCollections.observableArrayList();

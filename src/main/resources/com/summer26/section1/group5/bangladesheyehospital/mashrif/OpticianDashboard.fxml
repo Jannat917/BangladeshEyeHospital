@@ -1,209 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Separator?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.FlowPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-
-<AnchorPane prefHeight="650.0" prefWidth="1000.0"
-            style="-fx-background-color: white;"
-            xmlns="http://javafx.com/javafx/23.0.1"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.summer26.section1.group5.bangladesheyehospital.mashrif.OpticianDashboard">
-
-    <children>
-        <BorderPane prefHeight="650.0" prefWidth="1000.0">
-
-            <top>
-                <HBox alignment="CENTER_LEFT" prefHeight="78.0"
-                      style="-fx-background-color: black; -fx-border-color: black; -fx-border-width: 0 0 1 0;">
-                    <padding>
-                        <Insets bottom="14.0" left="24.0" right="24.0" top="14.0"/>
-                    </padding>
-                    <children>
-                        <VBox spacing="3.0">
-                            <children>
-                                <Label text="Bangladesh Eye Hospital" textFill="WHITE">
-                                    <font>
-                                        <Font name="System Bold" size="25.0"/>
-                                    </font>
-                                </Label>
-                                <Label text="Optician Dashboard" textFill="WHITE">
-                                    <font>
-                                        <Font size="14.0"/>
-                                    </font>
-                                </Label>
-                            </children>
-                        </VBox>
-                    </children>
-                </HBox>
-            </top>
-
-            <left>
-                <VBox prefWidth="235.0" spacing="7.0"
-                      style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 0 1 0 0;">
-                    <padding>
-                        <Insets bottom="18.0" left="14.0" right="14.0" top="18.0"/>
-                    </padding>
-                    <children>
-                        <Label text="OPTICIAN MENU" textFill="BLACK">
-                            <font>
-                                <Font name="System Bold" size="14.0"/>
-                            </font>
-                        </Label>
-
-                        <Separator/>
-
-                        <Button maxWidth="1.7976931348623157E308" prefHeight="38.0"
-                                text="Dashboard" onAction="#dashboardButton"
-                                style="-fx-background-color: black; -fx-text-fill: white; -fx-font-weight: bold;"/>
-
-                        <Button maxWidth="1.7976931348623157E308" prefHeight="38.0"
-                                text="View Eyeglass Prescription" onAction="#viewPrescriptionButton"
-                                style="-fx-background-color: white; -fx-text-fill: black; -fx-border-color: black;"/>
-
-                        <Button maxWidth="1.7976931348623157E308" prefHeight="38.0"
-                                text="Recommend Frame" onAction="#recommendFrameButton"
-                                style="-fx-background-color: white; -fx-text-fill: black; -fx-border-color: black;"/>
-
-                        <Button maxWidth="1.7976931348623157E308" prefHeight="38.0"
-                                text="Create Eyeglass Order" onAction="#createOrderButton"
-                                style="-fx-background-color: white; -fx-text-fill: black; -fx-border-color: black;"/>
-
-                        <Button maxWidth="1.7976931348623157E308" prefHeight="38.0"
-                                text="Track Production" onAction="#trackProductionButton"
-                                style="-fx-background-color: white; -fx-text-fill: black; -fx-border-color: black;"/>
-
-                        <Button maxWidth="1.7976931348623157E308" prefHeight="38.0"
-                                text="Deliver Eyeglass" onAction="#deliverEyeglassButton"
-                                style="-fx-background-color: white; -fx-text-fill: black; -fx-border-color: black;"/>
-
-                        <Button maxWidth="1.7976931348623157E308" prefHeight="38.0"
-                                text="Lens and Frame Inventory" onAction="#inventoryButton"
-                                style="-fx-background-color: white; -fx-text-fill: black; -fx-border-color: black;"/>
-
-                        <Button maxWidth="1.7976931348623157E308" prefHeight="38.0"
-                                text="Process Frame Sale" onAction="#frameSaleButton"
-                                style="-fx-background-color: white; -fx-text-fill: black; -fx-border-color: black;"/>
-
-                        <Button maxWidth="1.7976931348623157E308" prefHeight="38.0"
-                                text="Optical Report" onAction="#opticalReportButton"
-                                style="-fx-background-color: white; -fx-text-fill: black; -fx-border-color: black;"/>
-
-                        <Separator/>
-
-                        <Button maxWidth="1.7976931348623157E308" prefHeight="38.0"
-                                text="Log Out" onAction="#logoutButton"
-                                style="-fx-background-color: black; -fx-text-fill: white; -fx-font-weight: bold;"/>
-                    </children>
-                </VBox>
-            </left>
-
-            <center>
-                <VBox spacing="21.0">
-                    <padding>
-                        <Insets bottom="26.0" left="30.0" right="30.0" top="26.0"/>
-                    </padding>
-                    <children>
-                        <Label fx:id="pageTitleLabel" text="Dashboard Overview" textFill="BLACK">
-                            <font>
-                                <Font name="System Bold" size="28.0"/>
-                            </font>
-                        </Label>
-
-                        <Label fx:id="pageDescriptionLabel"
-                               text="Welcome to the Optician Dashboard."
-                               textFill="BLACK"
-                               wrapText="true">
-                            <font>
-                                <Font size="15.0"/>
-                            </font>
-                        </Label>
-
-                        <FlowPane hgap="18.0" vgap="18.0">
-                            <children>
-                                <VBox prefHeight="125.0" prefWidth="210.0" spacing="7.0"
-                                      style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 1;">
-                                    <padding>
-                                        <Insets bottom="14.0" left="17.0" right="17.0" top="14.0"/>
-                                    </padding>
-                                    <children>
-                                        <Label text="Pending Orders" textFill="BLACK"/>
-                                        <Label fx:id="pendingOrderCountLabel" text="0" textFill="BLACK">
-                                            <font>
-                                                <Font name="System Bold" size="32.0"/>
-                                            </font>
-                                        </Label>
-                                        <Label text="Waiting for production" textFill="BLACK"/>
-                                    </children>
-                                </VBox>
-
-                                <VBox prefHeight="125.0" prefWidth="210.0" spacing="7.0"
-                                      style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 1;">
-                                    <padding>
-                                        <Insets bottom="14.0" left="17.0" right="17.0" top="14.0"/>
-                                    </padding>
-                                    <children>
-                                        <Label text="Ready for Delivery" textFill="BLACK"/>
-                                        <Label fx:id="readyDeliveryCountLabel" text="0" textFill="BLACK">
-                                            <font>
-                                                <Font name="System Bold" size="32.0"/>
-                                            </font>
-                                        </Label>
-                                        <Label text="Completed eyeglasses" textFill="BLACK"/>
-                                    </children>
-                                </VBox>
-
-                                <VBox prefHeight="125.0" prefWidth="210.0" spacing="7.0"
-                                      style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 1;">
-                                    <padding>
-                                        <Insets bottom="14.0" left="17.0" right="17.0" top="14.0"/>
-                                    </padding>
-                                    <children>
-                                        <Label text="Today's Optical Sales" textFill="BLACK"/>
-                                        <Label fx:id="todaySalesLabel" text="৳0.00" textFill="BLACK">
-                                            <font>
-                                                <Font name="System Bold" size="29.0"/>
-                                            </font>
-                                        </Label>
-                                        <Label text="Frames and lenses" textFill="BLACK"/>
-                                    </children>
-                                </VBox>
-                            </children>
-                        </FlowPane>
-
-                        <VBox spacing="10.0"
-                              style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 1;">
-                            <padding>
-                                <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-                            </padding>
-                            <children>
-                                <Label text="Quick Information" textFill="BLACK">
-                                    <font>
-                                        <Font name="System Bold" size="19.0"/>
-                                    </font>
-                                </Label>
-                                <Label text="Use the menu to view prescriptions, recommend frames, create orders, track production and process sales."
-                                       textFill="BLACK"
-                                       wrapText="true"/>
-                            </children>
-                        </VBox>
-
-                        <Label fx:id="statusLabel"
-                               text="Select a menu option to continue."
-                               textFill="BLACK"
-                               wrapText="true"
-                               style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 1; -fx-padding: 12;"/>
-                    </children>
-                </VBox>
-            </center>
-
-        </BorderPane>
-    </children>
+<AnchorPane prefHeight="650.0" prefWidth="950.0" style="-fx-background-color: white;"
+ xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+ fx:controller="com.summer26.section1.group5.bangladesheyehospital.mashrif.OpticianDashboard">
+ <children>
+  <VBox spacing="14.0" prefWidth="950.0" prefHeight="650.0">
+   <padding><Insets top="24" right="28" bottom="24" left="28"/></padding>
+   <children>
+    <Label text="Optician Dashboard"><font><Font name="System Bold" size="28"/></font></Label>
+    <GridPane hgap="12" vgap="12">
+     <children>
+      <Button text="Dashboard" onAction="#dashboardButton" prefWidth="200" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+      <Button text="View Prescriptions" onAction="#viewPrescriptionButton" prefWidth="200" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+      <Button text="Recommend Frame" onAction="#recommendFrameButton" prefWidth="200" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+      <Button text="Create Order" onAction="#createOrderButton" prefWidth="200" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+      <Button text="Track Production" onAction="#trackProductionButton" prefWidth="200" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+      <Button text="Deliver Eyeglass" onAction="#deliverEyeglassButton" prefWidth="200" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+      <Button text="Frame Inventory" onAction="#inventoryButton" prefWidth="200" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+      <Button text="Frame Sales" onAction="#frameSaleButton" prefWidth="200" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+      <Button text="Optical Report" onAction="#opticalReportButton" prefWidth="200" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
+      <Button text="Logout" onAction="#logoutButton" prefWidth="200" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+     </children>
+    </GridPane>
+    <Label fx:id="statusLabel" text="Ready" style="-fx-border-color: black; -fx-padding: 10;"/>
+   </children>
+  </VBox>
+ </children>
 </AnchorPane>

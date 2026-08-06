@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<AnchorPane prefHeight="600" prefWidth="900" style="-fx-background-color: white;"
+ xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+ fx:controller="com.summer26.section1.group5.bangladesheyehospital.mashrif.FrameSaleController">
+ <children><VBox spacing="12" prefWidth="900" prefHeight="600">
+  <padding><Insets top="20" right="24" bottom="20" left="24"/></padding>
+  <children>
+   <Label text="Frame Sales"><font><Font name="System Bold" size="26"/></font></Label>
+   <HBox spacing="10"><children>
+    <Button text="Refresh" onAction="#refreshButton"/>
+    <Button text="Back" onAction="#backButton"/>
+   </children></HBox>
+   <TableView fx:id="saleTableView" prefHeight="420">
+    <columns>
+     <TableColumn fx:id="saleIdColumn" text="Sale ID" prefWidth="110"/>
+     <TableColumn fx:id="orderIdColumn" text="Order ID" prefWidth="110"/>
+     <TableColumn fx:id="patientNameColumn" text="Patient" prefWidth="180"/>
+     <TableColumn fx:id="frameNameColumn" text="Frame" prefWidth="180"/>
+     <TableColumn fx:id="saleDateColumn" text="Date" prefWidth="120"/>
+     <TableColumn fx:id="amountColumn" text="Amount" prefWidth="120"/>
+    </columns>
+   </TableView>
+   <HBox spacing="10"><children><Label text="Total Sales:"/><Label fx:id="totalSalesLabel" text="0.00"/></children></HBox>
+   <Label fx:id="statusLabel" text="Ready" style="-fx-border-color: black; -fx-padding: 8;"/>
+  </children>
+ </VBox></children>
+</AnchorPane>
