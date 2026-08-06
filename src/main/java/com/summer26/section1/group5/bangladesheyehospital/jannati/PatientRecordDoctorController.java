@@ -252,7 +252,7 @@ public class PatientRecordDoctorController {
 
                         "\n\nDoctor Fee : " + fee +
 
-                        "\nTest Fee : " + patient.getTestFee() +
+
 
                         "\nBill Amount : " + patient.getBillAmount() +
 

@@ -29,9 +29,6 @@ public class UpdatePatientProgressDoctorController {
     private TextField doctorTextField;
 
     @FXML
-    private TextArea conditionTextArea;
-
-    @FXML
     private TextArea medicationTextArea;
 
     @FXML
@@ -44,6 +41,8 @@ public class UpdatePatientProgressDoctorController {
 
     private final File dataFolder = new File("data");
     private final File patientFile = new File(dataFolder, "patients.bin");
+    @FXML
+    private TextArea diagnosisTextArea;
 
     @FXML
     public void initialize() {
@@ -117,9 +116,9 @@ public class UpdatePatientProgressDoctorController {
 
                 doctorTextField.setText(patient.getAssignedDoctor());
 
-                conditionTextArea.setText(patient.getDiagnosis());
+                diagnosisTextArea.setText(patient.getDiagnosis());
 
-                medicationTextArea.setText(patient.getEyePowerPrescription());
+                medicationTextArea.setText(patient.getPrescription());
 
                 remarksTextArea.setText(patient.getDoctorRemarks());
 
@@ -138,7 +137,7 @@ public class UpdatePatientProgressDoctorController {
 
             patientNameTextField.clear();
             doctorTextField.clear();
-            conditionTextArea.clear();
+            diagnosisTextArea.clear();
             medicationTextArea.clear();
             remarksTextArea.clear();
         }
@@ -173,7 +172,7 @@ public class UpdatePatientProgressDoctorController {
 
             if (patient.getPatientId() == patientId) {
 
-                patient.setDiagnosis(conditionTextArea.getText().trim());
+                patient.setDiagnosis(diagnosisTextArea.getText().trim());
 
                 patient.setPrescription(medicationTextArea.getText().trim());
 
@@ -216,7 +215,7 @@ public class UpdatePatientProgressDoctorController {
         patientNameTextField.clear();
         doctorTextField.clear();
 
-        conditionTextArea.clear();
+        diagnosisTextArea.clear();
         medicationTextArea.clear();
         remarksTextArea.clear();
 

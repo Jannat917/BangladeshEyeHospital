@@ -16,11 +16,14 @@ public class ReceiptionistDashboardController {
     }
 
     @javafx.fxml.FXML
-    public void generateTestBillButton(ActionEvent actionEvent) {
+    public void generateTestBillButton(ActionEvent actionEvent) throws IOException {
+        SceneSwitcher.switchTo("jannati/generate-test-bill.fxml");
     }
 
     @javafx.fxml.FXML
-    public void managePaymentButton(ActionEvent actionEvent) {
+    public void managePaymentButton(ActionEvent actionEvent) throws IOException {
+
+        SceneSwitcher.switchTo("jannati/manage-payment.fxml");
     }
 
     @javafx.fxml.FXML

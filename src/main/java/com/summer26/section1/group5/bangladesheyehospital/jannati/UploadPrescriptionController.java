@@ -55,6 +55,8 @@ public class UploadPrescriptionController {
 
     private final File patientFile =
             new File(dataFolder, "patients.bin");
+    @FXML
+    private TextArea medicationTextArea;
 
     @FXML
     public void initialize() {
@@ -179,6 +181,7 @@ public class UploadPrescriptionController {
                 diagnosisTextArea.setText(patient.getDiagnosis());
                 eyePowerTextArea.setText(patient.getEyePowerPrescription());
                 recommendationTextArea.setText(patient.getDoctorRemarks());
+                medicationTextArea.setText(patient.getPrescription());
 
                 messageLabel.setText("Patient found.");
                 return;
@@ -197,6 +200,7 @@ public class UploadPrescriptionController {
         diagnosisTextArea.clear();
         eyePowerTextArea.clear();
         recommendationTextArea.clear();
+        medicationTextArea.clear();
     }
 
     @FXML
@@ -206,7 +210,8 @@ public class UploadPrescriptionController {
                 || phoneTextField1.getText().trim().isEmpty()
                 || diagnosisTextArea.getText().trim().isEmpty()
                 || eyePowerTextArea.getText().trim().isEmpty()
-                || recommendationTextArea.getText().trim().isEmpty()) {
+                || recommendationTextArea.getText().trim().isEmpty()
+                || medicationTextArea.getText().trim().isEmpty()) {
 
             messageLabel.setText("Please complete all required fields.");
             return;
@@ -242,6 +247,7 @@ public class UploadPrescriptionController {
 
                 patient.setDoctorRemarks(
                         recommendationTextArea.getText().trim());
+                patient.setPrescription(medicationTextArea.getText().trim());
 
                 found = true;
                 break;
@@ -283,6 +289,7 @@ public class UploadPrescriptionController {
         genderComboBox.setValue(null);
         phoneTextField.clear();
         addressTextField.clear();
+        medicationTextArea.clear();
 
         phoneTextField1.clear();          // Disease
         diagnosisTextArea.clear();
