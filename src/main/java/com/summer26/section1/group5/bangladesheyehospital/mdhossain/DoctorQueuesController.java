@@ -1,6 +1,5 @@
 package com.summer26.section1.group5.bangladesheyehospital.mdhossain;
 
-import com.summer26.section1.group5.bangladesheyehospital.common.DoctorModelClass;
 import com.summer26.section1.group5.bangladesheyehospital.common.PatientRecordModelClass;
 import com.summer26.section1.group5.bangladesheyehospital.common.SceneSwitcher;
 import javafx.event.ActionEvent;
@@ -17,33 +16,14 @@ public class DoctorQueuesController {
     @FXML private Label statusLabel;
 
     private final File dataFolder = new File("data");
-    private final File doctorFile = new File(dataFolder, "doctors.bin");
     private final File patientFile = new File(dataFolder, "patients.bin");
 
-    private List<DoctorModelClass> doctorList = new ArrayList<>();
     private List<PatientRecordModelClass> patientList = new ArrayList<>();
 
     @FXML
     public void initialize() {
-        loadDoctorsFromFile();
         loadPatientsFromFile();
         populateDoctorListView();
-    }
-
-    private void loadDoctorsFromFile() {
-        doctorList.clear();
-        if (!doctorFile.exists()) {
-            return;
-        }
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(doctorFile))) {
-            while (true) {
-                DoctorModelClass doctor = (DoctorModelClass) ois.readObject();
-                doctorList.add(doctor);
-            }
-        } catch (EOFException e) {
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     private void loadPatientsFromFile() {
@@ -64,48 +44,57 @@ public class DoctorQueuesController {
 
     private void populateDoctorListView() {
         doctorListView.getItems().clear();
-        if (doctorList.isEmpty()) {
-            doctorListView.getItems().add("No doctors available");
-            return;
-        }
-        for (DoctorModelClass d : doctorList) {
-            String availability = d.getAvailability() != null ? d.getAvailability() : "Unknown";
-            doctorListView.getItems().add(
-                    d.getDoctorId() + " - " + d.getDoctorName() +
-                            " (" + d.getSpecialization() + ") - " + availability
-            );
-        }
-    }
+        List<String> uniqueDoctors = new ArrayList<>();
 
-    private List<String> getPatientQueue() {
-        List<String> queue = new ArrayList<>();
-        int count = 1;
-        for (PatientRecordModelClass p : patientList) {
-            queue.add(count + ". " + p.getPatientName() + " (P-" + p.getPatientId() + ")");
-            count++;
+        for (PatientRecordModelClass patient : patientList) {
+            String doctor = patient.getAssignedDoctor();
+            if (doctor != null && !doctor.isEmpty() && !uniqueDoctors.contains(doctor)) {
+                uniqueDoctors.add(doctor);
+            }
         }
-        return queue;
+
+        if (uniqueDoctors.isEmpty()) {
+            doctorListView.getItems().add("No doctors assigned to patients");
+        } else {
+            doctorListView.getItems().addAll(uniqueDoctors);
+        }
     }
 
     @FXML
     public void viewQueue(ActionEvent event) {
         String selected = doctorListView.getSelectionModel().getSelectedItem();
-        if (selected == null || doctorList.isEmpty()) {
+        if (selected == null) {
             statusLabel.setText("ERROR: Select a doctor!");
             statusLabel.setStyle("-fx-text-fill: red;");
             return;
         }
+
         queueListView.getItems().clear();
+
         if (patientList.isEmpty()) {
             queueListView.getItems().add("No patients in queue");
-            statusLabel.setText("No patients registered yet.");
+            statusLabel.setText("No patients registered.");
             statusLabel.setStyle("-fx-text-fill: #f39c12;");
             return;
         }
-        List<String> queue = getPatientQueue();
-        queueListView.getItems().addAll(queue);
-        statusLabel.setText("Queue loaded for: " + selected);
-        statusLabel.setStyle("-fx-text-fill: #27ae60; -fx-font-size: 13px;");
+
+        int count = 1;
+        for (PatientRecordModelClass patient : patientList) {
+            String doctor = patient.getAssignedDoctor();
+            if (doctor != null && doctor.equals(selected)) {
+                queueListView.getItems().add(count + ". " + patient.getPatientName() + " (P-" + patient.getPatientId() + ")");
+                count++;
+            }
+        }
+
+        if (queueListView.getItems().isEmpty()) {
+            queueListView.getItems().add("No patients assigned to this doctor");
+            statusLabel.setText("No patients for: " + selected);
+            statusLabel.setStyle("-fx-text-fill: #f39c12;");
+        } else {
+            statusLabel.setText("Queue loaded for: " + selected);
+            statusLabel.setStyle("-fx-text-fill: #27ae60; -fx-font-size: 13px;");
+        }
     }
 
     @FXML

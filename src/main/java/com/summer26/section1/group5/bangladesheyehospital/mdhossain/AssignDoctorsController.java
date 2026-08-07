@@ -1,6 +1,5 @@
 package com.summer26.section1.group5.bangladesheyehospital.mdhossain;
 
-import com.summer26.section1.group5.bangladesheyehospital.common.DoctorModelClass;
 import com.summer26.section1.group5.bangladesheyehospital.common.PatientRecordModelClass;
 import com.summer26.section1.group5.bangladesheyehospital.common.SceneSwitcher;
 import javafx.event.ActionEvent;
@@ -26,10 +25,8 @@ public class AssignDoctorsController {
 
     private final File dataFolder = new File("data");
     private final File patientFile = new File(dataFolder, "patients.bin");
-    private final File doctorFile = new File(dataFolder, "doctors.bin");
 
     private List<PatientRecordModelClass> patientList = new ArrayList<>();
-    private List<DoctorModelClass> doctorList = new ArrayList<>();
     private String lastAssignedPatient = "";
     private String lastAssignedDoctor = "";
     private int lastAssignedPatientId = 0;
@@ -38,7 +35,6 @@ public class AssignDoctorsController {
     public void initialize() {
         printBtn.setDisable(true);
         loadPatientsFromFile();
-        loadDoctorsFromFile();
         populateDoctorCombo();
     }
 
@@ -58,34 +54,21 @@ public class AssignDoctorsController {
         }
     }
 
-    private void loadDoctorsFromFile() {
-        doctorList.clear();
-        if (!doctorFile.exists()) {
-            return;
-        }
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(doctorFile))) {
-            while (true) {
-                DoctorModelClass doctor = (DoctorModelClass) ois.readObject();
-                doctorList.add(doctor);
-            }
-        } catch (EOFException e) {
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     private void populateDoctorCombo() {
         doctorCombo.getItems().clear();
-        if (doctorList.isEmpty()) {
-            doctorCombo.getItems().add("No doctors available");
-            return;
+        List<String> uniqueDoctors = new ArrayList<>();
+
+        for (PatientRecordModelClass patient : patientList) {
+            String doctor = patient.getAssignedDoctor();
+            if (doctor != null && !doctor.isEmpty() && !uniqueDoctors.contains(doctor)) {
+                uniqueDoctors.add(doctor);
+            }
         }
-        for (DoctorModelClass d : doctorList) {
-            String availability = d.getAvailability() != null ? d.getAvailability() : "Unknown";
-            doctorCombo.getItems().add(
-                    d.getDoctorId() + " - " + d.getDoctorName() +
-                            " (" + d.getSpecialization() + ") - " + availability
-            );
+
+        if (uniqueDoctors.isEmpty()) {
+            doctorCombo.getItems().add("No doctors assigned to patients");
+        } else {
+            doctorCombo.getItems().addAll(uniqueDoctors);
         }
     }
 
@@ -103,7 +86,7 @@ public class AssignDoctorsController {
         String patientIdText = patientIdField.getText().trim();
         String doctorSelection = doctorCombo.getValue();
 
-        if (patientIdText.isEmpty() || doctorSelection == null || doctorList.isEmpty()) {
+        if (patientIdText.isEmpty() || doctorSelection == null) {
             statusLabel.setText("ERROR: Enter Patient ID and select Doctor!");
             statusLabel.setStyle("-fx-text-fill: red;");
             printBtn.setDisable(true);
@@ -135,10 +118,9 @@ public class AssignDoctorsController {
             return;
         }
 
-        String doctorName = doctorSelection.split(" - ")[1].split(" \\(")[0];
-        patient.setAssignedDoctor(doctorName);
+        patient.setAssignedDoctor(doctorSelection);
         lastAssignedPatient = patient.getPatientName();
-        lastAssignedDoctor = doctorName;
+        lastAssignedDoctor = doctorSelection;
         lastAssignedPatientId = patientId;
 
         String time = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
@@ -151,7 +133,7 @@ public class AssignDoctorsController {
         info += "  Patient ID : " + patientId + "\n";
         info += "  Patient    : " + patient.getPatientName() + "\n";
         info += "  Phone      : " + phone + "\n";
-        info += "  Doctor     : " + doctorName + "\n";
+        info += "  Doctor     : " + doctorSelection + "\n";
         info += "  Time       : " + time + "\n";
         info += "  Status     : Assigned\n";
         info += "========================================";
@@ -162,6 +144,7 @@ public class AssignDoctorsController {
 
         patientIdField.clear();
         doctorCombo.setValue(null);
+        populateDoctorCombo();
     }
 
     @FXML
