@@ -26,7 +26,9 @@ public class UpdateProfilecontroller {
 
     private final File dataFolder = new File("data");
     private final File patientFile = new File(dataFolder, "patients.bin");
+
     private final ArrayList<PatientRecordModelClass> patientList = new ArrayList<>();
+
 
     private PatientRecordModelClass patient;
 

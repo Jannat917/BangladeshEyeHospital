@@ -1,60 +1,55 @@
 package com.summer26.section1.group5.bangladesheyehospital.jannati;
 
+import com.summer26.section1.group5.bangladesheyehospital.common.PatientRecordModelClass;
 import com.summer26.section1.group5.bangladesheyehospital.common.SceneSwitcher;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.io.*;
-import java.util.ArrayList;
+        import java.util.ArrayList;
 import java.util.Optional;
 
 public class OnlineAppointmentsDoctorController {
+
 
     @FXML
     private TextField doctorIdTextField;
 
     @FXML
-    private TableView<AppointmentModelClass> appointmentTableView;
+    private TableView<PatientRecordModelClass> appointmentTableView;
 
     @FXML
-    private TableColumn<AppointmentModelClass, String> patientIdColumn;
+    private TableColumn<PatientRecordModelClass, Integer> patientIdColumn;
 
     @FXML
-    private TableColumn<AppointmentModelClass, String> patientNameColumn;
+    private TableColumn<PatientRecordModelClass, String> patientNameColumn;
 
     @FXML
-    private TableColumn<AppointmentModelClass, Integer> doctorIdColumn;
+    private TableColumn<PatientRecordModelClass, Integer> doctorIdColumn;
 
     @FXML
-    private TableColumn<AppointmentModelClass, String> doctorNameColumn;
+    private TableColumn<PatientRecordModelClass, String> doctorNameColumn;
 
     @FXML
-    private TableColumn<AppointmentModelClass, String> appointmentDateColumn;
+    private TableColumn<PatientRecordModelClass, String> appointmentDateColumn;
 
     @FXML
-    private TableColumn<AppointmentModelClass, String> appointmentTimeColumn;
+    private TableColumn<PatientRecordModelClass, String> appointmentTimeColumn;
 
     @FXML
     private Label messageLabel;
 
     private final File dataFolder = new File("data");
 
-    private final File appointmentFile =
-            new File(dataFolder, "appointments.bin");
+    private final File patientFile =
+            new File(dataFolder, "patients.bin");
 
-    private final ArrayList<AppointmentModelClass> appointmentList =
+    private final ArrayList<PatientRecordModelClass> appointmentList =
             new ArrayList<>();
-    @FXML
-    private Button searchButton;
-    @FXML
-    private Button refreshButton;
-    @FXML
-    private Button backButton;
-    @FXML
-    private Button confirmAppointmentButton;
-
     @FXML
     public void initialize() {
 
@@ -65,10 +60,10 @@ public class OnlineAppointmentsDoctorController {
                 new PropertyValueFactory<>("patientName"));
 
         doctorIdColumn.setCellValueFactory(
-                new PropertyValueFactory<>("doctorId"));
+                new PropertyValueFactory<>("assignedDoctorId"));
 
         doctorNameColumn.setCellValueFactory(
-                new PropertyValueFactory<>("doctorName"));
+                new PropertyValueFactory<>("assignedDoctor"));
 
         appointmentDateColumn.setCellValueFactory(
                 new PropertyValueFactory<>("appointmentDate"));
@@ -84,25 +79,23 @@ public class OnlineAppointmentsDoctorController {
         appointmentList.clear();
         appointmentTableView.getItems().clear();
 
-        if (!appointmentFile.exists()) {
+        if (!patientFile.exists()) {
 
             messageLabel.setText("No appointments found.");
             return;
         }
 
         try (ObjectInputStream ois =
-                     new ObjectInputStream(
-                             new FileInputStream(appointmentFile))) {
+                     new ObjectInputStream(new FileInputStream(patientFile))) {
 
             while (true) {
 
-                AppointmentModelClass appointment =
-                        (AppointmentModelClass) ois.readObject();
+                PatientRecordModelClass patient =
+                        (PatientRecordModelClass) ois.readObject();
 
-                if ("Online".equalsIgnoreCase(
-                        appointment.getAppointmentType())) {
+                if ("Online".equalsIgnoreCase(patient.getAppointmentType())) {
 
-                    appointmentList.add(appointment);
+                    appointmentList.add(patient);
                 }
             }
 
@@ -124,19 +117,9 @@ public class OnlineAppointmentsDoctorController {
 
         } else {
 
-            messageLabel.setText(
-                    appointmentList.size()
-                            + " online appointment(s) loaded.");
+            messageLabel.setText("");
         }
     }
-
-
-
-
-
-
-
-
 
     @FXML
     public void refreshButton(ActionEvent actionEvent) {
@@ -146,58 +129,33 @@ public class OnlineAppointmentsDoctorController {
         appointmentTableView.getItems().clear();
 
         loadAppointments();
-    }
 
+        messageLabel.setText("All online appointments loaded.");
+    }
 
     @FXML
     public void confirmAppointmentButton(ActionEvent actionEvent) {
 
-        AppointmentModelClass selectedAppointment =
-                appointmentTableView.getSelectionModel().getSelectedItem();
+        PatientRecordModelClass selectedPatient = appointmentTableView.getSelectionModel().getSelectedItem();
 
-        if (selectedAppointment == null) {
-
-            messageLabel.setText("Please select an appointment.");
+        if (selectedPatient == null) {
+            messageLabel.setText("Please select a patient.");
             return;
         }
 
-        Alert confirmAlert =
-                new Alert(Alert.AlertType.CONFIRMATION);
+        Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
 
         confirmAlert.setTitle("Confirm Appointment");
         confirmAlert.setHeaderText("Online Appointment");
-
-        confirmAlert.setContentText(
-                "Do you want to confirm the appointment?\n\n"
-                        + "Appointment ID : " + selectedAppointment.getAppointmentId()
-                        + "\nPatient ID : " + selectedAppointment.getPatientId()
-                        + "\nPatient Name : " + selectedAppointment.getPatientName()
-                        + "\nDoctor : " + selectedAppointment.getDoctorName()
+        confirmAlert.setContentText("Do you want to confirm the appointment for\n\n"
+                + "Patient ID : " + selectedPatient.getPatientId()
+                + "\nPatient Name : " + selectedPatient.getPatientName()
+                + "\nDoctor : " + selectedPatient.getAssignedDoctor()
         );
 
         Optional<ButtonType> result = confirmAlert.showAndWait();
-
         if (result.isPresent() && result.get() == ButtonType.OK) {
-
-            selectedAppointment.setAppointmentStatus("Confirmed");
-
-            try (ObjectOutputStream oos =
-                         new ObjectOutputStream(new FileOutputStream(appointmentFile))) {
-
-                for (AppointmentModelClass appointment : appointmentList) {
-
-                    oos.writeObject(appointment);
-                }
-
-            } catch (IOException e) {
-
-                e.printStackTrace();
-                messageLabel.setText("Unable to save appointment.");
-                return;
-            }
-
-            Alert successAlert =
-                    new Alert(Alert.AlertType.INFORMATION);
+            Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
 
             successAlert.setTitle("Success");
             successAlert.setHeaderText(null);
@@ -206,13 +164,25 @@ public class OnlineAppointmentsDoctorController {
 
             successAlert.showAndWait();
 
-            messageLabel.setText("Appointment confirmed.");
+            messageLabel.setText(
+                    "Appointment confirmed for Patient ID "
+                            + selectedPatient.getPatientId());
 
         } else {
 
             messageLabel.setText("Confirmation cancelled.");
         }
     }
+
+    @FXML
+    public void backButton(ActionEvent actionEvent) throws IOException {
+
+        SceneSwitcher.switchTo("jannati/doctorDashboard.fxml");
+
+
+    }
+
+
     @FXML
     public void searchButton(ActionEvent actionEvent) {
 
@@ -226,8 +196,7 @@ public class OnlineAppointmentsDoctorController {
 
         try {
 
-            doctorId =
-                    Integer.parseInt(doctorIdTextField.getText().trim());
+            doctorId = Integer.parseInt(doctorIdTextField.getText().trim());
 
         } catch (NumberFormatException e) {
 
@@ -237,41 +206,24 @@ public class OnlineAppointmentsDoctorController {
 
         appointmentTableView.getItems().clear();
 
-        int count = 0;
+        boolean found = false;
 
-        for (AppointmentModelClass appointment : appointmentList) {
+        for (PatientRecordModelClass patient : appointmentList) {
 
-            if (appointment.getDoctorId() == doctorId
-                    && "Online".equalsIgnoreCase(appointment.getAppointmentType())) {
+            if (patient.getAssignedDoctorId() == doctorId) {
 
-                appointmentTableView.getItems().add(appointment);
-                count++;
+                appointmentTableView.getItems().add(patient);
+                found = true;
             }
         }
 
-        if (count == 0) {
+        if (found) {
 
-            messageLabel.setText("No online appointments found.");
-
+            messageLabel.setText(appointmentTableView.getItems().size() + " appointment(s) found.");
         } else {
-
-            messageLabel.setText(count + " appointment(s) found.");
+            messageLabel.setText("No online appointments found.");
         }
     }
 
-
-    @FXML
-    public void backButton(ActionEvent actionEvent) {
-
-        try {
-
-            SceneSwitcher.switchTo("jannati/doctorDashboard.fxml");
-
-        } catch (IOException e) {
-
-            e.printStackTrace();
-            messageLabel.setText("Unable to open Doctor Dashboard.");
-        }
-    }
 
 }

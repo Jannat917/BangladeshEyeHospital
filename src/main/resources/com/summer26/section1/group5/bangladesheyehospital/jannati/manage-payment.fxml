@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.summer26.section1.group5.bangladesheyehospital.jannati.ManagePaymentController">
+<AnchorPane prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.summer26.section1.group5.bangladesheyehospital.jannati.ManagePaymentController">
 
     <children>
 
@@ -58,13 +58,13 @@
 
             <columns>
 
-                <TableColumn fx:id="patientIdColumn" prefWidth="100.0" text="Patient ID" />
+                <TableColumn fx:id="patientIdColumn" prefWidth="137.0" text="Patient ID" />
 
-                <TableColumn fx:id="patientNameColumn" prefWidth="220.0" text="Patient Name" />
+                <TableColumn fx:id="patientNameColumn" prefWidth="288.0" text="Patient Name" />
 
-                <TableColumn fx:id="billAmountColumn" prefWidth="180.0" text="Bill Amount" />
+                <TableColumn fx:id="billAmountColumn" prefWidth="173.0" text="Bill Amount" />
 
-                <TableColumn fx:id="paymentStatusColumn" prefWidth="180.0" text="Payment Status" />
+                <TableColumn fx:id="paymentStatusColumn" prefWidth="219.0" text="Payment Status" />
 
             </columns>
 

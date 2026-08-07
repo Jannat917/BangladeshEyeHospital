@@ -1,5 +1,6 @@
 package com.summer26.section1.group5.bangladesheyehospital.jannati;
 
+import com.summer26.section1.group5.bangladesheyehospital.common.PatientRecordModelClass;
 import com.summer26.section1.group5.bangladesheyehospital.common.SceneSwitcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -11,26 +12,27 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class OfflineAppointmentsDoctorController {
-    @FXML
-    private TableColumn<AppointmentModelClass, Integer> doctorIdColumn;
 
     @FXML
-    private TableColumn<AppointmentModelClass, Integer> patientIdColumn;
+    private TableColumn<PatientRecordModelClass, Integer> doctorIdColumn;
 
     @FXML
-    private TableColumn<AppointmentModelClass, String> patientNameColumn;
+    private TableColumn<PatientRecordModelClass, Integer> patientIdColumn;
 
     @FXML
-    private TableColumn<AppointmentModelClass, String> dateColumn;
+    private TableColumn<PatientRecordModelClass, String> patientNameColumn;
 
     @FXML
-    private TableColumn<AppointmentModelClass, String> timeColumn;
+    private TableColumn<PatientRecordModelClass, String> dateColumn;
 
     @FXML
-    private TableColumn<AppointmentModelClass, String> statusColumn;
+    private TableColumn<PatientRecordModelClass, String> timeColumn;
 
     @FXML
-    private TableView<AppointmentModelClass> appointmentTableView;
+    private TableColumn<PatientRecordModelClass, String> statusColumn;
+
+    @FXML
+    private TableView<PatientRecordModelClass> appointmentTableView;
 
     @FXML
     private ComboBox<String> timeComboBox;
@@ -43,24 +45,22 @@ public class OfflineAppointmentsDoctorController {
 
     @FXML
     private Label messageLabel;
-    private final ArrayList<AppointmentModelClass> appointmentList =
+
+    private final ArrayList<PatientRecordModelClass> appointmentList =
             new ArrayList<>();
 
     private final File dataFolder = new File("data");
 
-    private final File appointmentFile =
-            new File(dataFolder, "appointments.bin");
-
+    private final File patientFile =
+            new File(dataFolder, "patients.bin");
 
     @FXML
     public void initialize() {
 
-        // Create data folder if it does not exist
         if (!dataFolder.exists()) {
             dataFolder.mkdirs();
         }
 
-        // Connect TableView columns with AppointmentModelClass properties
         patientIdColumn.setCellValueFactory(
                 new PropertyValueFactory<>("patientId"));
 
@@ -68,7 +68,7 @@ public class OfflineAppointmentsDoctorController {
                 new PropertyValueFactory<>("patientName"));
 
         doctorIdColumn.setCellValueFactory(
-                new PropertyValueFactory<>("doctorId"));
+                new PropertyValueFactory<>("assignedDoctorId"));
 
         dateColumn.setCellValueFactory(
                 new PropertyValueFactory<>("appointmentDate"));
@@ -77,9 +77,8 @@ public class OfflineAppointmentsDoctorController {
                 new PropertyValueFactory<>("appointmentTime"));
 
         statusColumn.setCellValueFactory(
-                new PropertyValueFactory<>("appointmentType"));
+                new PropertyValueFactory<>("appointmentStatus"));
 
-        // Add available time slots
         timeComboBox.getItems().addAll(
                 "09:00 AM - 11:00 AM",
                 "11:00 AM - 01:00 PM",
@@ -88,7 +87,6 @@ public class OfflineAppointmentsDoctorController {
                 "06:00 PM - 08:00 PM"
         );
 
-        // Load offline appointments
         loadAppointments();
     }
 
@@ -97,49 +95,43 @@ public class OfflineAppointmentsDoctorController {
         appointmentList.clear();
         appointmentTableView.getItems().clear();
 
-        // Check whether appointment file exists
-        if (!appointmentFile.exists()) {
+        if (!patientFile.exists()) {
 
-            messageLabel.setText("No appointments found.");
+            messageLabel.setText("No patient records found.");
             return;
         }
 
         try (ObjectInputStream ois =
                      new ObjectInputStream(
-                             new FileInputStream(appointmentFile))) {
+                             new FileInputStream(patientFile))) {
 
             while (true) {
 
-                AppointmentModelClass appointment =
-                        (AppointmentModelClass) ois.readObject();
+                PatientRecordModelClass patient =
+                        (PatientRecordModelClass) ois.readObject();
 
-                // Only load OFFLINE appointments
                 if ("Offline".equalsIgnoreCase(
-                        appointment.getAppointmentType())) {
+                        patient.getAppointmentType())) {
 
-                    appointmentList.add(appointment);
+                    appointmentList.add(patient);
                 }
             }
 
         } catch (EOFException e) {
 
-            // End of file reached normally
+            // End of file
 
         } catch (IOException | ClassNotFoundException e) {
 
             e.printStackTrace();
-            messageLabel.setText(
-                    "Unable to load appointments.");
+            messageLabel.setText("Unable to load appointments.");
         }
 
-        // Display loaded appointments in TableView
         appointmentTableView.getItems().addAll(appointmentList);
 
-        // Display appropriate message
         if (appointmentList.isEmpty()) {
 
-            messageLabel.setText(
-                    "No offline appointments found.");
+            messageLabel.setText("No offline appointments found.");
 
         } else {
 
@@ -174,15 +166,18 @@ public class OfflineAppointmentsDoctorController {
 
             } else {
 
-                messageLabel.setText(appointmentList.size() + " appointment(s) found.");
+                messageLabel.setText(
+                        appointmentList.size()
+                                + " appointment(s) found.");
             }
 
             return;
         }
 
-        int count = 0;
         Integer doctorId = null;
+        int count = 0;
 
+        // Doctor ID
         if (!doctorIdText.isEmpty()) {
 
             try {
@@ -196,31 +191,33 @@ public class OfflineAppointmentsDoctorController {
             }
         }
 
-        for (AppointmentModelClass appointment : appointmentList) {
+        for (PatientRecordModelClass patient : appointmentList) {
 
             boolean match = true;
 
-            // Doctor ID
-            if (doctorId != null && appointment.getDoctorId() != doctorId) {
+            // Doctor ID filter
+            if (doctorId != null
+                    && patient.getAssignedDoctorId() != doctorId) {
 
                 match = false;
             }
 
-            // Date
+            // Date filter
             if (selectedDate != null) {
 
-                if (appointment.getAppointmentDate() == null
-                        || !appointment.getAppointmentDate().equals(selectedDate)) {
+                if (patient.getAppointmentDate() == null
+                        || !patient.getAppointmentDate().equals(selectedDate.toString())) {
 
                     match = false;
                 }
             }
 
-            // Time
-            if (selectedTime != null && !selectedTime.isEmpty()) {
+            // Time filter
+            if (selectedTime != null
+                    && !selectedTime.isEmpty()) {
 
-                if (appointment.getAppointmentTime() == null
-                        || !appointment.getAppointmentTime().equals(selectedTime)) {
+                if (patient.getAppointmentTime() == null
+                        || !patient.getAppointmentTime().equals(selectedTime)) {
 
                     match = false;
                 }
@@ -228,7 +225,7 @@ public class OfflineAppointmentsDoctorController {
 
             if (match) {
 
-                appointmentTableView.getItems().add(appointment);
+                appointmentTableView.getItems().add(patient);
                 count++;
             }
         }
@@ -242,6 +239,7 @@ public class OfflineAppointmentsDoctorController {
             messageLabel.setText(count + " appointment(s) found.");
         }
     }
+
     @FXML
     public void clearButton(ActionEvent actionEvent) {
 
@@ -249,14 +247,14 @@ public class OfflineAppointmentsDoctorController {
 
         datePicker.setValue(null);
 
-        timeComboBox.setValue(null);
+        timeComboBox.getSelectionModel().clearSelection();
+
+        appointmentTableView.getItems().clear();
+
+        loadAppointments();
 
         messageLabel.setText("");
-
-        // Reload all offline appointments
-        loadAppointments();
     }
-
 
     @FXML
     public void backButton(ActionEvent actionEvent) {
@@ -274,4 +272,5 @@ public class OfflineAppointmentsDoctorController {
                     "Unable to open Doctor Dashboard.");
         }
     }
+
 }

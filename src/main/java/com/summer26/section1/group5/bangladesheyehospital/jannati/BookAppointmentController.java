@@ -3,16 +3,16 @@ package com.summer26.section1.group5.bangladesheyehospital.jannati;
 import com.summer26.section1.group5.bangladesheyehospital.common.DoctorModelClass;
 import com.summer26.section1.group5.bangladesheyehospital.common.PatientRecordModelClass;
 import com.summer26.section1.group5.bangladesheyehospital.common.SceneSwitcher;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 
 import java.io.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
-
-import static java.lang.Integer.parseInt;
-import static java.lang.Integer.toBinaryString;
 
 public class BookAppointmentController {
 
@@ -47,9 +47,6 @@ public class BookAppointmentController {
 
     private final File doctorFile =
             new File(dataFolder, "doctors.bin");
-
-    private final File appointmentFile =
-            new File(dataFolder, "appointments.bin");
 
     @FXML
     public void initialize() {
@@ -87,6 +84,7 @@ public class BookAppointmentController {
         messageLabel.setText("");
     }
 
+    @FXML
     private void loadDoctors() {
 
         doctorComboBox.getItems().clear();
@@ -96,7 +94,8 @@ public class BookAppointmentController {
         }
 
         try (ObjectInputStream ois =
-                     new ObjectInputStream(new FileInputStream(doctorFile))) {
+                     new ObjectInputStream(
+                             new FileInputStream(doctorFile))) {
 
             while (true) {
 
@@ -106,54 +105,89 @@ public class BookAppointmentController {
                 doctorComboBox.getItems().add(
                         doctor.getDoctorId()
                                 + " - "
-                                + doctor.getDoctorName()
-                );
+                                + doctor.getDoctorName());
             }
 
         } catch (EOFException e) {
 
             // End of file
 
-        } catch (Exception e) {
+        } catch (IOException | ClassNotFoundException e) {
 
             e.printStackTrace();
         }
     }
 
-    private String generateAppointmentId() {
 
-        int id = 7000;
 
-        if (!appointmentFile.exists()) {
-            return "A7001";
+    public void searchPatientButton(ActionEvent actionEvent) {
+
+        if (patientIdTextField.getText().trim().isEmpty()) {
+
+            messageLabel.setText("Enter Patient ID.");
+            return;
         }
 
+        int patientId;
+
+        try {
+
+            patientId =
+                    Integer.parseInt(patientIdTextField.getText().trim());
+
+        } catch (NumberFormatException e) {
+
+            messageLabel.setText("Invalid Patient ID.");
+            return;
+        }
+
+        if (!patientFile.exists()) {
+
+            messageLabel.setText("No patient records found.");
+            return;
+        }
+
+        boolean found = false;
+
         try (ObjectInputStream ois =
-                     new ObjectInputStream(new FileInputStream(appointmentFile))) {
+                     new ObjectInputStream(
+                             new FileInputStream(patientFile))) {
 
             while (true) {
 
-                AppointmentModelClass appointment =
-                        (AppointmentModelClass) ois.readObject();
+                PatientRecordModelClass patient =
+                        (PatientRecordModelClass) ois.readObject();
 
-                int currentId =
-                        Integer.parseInt(
-                                appointment.getAppointmentId().replace("A", "")
-                        );
+                if (patient.getPatientId() == patientId) {
 
-                if (currentId > id) {
-                    id = currentId;
+                    patientNameTextField.setText(
+                            patient.getPatientName());
+
+                    messageLabel.setText("Patient found.");
+
+                    found = true;
+                    break;
                 }
             }
 
         } catch (EOFException e) {
 
-        } catch (Exception e) {
+            // End of file
+
+        } catch (IOException | ClassNotFoundException e) {
+
             e.printStackTrace();
+            messageLabel.setText("Unable to read patient data.");
+            return;
         }
 
-        return "A" + (id + 1);
+        if (!found) {
+
+            patientNameTextField.clear();
+            messageLabel.setText("Patient not found.");
+        }
     }
+
 
     @FXML
     public void confirmButton(ActionEvent actionEvent) {
@@ -174,7 +208,7 @@ public class BookAppointmentController {
 
         try {
 
-            patientId = parseInt(patientIdTextField.getText().trim());
+            patientId = Integer.parseInt(patientIdTextField.getText().trim());
 
         } catch (NumberFormatException e) {
 
@@ -182,21 +216,10 @@ public class BookAppointmentController {
             return;
         }
 
-        ArrayList<AppointmentModelClass> appointmentList = new ArrayList<>();
+        ArrayList<PatientRecordModelClass> patientList = new ArrayList<>();
 
         boolean found = false;
 
-        if (!patientFile.exists()) {
-
-            messageLabel.setText("No patient records found.");
-            return;
-        }
-
-
-
-
-
-        // Read patient information
         try (ObjectInputStream ois =
                      new ObjectInputStream(new FileInputStream(patientFile))) {
 
@@ -207,47 +230,41 @@ public class BookAppointmentController {
 
                 if (patient.getPatientId() == patientId) {
 
-                    AppointmentModelClass appointment =
-                            new AppointmentModelClass();
+                    patient.setAppointmentDate(
+                            appointmentDatePicker.getValue().toString());
 
-                    appointment.setPatientId(String.valueOf(patient.getPatientId()));
-                    appointment.setPatientName(patient.getPatientName());
-
-                    appointment.setAppointmentId(generateAppointmentId());
-
-                    appointment.setAppointmentDate(
-                            appointmentDatePicker.getValue());
-
-                    appointment.setAppointmentTime(
+                    patient.setAppointmentTime(
                             appointmentTimeComboBox.getValue());
+
+                    patient.setDepartment(
+                            departmentComboBox.getValue());
 
                     String selectedDoctor = doctorComboBox.getValue();
 
                     String[] doctorInfo = selectedDoctor.split(" - ");
 
-                    appointment.setDoctorId(
-                            parseInt(doctorInfo[0]));
+                    patient.setAssignedDoctorId(
+                            Integer.parseInt(doctorInfo[0]));
 
-                    appointment.setDoctorName(doctorInfo[1]);
+                    patient.setAssignedDoctor(
+                            doctorInfo[1]);
 
-                    appointment.setAppointmentType(
+                    patient.setAppointmentType(
                             appointmentTypeComboBox.getValue());
 
-                    appointment.setAppointmentStatus("Pending");
-
-                    appointmentList.add(appointment);
+                    patient.setAppointmentStatus("Pending");
 
                     found = true;
-
-                    break;
                 }
+
+                patientList.add(patient);
             }
 
         } catch (EOFException e) {
 
-            // End of file reached
+            // End of file
 
-        } catch (Exception e) {
+        } catch (IOException | ClassNotFoundException e) {
 
             e.printStackTrace();
             messageLabel.setText("Unable to read patient data.");
@@ -260,152 +277,58 @@ public class BookAppointmentController {
             return;
         }
 
-        // Load old appointments if the file already exists
-        if (appointmentFile.exists()) {
-
-            ArrayList<AppointmentModelClass> oldAppointments =
-                    new ArrayList<>();
-
-            try (ObjectInputStream ois =
-                         new ObjectInputStream(new FileInputStream(appointmentFile))) {
-
-                while (true) {
-
-                    AppointmentModelClass appointment =
-                            (AppointmentModelClass) ois.readObject();
-
-                    oldAppointments.add(appointment);
-                }
-
-            } catch (EOFException e) {
-
-                // End of file
-
-            } catch (Exception e) {
-
-                e.printStackTrace();
-            }
-
-            oldAppointments.addAll(appointmentList);
-
-            appointmentList = oldAppointments;
-        }
-
-        // Save all appointments
         try (ObjectOutputStream oos =
-                     new ObjectOutputStream(new FileOutputStream(appointmentFile))) {
+                     new ObjectOutputStream(new FileOutputStream(patientFile))) {
 
-            for (AppointmentModelClass appointment : appointmentList) {
+            for (PatientRecordModelClass patient : patientList) {
 
-                oos.writeObject(appointment);
+                oos.writeObject(patient);
             }
-
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Appointment Booked");
-            alert.setHeaderText(null);
-            alert.setContentText("Appointment booked successfully!");
-            alert.showAndWait();
-
-            clearButton(null);
 
         } catch (IOException e) {
 
             e.printStackTrace();
-
             messageLabel.setText("Unable to save appointment.");
+            return;
         }
+
+        messageLabel.setText("Appointment booked successfully!");
+
+        clearButton(null);
     }
-        @FXML
-        public void clearButton (ActionEvent actionEvent){
-
-            patientIdTextField.clear();
-            patientNameTextField.clear();
-
-            departmentComboBox.setValue(null);
-            doctorComboBox.setValue(null);
-
-            appointmentDatePicker.setValue(null);
-            appointmentTimeComboBox.setValue(null);
-            appointmentTypeComboBox.setValue(null);
-
-            messageLabel.setText("");
-        }
-
-        @FXML
-        public void backButton (ActionEvent actionEvent){
-
-            try {
-
-                SceneSwitcher.switchTo("jannati/receiptionistDashboard.fxml");
-
-            } catch (IOException e) {
-
-                e.printStackTrace();
-                messageLabel.setText("Unable to open Receptionist Dashboard.");
-            }
-        }
 
     @FXML
+    public void clearButton(ActionEvent actionEvent) {
 
-        public void searchPatientButton(ActionEvent actionEvent) {
+        patientIdTextField.clear();
+        patientNameTextField.clear();
 
-            if (patientIdTextField.getText().trim().isEmpty()) {
+        departmentComboBox.getSelectionModel().clearSelection();
+        doctorComboBox.getSelectionModel().clearSelection();
 
-                messageLabel.setText("Enter Patient ID.");
-                return;
-            }
+        appointmentDatePicker.setValue(null);
 
-            int patientId;
+        appointmentTimeComboBox.getSelectionModel().clearSelection();
+        appointmentTypeComboBox.getSelectionModel().clearSelection();
 
-            try {
+        messageLabel.setText("");
 
-                patientId = Integer.parseInt(patientIdTextField.getText().trim());
-
-            } catch (NumberFormatException e) {
-
-                messageLabel.setText("Patient ID must be numeric.");
-                return;
-            }
-
-            if (!patientFile.exists()) {
-
-                messageLabel.setText("No patient records found.");
-                return;
-            }
-
-            try (ObjectInputStream ois =
-                         new ObjectInputStream(new FileInputStream(patientFile))) {
-
-                while (true) {
-
-                    PatientRecordModelClass patient =
-                            (PatientRecordModelClass) ois.readObject();
-
-                    if (patient.getPatientId() == patientId) {
-
-                        patientNameTextField.setText(patient.getPatientName());
-
-                        messageLabel.setText("Patient found.");
-
-                        return;
-                    }
-                }
-
-            } catch (EOFException e) {
-
-                // Patient not found
-
-            } catch (Exception e) {
-
-                e.printStackTrace();
-                messageLabel.setText("Unable to read patient data.");
-                return;
-            }
-
-            patientNameTextField.clear();
-            messageLabel.setText("Patient not found.");
-        }
+        patientIdTextField.requestFocus();
     }
 
+    @FXML
+    public void backButton(ActionEvent actionEvent) {
+
+        try {
+
+            SceneSwitcher.switchTo("jannati/receiptionistDashboard.fxml");
+
+        } catch (IOException e) {
+
+            e.printStackTrace();
+            messageLabel.setText("Unable to open Receptionist Dashboard.");
+        }
+    }
+}
 
 

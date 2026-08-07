@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.summer26.section1.group5.bangladesheyehospital.jannati.UploadPrescriptionController">
+<AnchorPane prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.summer26.section1.group5.bangladesheyehospital.jannati.UploadPrescriptionController">
 
     <children>
 
@@ -33,7 +33,7 @@
 
         <TextField fx:id="patientIdTextField" layoutX="175.0" layoutY="116.0" prefWidth="120.0" />
 
-        <Button layoutX="362.0" layoutY="116.0" onAction="#searchButton" prefHeight="26.0" prefWidth="177.0" text="Search" />
+        <Button layoutX="337.0" layoutY="116.0" onAction="#searchButton" prefHeight="26.0" prefWidth="100.0" text="Search" />
 
 
         <!-- Patient Information -->
@@ -45,22 +45,22 @@
 
         <Label layoutX="430.0" layoutY="180.0" text="Age" />
 
-        <TextField fx:id="ageTextField" layoutX="480.0" layoutY="175.0" prefWidth="70.0" />
+        <TextField fx:id="ageTextField" layoutX="490.0" layoutY="175.0" prefWidth="70.0" />
 
 
-        <Label layoutX="590.0" layoutY="180.0" text="Gender" />
+        <Label layoutX="432.0" layoutY="267.0" text="Gender" />
 
-        <ComboBox fx:id="genderComboBox" layoutX="660.0" layoutY="175.0" prefWidth="120.0" />
+        <ComboBox fx:id="genderComboBox" layoutX="490.0" layoutY="263.0" prefWidth="120.0" />
 
 
-        <Label layoutX="60.0" layoutY="230.0" text="Phone" />
+        <Label layoutX="74.0" layoutY="230.0" text="Phone" />
 
-        <TextField fx:id="phoneTextField" layoutX="170.0" layoutY="225.0" prefWidth="220.0" />
+        <TextField fx:id="phoneTextField" layoutX="170.0" layoutY="217.0" prefWidth="220.0" />
 
 
         <Label layoutX="430.0" layoutY="230.0" text="Address" />
 
-        <TextField fx:id="addressTextField" layoutX="500.0" layoutY="225.0" prefWidth="280.0" />
+        <TextField fx:id="addressTextField" layoutX="488.0" layoutY="226.0" prefWidth="280.0" />
 
 
         <!-- Treatment Section -->
@@ -86,7 +86,7 @@
 
         <Button layoutX="425.0" layoutY="579.0" onAction="#clearButton" prefWidth="100.0" text="Clear" />
 
-        <Button layoutX="649.0" layoutY="639.0" onAction="#backButton" prefWidth="100.0" text="Back" />
+        <Button layoutX="658.0" layoutY="614.0" onAction="#backButton" prefHeight="26.0" prefWidth="130.0" text="Back" />
       <Label layoutX="66.0" layoutY="267.0" text="Disease" />
       <TextField fx:id="diseaseTextField" layoutX="170.0" layoutY="254.0" prefWidth="220.0" />
       <Label layoutX="67.0" layoutY="351.0" text="Eye Power " />

@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.summer26.section1.group5.bangladesheyehospital.jannati.ConsultationHistoryDoctorController">
+<AnchorPane prefHeight="600.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.summer26.section1.group5.bangladesheyehospital.jannati.ConsultationHistoryDoctorController">
 
     <children>
 
@@ -23,7 +23,7 @@
 
         <TextField fx:id="patientIdTextField" layoutX="130.0" layoutY="75.0" prefWidth="180.0" />
 
-        <Button layoutX="340.0" layoutY="75.0" onAction="#searchButton" prefWidth="90.0" text="Search" />
+        <Button layoutX="446.0" layoutY="75.0" onAction="#searchButton" prefWidth="90.0" text="Search" />
 
         <!-- Patient Name -->
 
@@ -37,9 +37,9 @@
 
         <TextArea fx:id="historyTextArea" editable="false" layoutX="40.0" layoutY="200.0" prefHeight="220.0" prefWidth="770.0" wrapText="true" />
 
-        <Button layoutX="520.0" layoutY="535.0" onAction="#clearButton" prefWidth="90.0" text="Clear" />
+        <Button layoutX="446.0" layoutY="126.0" onAction="#clearButton" prefWidth="90.0" text="Clear" />
 
-        <Button layoutX="630.0" layoutY="535.0" onAction="#backButton" prefWidth="90.0" text="Back" />
+        <Button layoutX="695.0" layoutY="535.0" onAction="#backButton" prefHeight="26.0" prefWidth="111.0" text="Back" />
 
         <Label fx:id="messageLabel" layoutX="40.0" layoutY="575.0" prefWidth="700.0" />
 

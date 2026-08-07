@@ -1,5 +1,6 @@
 package com.summer26.section1.group5.bangladesheyehospital.jannati;
 
+import com.summer26.section1.group5.bangladesheyehospital.common.PatientRecordModelClass;
 import com.summer26.section1.group5.bangladesheyehospital.common.SceneSwitcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,6 +16,7 @@ import java.io.ObjectInputStream;
 import java.util.ArrayList;
 
 public class PatientVisitReportController {
+
 
     @FXML
     private TextField patientIdTextField;
@@ -34,15 +36,13 @@ public class PatientVisitReportController {
     @FXML
     private Label messageLabel;
 
-    private final ArrayList<AppointmentModelClass> appointmentList =
+    private final ArrayList<PatientRecordModelClass> patientList =
             new ArrayList<>();
 
     private final File dataFolder = new File("data");
 
-    private final File appointmentFile =
-            new File(dataFolder, "appointments.bin");
-    @FXML
-    private TextField appointmentIdTextField;
+    private final File patientFile =
+            new File(dataFolder, "patients.bin");
 
     @FXML
     public void initialize() {
@@ -55,100 +55,110 @@ public class PatientVisitReportController {
         lastVisitDateTextField.setEditable(false);
         doctorIdTextField.setEditable(false);
         doctorNameTextField.setEditable(false);
-        appointmentIdTextField.setEditable(false);
 
         loadAppointments();
     }
 
     private void loadAppointments() {
 
-        appointmentList.clear();
+        patientList.clear();
 
-        if (!appointmentFile.exists()) {
+        if (!patientFile.exists()) {
+            messageLabel.setText("No patient records found.");
             return;
         }
 
         try (ObjectInputStream ois =
-                     new ObjectInputStream(new FileInputStream(appointmentFile))) {
+                     new ObjectInputStream(
+                             new FileInputStream(patientFile))) {
 
             while (true) {
 
-                AppointmentModelClass appointment =
-                        (AppointmentModelClass) ois.readObject();
+                PatientRecordModelClass patient =
+                        (PatientRecordModelClass) ois.readObject();
 
-                appointmentList.add(appointment);
+                patientList.add(patient);
             }
 
         } catch (EOFException e) {
 
-            // End of file
+            // End of file reached
 
         } catch (IOException | ClassNotFoundException e) {
 
             e.printStackTrace();
+            messageLabel.setText("Unable to read patient data.");
         }
     }
+
 
     @FXML
     public void searchButton(ActionEvent actionEvent) {
 
         loadAppointments();
 
-        String patientId = patientIdTextField.getText().trim();
+        String input = patientIdTextField.getText().trim();
 
-        if (patientId.isEmpty()) {
-
+        if (input.isEmpty()) {
             messageLabel.setText("Enter Patient ID.");
             return;
         }
 
-        AppointmentModelClass latestAppointment = null;
+        int id;
 
-        for (AppointmentModelClass appointment : appointmentList) {
+        try {
+            id = Integer.parseInt(input);
+        } catch (NumberFormatException e) {
+            messageLabel.setText("Invalid Patient ID.");
+            return;
+        }
 
-            if (appointment.getPatientId().equals(patientId)) {
+        boolean found = false;
 
-                if (latestAppointment == null ||
-                        appointment.getAppointmentDate().isAfter(latestAppointment.getAppointmentDate())) {
+        for (PatientRecordModelClass patient : patientList) {
 
-                    latestAppointment = appointment;
+            if (patient.getPatientId() == id) {
+
+                patientNameTextField.setText(patient.getPatientName());
+
+                if (patient.getAppointmentDate() != null &&
+                        !patient.getAppointmentDate().isEmpty()) {
+
+                    lastVisitDateTextField.setText(patient.getAppointmentDate());
+
+                } else {
+
+                    lastVisitDateTextField.clear();
                 }
+
+                doctorIdTextField.setText(
+                        String.valueOf(patient.getAssignedDoctorId()));
+
+                if (patient.getAssignedDoctor() != null) {
+                    doctorNameTextField.setText(patient.getAssignedDoctor());
+                } else {
+                    doctorNameTextField.clear();
+                }
+
+                messageLabel.setText("Patient report generated.");
+
+                found = true;
+                break;
             }
         }
 
-        if (latestAppointment != null) {
-
-            patientNameTextField.setText(latestAppointment.getPatientName());
-
-            if (latestAppointment.getAppointmentDate() != null) {
-                lastVisitDateTextField.setText(
-                        latestAppointment.getAppointmentDate().toString());
-            } else {
-                lastVisitDateTextField.clear();
-            }
-
-            appointmentIdTextField.setText(
-                    latestAppointment.getAppointmentId());
-
-            doctorIdTextField.setText(
-                    String.valueOf(latestAppointment.getDoctorId()));
-
-            doctorNameTextField.setText(
-                    latestAppointment.getDoctorName());
-
-            messageLabel.setText("Patient report generated.");
-
-        } else {
+        if (!found) {
 
             patientNameTextField.clear();
             lastVisitDateTextField.clear();
-            appointmentIdTextField.clear();
             doctorIdTextField.clear();
             doctorNameTextField.clear();
 
             messageLabel.setText("Patient not found.");
         }
     }
+
+
 
     @FXML
     public void clearButton(ActionEvent actionEvent) {
@@ -158,15 +168,28 @@ public class PatientVisitReportController {
         lastVisitDateTextField.clear();
         doctorIdTextField.clear();
         doctorNameTextField.clear();
-        appointmentIdTextField.clear();
 
         messageLabel.setText("");
+
+        // Reload patient records for the next search
+        loadAppointments();
     }
+
 
     @FXML
-    public void backButton(ActionEvent actionEvent) throws IOException {
+    public void backButton(ActionEvent actionEvent) {
 
-        SceneSwitcher.switchTo("jannati/receiptionistDashboard.fxml");
+        try {
+
+            SceneSwitcher.switchTo(
+                    "jannati/receiptionistDashboard.fxml");
+
+        } catch (IOException e) {
+
+            e.printStackTrace();
+            messageLabel.setText("Unable to open Receptionist Dashboard.");
+        }
     }
+
 
 }

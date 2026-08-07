@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="650.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.summer26.section1.group5.bangladesheyehospital.jannati.UpdatePatientProgressDoctorController">
+<AnchorPane prefHeight="650.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.summer26.section1.group5.bangladesheyehospital.jannati.UpdatePatientProgressDoctorController">
 
     <children>
 
@@ -31,10 +31,6 @@
 
         <TextField fx:id="patientNameTextField" editable="false" layoutX="170.0" layoutY="135.0" prefWidth="250.0" />
 
-        <Label layoutX="460.0" layoutY="140.0" text="Assigned Doctor" />
-
-        <TextField fx:id="doctorTextField" editable="false" layoutX="590.0" layoutY="135.0" prefWidth="230.0" />
-
         <!-- Current Condition -->
 
         <Label layoutX="40.0" layoutY="200.0" text="Diagnosis" />
@@ -55,9 +51,9 @@
 
         <!-- Buttons -->
 
-        <Button layoutX="430.0" layoutY="570.0" onAction="#saveUpdateButton" prefWidth="120.0" text="Save Update" />
+        <Button layoutX="311.0" layoutY="491.0" onAction="#saveUpdateButton" prefWidth="120.0" text="Save Update" />
 
-        <Button layoutX="570.0" layoutY="570.0" onAction="#clearButton" prefWidth="100.0" text="Clear" />
+        <Button layoutX="495.0" layoutY="491.0" onAction="#clearButton" prefWidth="100.0" text="Clear" />
 
         <Button layoutX="720.0" layoutY="570.0" onAction="#backButton" prefWidth="100.0" text="Back" />
 

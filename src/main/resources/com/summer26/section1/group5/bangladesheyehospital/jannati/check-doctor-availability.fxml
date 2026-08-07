@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.summer26.section1.group5.bangladesheyehospital.jannati.CheckDoctorAvailabilityController">
+<AnchorPane prefHeight="600.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.summer26.section1.group5.bangladesheyehospital.jannati.CheckDoctorAvailabilityController">
 
     <children>
 
@@ -64,10 +64,10 @@
                 <TableColumn fx:id="dayColumn" prefWidth="120" text="Available Days" />
 
 
-                <TableColumn fx:id="timeColumn" prefWidth="120" text="Available Time" />
+                <TableColumn fx:id="timeColumn" prefWidth="126.0" text="Available Time" />
 
 
-                <TableColumn fx:id="availabilityColumn" prefWidth="100" text="Status" />
+                <TableColumn fx:id="availabilityColumn" prefWidth="113.0" text="Status" />
 
 
             </columns>
@@ -81,10 +81,10 @@
 
 
 
-        <Button layoutX="250.0" layoutY="520.0" onAction="#clearButton" prefWidth="100.0" text="Clear" />
+        <Button layoutX="496.0" layoutY="184.0" onAction="#clearButton" prefWidth="100.0" text="Clear" />
 
 
-        <Button layoutX="450.0" layoutY="520.0" onAction="#backButton" prefWidth="120.0" text="Back" />
+        <Button layoutX="680.0" layoutY="533.0" onAction="#backButton" prefWidth="120.0" text="Back" />
 
 
     </children>

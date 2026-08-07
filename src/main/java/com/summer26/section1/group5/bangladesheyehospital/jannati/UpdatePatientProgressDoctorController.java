@@ -26,9 +26,6 @@ public class UpdatePatientProgressDoctorController {
     private TextField patientNameTextField;
 
     @FXML
-    private TextField doctorTextField;
-
-    @FXML
     private TextArea medicationTextArea;
 
     @FXML
@@ -39,7 +36,9 @@ public class UpdatePatientProgressDoctorController {
 
     private final ArrayList<PatientRecordModelClass> patientList = new ArrayList<>();
 
+
     private final File dataFolder = new File("data");
+    private final File appointmentFile = new File(dataFolder, "appointments.bin");
     private final File patientFile = new File(dataFolder, "patients.bin");
     @FXML
     private TextArea diagnosisTextArea;
@@ -66,8 +65,7 @@ public class UpdatePatientProgressDoctorController {
 
             while (true) {
 
-                PatientRecordModelClass patient =
-                        (PatientRecordModelClass) ois.readObject();
+                PatientRecordModelClass patient = (PatientRecordModelClass) ois.readObject();
 
                 patientList.add(patient);
             }
@@ -113,7 +111,7 @@ public class UpdatePatientProgressDoctorController {
 
                 patientNameTextField.setText(patient.getPatientName());
 
-                doctorTextField.setText(patient.getAssignedDoctor());
+
 
                 diagnosisTextArea.setText(patient.getDiagnosis());
 
@@ -135,7 +133,7 @@ public class UpdatePatientProgressDoctorController {
             messageLabel.setText("Patient not found.");
 
             patientNameTextField.clear();
-            doctorTextField.clear();
+
             diagnosisTextArea.clear();
             medicationTextArea.clear();
             remarksTextArea.clear();
@@ -211,7 +209,7 @@ public class UpdatePatientProgressDoctorController {
 
         patientIdTextField.clear();
         patientNameTextField.clear();
-        doctorTextField.clear();
+
 
         diagnosisTextArea.clear();
         medicationTextArea.clear();
