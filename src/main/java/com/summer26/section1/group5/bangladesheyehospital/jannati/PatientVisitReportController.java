@@ -1,6 +1,5 @@
 package com.summer26.section1.group5.bangladesheyehospital.jannati;
 
-import com.summer26.section1.group5.bangladesheyehospital.common.PatientRecordModelClass;
 import com.summer26.section1.group5.bangladesheyehospital.common.SceneSwitcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -27,21 +26,23 @@ public class PatientVisitReportController {
     private TextField lastVisitDateTextField;
 
     @FXML
-    private TextArea diseaseTextArea;
+    private TextField doctorIdTextField;
+
+    @FXML
+    private TextField doctorNameTextField;
 
     @FXML
     private Label messageLabel;
 
-    private final ArrayList<PatientRecordModelClass> patientList =
+    private final ArrayList<AppointmentModelClass> appointmentList =
             new ArrayList<>();
 
     private final File dataFolder = new File("data");
 
-    private final File patientFile = new File(dataFolder, "patients.bin");
+    private final File appointmentFile =
+            new File(dataFolder, "appointments.bin");
     @FXML
-    private TextField doctorIdTextField;
-    @FXML
-    private TextField doctorNameTextField;
+    private TextField appointmentIdTextField;
 
     @FXML
     public void initialize() {
@@ -52,25 +53,30 @@ public class PatientVisitReportController {
 
         patientNameTextField.setEditable(false);
         lastVisitDateTextField.setEditable(false);
+        doctorIdTextField.setEditable(false);
+        doctorNameTextField.setEditable(false);
+        appointmentIdTextField.setEditable(false);
 
-        loadPatients();
+        loadAppointments();
     }
 
-    private void loadPatients() {
+    private void loadAppointments() {
 
-        patientList.clear();
+        appointmentList.clear();
 
-        if (!patientFile.exists()) {
+        if (!appointmentFile.exists()) {
             return;
         }
 
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(patientFile))) {
+        try (ObjectInputStream ois =
+                     new ObjectInputStream(new FileInputStream(appointmentFile))) {
 
             while (true) {
 
-                PatientRecordModelClass patient = (PatientRecordModelClass) ois.readObject();
+                AppointmentModelClass appointment =
+                        (AppointmentModelClass) ois.readObject();
 
-                patientList.add(patient);
+                appointmentList.add(appointment);
             }
 
         } catch (EOFException e) {
@@ -83,75 +89,76 @@ public class PatientVisitReportController {
         }
     }
 
-
     @FXML
     public void searchButton(ActionEvent actionEvent) {
 
-        String id = patientIdTextField.getText().trim();
+        loadAppointments();
 
-        if (id.isEmpty()) {
+        String patientId = patientIdTextField.getText().trim();
+
+        if (patientId.isEmpty()) {
 
             messageLabel.setText("Enter Patient ID.");
             return;
         }
 
-        int patientId;
+        AppointmentModelClass latestAppointment = null;
 
-        try {
+        for (AppointmentModelClass appointment : appointmentList) {
 
-            patientId = Integer.parseInt(id);
+            if (appointment.getPatientId().equals(patientId)) {
 
-        } catch (NumberFormatException e) {
+                if (latestAppointment == null ||
+                        appointment.getAppointmentDate().isAfter(latestAppointment.getAppointmentDate())) {
 
-            messageLabel.setText("Patient ID must be numeric.");
-            return;
-        }
-
-        boolean found = false;
-
-        for (PatientRecordModelClass patient : patientList) {
-
-            if (patient.getPatientId() == patientId) {
-
-                patientNameTextField.setText(patient.getPatientName());
-
-                lastVisitDateTextField.setText(patient.getAppointmentDate());
-
-                diseaseTextArea.setText(patient.getDisease());
-
-               doctorIdTextField.setText(Integer.toString(patient.getAssignedDoctorId()));
-
-               doctorNameTextField.setText(patient.getAssignedDoctor());
-
-                messageLabel.setText("Patient report generated.");
-
-                found = true;
-                break;
+                    latestAppointment = appointment;
+                }
             }
         }
 
-        if (!found) {
+        if (latestAppointment != null) {
+
+            patientNameTextField.setText(latestAppointment.getPatientName());
+
+            if (latestAppointment.getAppointmentDate() != null) {
+                lastVisitDateTextField.setText(
+                        latestAppointment.getAppointmentDate().toString());
+            } else {
+                lastVisitDateTextField.clear();
+            }
+
+            appointmentIdTextField.setText(
+                    latestAppointment.getAppointmentId());
+
+            doctorIdTextField.setText(
+                    String.valueOf(latestAppointment.getDoctorId()));
+
+            doctorNameTextField.setText(
+                    latestAppointment.getDoctorName());
+
+            messageLabel.setText("Patient report generated.");
+
+        } else {
 
             patientNameTextField.clear();
             lastVisitDateTextField.clear();
-
-            diseaseTextArea.clear();
+            appointmentIdTextField.clear();
             doctorIdTextField.clear();
             doctorNameTextField.clear();
 
             messageLabel.setText("Patient not found.");
         }
     }
+
     @FXML
     public void clearButton(ActionEvent actionEvent) {
 
         patientIdTextField.clear();
         patientNameTextField.clear();
         lastVisitDateTextField.clear();
-
-        diseaseTextArea.clear();
-        doctorNameTextField.clear();
         doctorIdTextField.clear();
+        doctorNameTextField.clear();
+        appointmentIdTextField.clear();
 
         messageLabel.setText("");
     }
@@ -160,9 +167,6 @@ public class PatientVisitReportController {
     public void backButton(ActionEvent actionEvent) throws IOException {
 
         SceneSwitcher.switchTo("jannati/receiptionistDashboard.fxml");
+    }
 
-
-
-
-}
 }
