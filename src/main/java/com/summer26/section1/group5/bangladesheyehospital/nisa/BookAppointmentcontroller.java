@@ -92,11 +92,8 @@ public class BookAppointmentcontroller
         int patientId;
 
         try {
-
             patientId = Integer.parseInt(patientIdTF.getText());
-
         } catch (NumberFormatException e) {
-
             messageLabel.setText("Patient ID must be numeric.");
             return;
         }
@@ -108,20 +105,21 @@ public class BookAppointmentcontroller
             try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(patientFile))) {
 
                 while (true) {
-
                     PatientRecordModelClass patient =
                             (PatientRecordModelClass) ois.readObject();
-
                     patientList.add(patient);
                 }
 
             } catch (EOFException e) {
-
+                // End of file
             } catch (Exception e) {
-
                 e.printStackTrace();
             }
         }
+
+        // Generate Serial Number
+        Random random = new Random();
+        int serial = random.nextInt(100) + 1;
 
         boolean found = false;
 
@@ -133,9 +131,7 @@ public class BookAppointmentcontroller
                 patient.setAssignedDoctor(doctorCB.getValue());
                 patient.setAppointmentDate(dateDatepicker.getValue().toString());
                 patient.setAppointmentTime(timeCB.getValue());
-                patient.setSerialNumber(Integer.parseInt(serialLabel.getText()));
-
-
+                patient.setSerialNumber(serial);
 
                 found = true;
                 break;
@@ -143,30 +139,26 @@ public class BookAppointmentcontroller
         }
 
         if (!found) {
-
             messageLabel.setText("Patient ID not found.");
             return;
         }
 
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(patientFile))) {
+        try (ObjectOutputStream oos =
+                     new ObjectOutputStream(new FileOutputStream(patientFile))) {
 
             for (PatientRecordModelClass patient : patientList) {
-
                 oos.writeObject(patient);
             }
 
-            Random random = new Random();
-
-            serialLabel.setText("Serial Number : " + (random.nextInt(100) + 1));
-
+            serialLabel.setText(String.valueOf(serial));
             messageLabel.setText("Appointment booked successfully.");
 
         } catch (IOException e) {
 
             e.printStackTrace();
-
             messageLabel.setText("Unable to save appointment.");
         }
+
     }
 
     @javafx.fxml.FXML
