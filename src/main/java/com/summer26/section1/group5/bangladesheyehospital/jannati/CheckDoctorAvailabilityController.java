@@ -83,7 +83,7 @@ public class CheckDoctorAvailabilityController {
         } catch (EOFException e) {
 
 
-
+//
         } catch (IOException | ClassNotFoundException e) {
 
             e.printStackTrace();
@@ -167,7 +167,5 @@ public class CheckDoctorAvailabilityController {
     private void backButton(ActionEvent event) throws IOException {
 
             SceneSwitcher.switchTo("jannati/receiptionistDashboard.fxml");
-
-
     }
 }

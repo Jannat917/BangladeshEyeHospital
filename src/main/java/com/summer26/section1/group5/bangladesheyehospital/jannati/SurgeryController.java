@@ -111,7 +111,7 @@ public class SurgeryController {
 
         } catch (EOFException e) {
 
-            // End of file reached
+            //
 
         } catch (IOException | ClassNotFoundException e) {
 
@@ -171,7 +171,7 @@ public class SurgeryController {
 
         } catch (EOFException e) {
 
-            // End of file reached
+            //
 
         } catch (IOException | ClassNotFoundException e) {
 
@@ -215,7 +215,7 @@ public class SurgeryController {
         int doctorId = 0;
         String doctorName = "";
 
-        // Finding assigned doctor from patient record
+
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(patientFile))) {
 
             while (true) {
@@ -231,7 +231,7 @@ public class SurgeryController {
 
         } catch (EOFException e) {
 
-            // End of file
+            //
 
         } catch (IOException | ClassNotFoundException e) {
 
@@ -240,22 +240,19 @@ public class SurgeryController {
             return;
         }
 
-        // Reading existing schedules
         ArrayList<SurgeryScheduleModelClass> scheduleList = new ArrayList<>();
 
         if (surgeryFile.exists()) {
-
             try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(surgeryFile))) {
 
                 while (true) {
-
                     scheduleList.add((SurgeryScheduleModelClass) ois.readObject());
 
                 }
 
             } catch (EOFException e) {
 
-                // End of file
+                //
 
             } catch (IOException | ClassNotFoundException e) {
 
@@ -264,30 +261,24 @@ public class SurgeryController {
         }
 
         int surgeryId = scheduleList.size() + 1;
-
         SurgeryScheduleModelClass schedule = new SurgeryScheduleModelClass(surgeryId, patientId, patientNameTextField.getText(), doctorId, doctorName, surgeryTypeComboBox.getValue(), roomNumberTextField.getText(), datePicker.getValue().toString(), timeComboBox.getValue(), "Scheduled");
-
         scheduleList.add(schedule);
 
 
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(surgeryFile))) {
 
             for (SurgeryScheduleModelClass s : scheduleList) {
-
                 oos.writeObject(s);
             }
 
         } catch (IOException e) {
-
             e.printStackTrace();
             messageLabel.setText("Unable to save surgery schedule.");
             return;
         }
 
         loadSchedules();
-
         messageLabel.setText("Surgery scheduled successfully.");
-
         clearButton(null);
     }
 
@@ -296,21 +287,16 @@ public class SurgeryController {
 
         patientIdTextField.clear();
         patientNameTextField.clear();
-
         surgeryTypeComboBox.setValue(null);
         roomNumberTextField.clear();
-
         datePicker.setValue(null);
         timeComboBox.setValue(null);
-
         messageLabel.setText("");
     }
 
     @FXML
     public void backButton(ActionEvent actionEvent) throws IOException {
         SceneSwitcher.switchTo("jannati/doctorDashboard.fxml");
-
-
     }
 
 

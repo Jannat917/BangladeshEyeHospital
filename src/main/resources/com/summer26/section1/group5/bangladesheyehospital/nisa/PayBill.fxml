@@ -7,7 +7,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="595.0" prefWidth="804.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.summer26.section1.group5.bangladesheyehospital.nisa.PayBillcontroller">
+<AnchorPane prefHeight="595.0" prefWidth="804.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.summer26.section1.group5.bangladesheyehospital.nisa.PayBillcontroller">
    <children>
       <Label layoutX="256.0" layoutY="14.0" prefHeight="41.0" prefWidth="234.0" text="Pay Hospital Bill">
          <font>

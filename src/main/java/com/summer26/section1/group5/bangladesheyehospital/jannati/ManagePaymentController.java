@@ -85,7 +85,7 @@ public class ManagePaymentController {
 
         } catch (EOFException e) {
 
-
+//
 
         } catch (IOException | ClassNotFoundException e) {
 
@@ -159,7 +159,6 @@ public class ManagePaymentController {
         try {
 
             patientId = Integer.parseInt(patientIdTextField.getText().trim());
-
             paymentAmount = Double.parseDouble(paymentAmountTextField.getText().trim());
 
         } catch (NumberFormatException e) {

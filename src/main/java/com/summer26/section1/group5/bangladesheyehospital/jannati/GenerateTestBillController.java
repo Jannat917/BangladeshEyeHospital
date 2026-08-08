@@ -149,16 +149,14 @@ public class GenerateTestBillController {
 
                 if (patient.getPatientId() == patientId) {
 
-                    patientNameTextField.setText(
-                            patient.getPatientName());
-
+                    patientNameTextField.setText(patient.getPatientName());
                     found = true;
                     break;
                 }
             }
 
         } catch (EOFException e) {
-
+//
 
         } catch (IOException | ClassNotFoundException e) {
 

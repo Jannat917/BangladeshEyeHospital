@@ -168,27 +168,14 @@ public class PatientVisitReportController {
         lastVisitDateTextField.clear();
         doctorIdTextField.clear();
         doctorNameTextField.clear();
-
         messageLabel.setText("");
-
-        // Reload patient records for the next search
         loadAppointments();
     }
 
 
     @FXML
-    public void backButton(ActionEvent actionEvent) {
-
-        try {
-
-            SceneSwitcher.switchTo(
-                    "jannati/receiptionistDashboard.fxml");
-
-        } catch (IOException e) {
-
-            e.printStackTrace();
-            messageLabel.setText("Unable to open Receptionist Dashboard.");
-        }
+    public void backButton(ActionEvent actionEvent) throws IOException {
+        SceneSwitcher.switchTo("jannati/receiptionistDashboard.fxml");
     }
 
 

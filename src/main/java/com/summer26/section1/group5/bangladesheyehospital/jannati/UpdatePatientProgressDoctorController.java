@@ -35,10 +35,7 @@ public class UpdatePatientProgressDoctorController {
     private Label messageLabel;
 
     private final ArrayList<PatientRecordModelClass> patientList = new ArrayList<>();
-
-
     private final File dataFolder = new File("data");
-    private final File appointmentFile = new File(dataFolder, "appointments.bin");
     private final File patientFile = new File(dataFolder, "patients.bin");
     @FXML
     private TextArea diagnosisTextArea;
@@ -72,7 +69,7 @@ public class UpdatePatientProgressDoctorController {
 
         } catch (EOFException e) {
 
-            // End of file
+            //
 
         } catch (IOException | ClassNotFoundException e) {
 
@@ -94,11 +91,9 @@ public class UpdatePatientProgressDoctorController {
         int patientId;
 
         try {
-
             patientId = Integer.parseInt(id);
 
         } catch (NumberFormatException e) {
-
             messageLabel.setText("Patient ID must be numeric.");
             return;
         }
@@ -108,15 +103,9 @@ public class UpdatePatientProgressDoctorController {
         for (PatientRecordModelClass patient : patientList) {
 
             if (patient.getPatientId() == patientId) {
-
                 patientNameTextField.setText(patient.getPatientName());
-
-
-
                 diagnosisTextArea.setText(patient.getDiagnosis());
-
                 medicationTextArea.setText(patient.getPrescription());
-
                 remarksTextArea.setText(patient.getDoctorRemarks());
 
                 found = true;
@@ -131,9 +120,7 @@ public class UpdatePatientProgressDoctorController {
         } else {
 
             messageLabel.setText("Patient not found.");
-
             patientNameTextField.clear();
-
             diagnosisTextArea.clear();
             medicationTextArea.clear();
             remarksTextArea.clear();
@@ -170,11 +157,8 @@ public class UpdatePatientProgressDoctorController {
             if (patient.getPatientId() == patientId) {
 
                 patient.setDiagnosis(diagnosisTextArea.getText().trim());
-
                 patient.setPrescription(medicationTextArea.getText().trim());
-
                 patient.setDoctorRemarks(remarksTextArea.getText().trim());
-
                 updated = true;
 
                 break;
@@ -209,8 +193,6 @@ public class UpdatePatientProgressDoctorController {
 
         patientIdTextField.clear();
         patientNameTextField.clear();
-
-
         diagnosisTextArea.clear();
         medicationTextArea.clear();
         remarksTextArea.clear();
@@ -220,9 +202,7 @@ public class UpdatePatientProgressDoctorController {
 
     @FXML
     public void backButton(ActionEvent actionEvent) throws IOException {
-
-            SceneSwitcher.switchTo("jannati/doctorDashboard.fxml");
-
+        SceneSwitcher.switchTo("jannati/doctorDashboard.fxml");
 
     }
 }

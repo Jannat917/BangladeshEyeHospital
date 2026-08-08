@@ -58,7 +58,6 @@ public class RegisterPatientController {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(patientFile))) {
 
             while (true) {
-
                 PatientRecordModelClass patient = (PatientRecordModelClass) ois.readObject();
 
                 if (patient.getPatientId() >= id) {
@@ -68,7 +67,7 @@ public class RegisterPatientController {
 
         } catch (EOFException e) {
 
-            // End of file
+            //
 
         } catch (Exception e) {
 
@@ -102,7 +101,6 @@ public class RegisterPatientController {
         }
 
         if (age <= 0 || age > 120) {
-
             successLabel.setText("Enter a valid age.");
             return;
         }
@@ -110,7 +108,6 @@ public class RegisterPatientController {
         ArrayList<PatientRecordModelClass> patientList = new ArrayList<>();
 
         if (patientFile.exists()) {
-
             try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(patientFile))) {
 
                 while (true) {
@@ -121,7 +118,7 @@ public class RegisterPatientController {
 
             } catch (EOFException e) {
 
-                // End of file
+                //
 
             } catch (Exception e) {
 
@@ -129,7 +126,6 @@ public class RegisterPatientController {
             }
         }
 
-        // Optional: Prevent duplicate phone numbers
         for (PatientRecordModelClass p : patientList) {
 
             if (p.getPhoneNumber().equals(phoneNumberTextField.getText().trim())) {
@@ -153,31 +149,30 @@ public class RegisterPatientController {
                 phoneNumberTextField.getText().trim(),
                 addressTextField.getText().trim(),
 
-                "",     // Appointment Date
-                "",     // Appointment Time
-                "",     // Department
-                "",     // Assigned Doctor
-                0,      // Assigned Doctor ID
-                0,    //serialNumber
+                "",
+                "",
+                "",
+                "",
+                0,
+                0,
 
-                "",     // Disease
-                "",     // Diagnosis
-                "",     // Prescription
+                "",
+                "",
+                "",
 
-                "",     // Doctor Remarks
+                "",
 
-                "",     // Eye Power Prescription
-                "",     // Glasses Recommendation
+                "",
+                "",
 
 
-                0.0,    // Bill Amount
+                0.0,
 
                 "Unpaid",
                 "" ,
 
 
-                "Pending"// Appointment Type
-        );
+                "Pending");
 
         patientList.add(patient);
 
@@ -211,7 +206,6 @@ public class RegisterPatientController {
         ageTextField.clear();
         phoneNumberTextField.clear();
         addressTextField.clear();
-
         genderComboBox.setValue(null);
     }
 

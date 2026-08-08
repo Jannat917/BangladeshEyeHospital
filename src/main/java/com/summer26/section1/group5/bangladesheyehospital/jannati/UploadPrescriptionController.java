@@ -62,13 +62,11 @@ public class UploadPrescriptionController {
 
 
         genderComboBox.getItems().addAll("Male", "Female", "Other");
-
         patientNameTextField.setEditable(false);
         ageTextField.setEditable(false);
         genderComboBox.setDisable(true);
         phoneTextField.setEditable(false);
         addressTextField.setEditable(false);
-
         messageLabel.setText("");
     }
 
@@ -85,9 +83,7 @@ public class UploadPrescriptionController {
 
             while (true) {
 
-                PatientRecordModelClass patient =
-                        (PatientRecordModelClass) ois.readObject();
-
+                PatientRecordModelClass patient = (PatientRecordModelClass) ois.readObject();
                 patientList.add(patient);
             }
 
@@ -106,7 +102,6 @@ public class UploadPrescriptionController {
         loadPatients();
 
         if (patientIdTextField.getText().trim().isEmpty()) {
-
             messageLabel.setText("Enter Patient ID.");
             return;
         }
@@ -131,8 +126,6 @@ public class UploadPrescriptionController {
                 genderComboBox.setValue(patient.getGender());
                 phoneTextField.setText(patient.getPhoneNumber());
                 addressTextField.setText(patient.getAddress());
-
-
                 messageLabel.setText("Patient found.");
                 return;
             }
@@ -161,7 +154,6 @@ public class UploadPrescriptionController {
         }
 
         loadPatients();
-
         int patientId;
 
         try {
@@ -181,11 +173,8 @@ public class UploadPrescriptionController {
             if (patient.getPatientId() == patientId) {
 
                 patient.setDisease(diseaseTextField.getText().trim());
-
                 patient.setDiagnosis(diagnosisTextArea.getText().trim());
-
                 patient.setEyePowerPrescription(eyePowerTextArea.getText().trim());
-
                 patient.setDoctorRemarks(recommendationTextArea.getText().trim());
                 patient.setPrescription(medicationTextArea.getText().trim());
 
@@ -220,7 +209,6 @@ public class UploadPrescriptionController {
 
 
         patientIdTextField.clear();
-
         patientNameTextField.clear();
         ageTextField.clear();
         genderComboBox.setValue(null);
@@ -246,8 +234,6 @@ public class UploadPrescriptionController {
 
     @FXML
     public void backButton(ActionEvent actionEvent) throws IOException {
-
         SceneSwitcher.switchTo("jannati/doctorDashboard.fxml");
     }
-
 }

@@ -56,7 +56,6 @@ public class UpdatePatientInfoReceptionistController {
         phoneTextField.setEditable(false);
         addressTextField.setEditable(false);
         genderComboBox.setDisable(true);
-
         messageLabel.setText("");
     }
 
@@ -71,18 +70,15 @@ public class UpdatePatientInfoReceptionistController {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(patientFile)))
         {
             while (true) {
-
                 PatientRecordModelClass patient = (PatientRecordModelClass) ois.readObject();
-
                 patientList.add(patient);
             }
 
         } catch (EOFException e) {
 
-            // End of file
+            //
 
         } catch (IOException | ClassNotFoundException e) {
-
             e.printStackTrace();
         }
     }
@@ -92,7 +88,6 @@ public class UpdatePatientInfoReceptionistController {
     public void searchButton(ActionEvent actionEvent) {
 
         if (patientIdTextField.getText().trim().isEmpty()) {
-
             messageLabel.setText("Enter Patient ID.");
             return;
         }
@@ -118,16 +113,12 @@ public class UpdatePatientInfoReceptionistController {
             if (patient.getPatientId() == patientId) {
 
                 patientNameTextField.setText(patient.getPatientName());
-
                 ageTextField.setText(String.valueOf(patient.getAge()));
-
                 genderComboBox.setValue(patient.getGender());
-
                 phoneTextField.setText(patient.getPhoneNumber());
-
                 addressTextField.setText(patient.getAddress());
 
-                // Enabling editing
+
                 patientNameTextField.setEditable(true);
                 ageTextField.setEditable(true);
                 phoneTextField.setEditable(true);
@@ -144,7 +135,6 @@ public class UpdatePatientInfoReceptionistController {
         if (!found) {
 
             messageLabel.setText("Patient not found.");
-
             patientNameTextField.clear();
             ageTextField.clear();
             genderComboBox.setValue(null);
@@ -191,15 +181,10 @@ public class UpdatePatientInfoReceptionistController {
             if (patient.getPatientId() == patientId) {
 
                 patient.setPatientName(patientNameTextField.getText().trim());
-
                 patient.setAge(age);
-
                 patient.setGender(genderComboBox.getValue());
-
                 patient.setPhoneNumber(phoneTextField.getText().trim());
-
                 patient.setAddress(addressTextField.getText().trim());
-
                 found = true;
                 break;
             }
@@ -214,14 +199,11 @@ public class UpdatePatientInfoReceptionistController {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(patientFile))) {
 
             for (PatientRecordModelClass patient : patientList) {
-
                 oos.writeObject(patient);
             }
-
             messageLabel.setText("Patient information updated successfully.");
 
         } catch (IOException e) {
-
             e.printStackTrace();
             messageLabel.setText("Unable to update patient information.");
         }
@@ -233,14 +215,9 @@ public class UpdatePatientInfoReceptionistController {
 
         patientIdTextField.clear();
         patientNameTextField.clear();
-
         ageTextField.clear();
-
         genderComboBox.setValue(null);
-
         phoneTextField.clear();
-
-
         messageLabel.setText("");
     }
 

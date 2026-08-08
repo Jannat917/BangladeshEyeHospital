@@ -86,14 +86,11 @@ public class DiagnosticReportsController {
 
         } catch (EOFException e) {
 
-
-
         } catch (IOException | ClassNotFoundException e) {
 
             e.printStackTrace();
             messageLabel.setText("Unable to load reports.");
         }
-
         reportTableView.getItems().addAll(reportList);
     }
 
@@ -103,7 +100,6 @@ public class DiagnosticReportsController {
         String id = patientIdTextField.getText().trim();
 
         if (id.isEmpty()) {
-
             messageLabel.setText("Enter Patient ID.");
             return;
         }
@@ -123,7 +119,6 @@ public class DiagnosticReportsController {
         reportTableView.getItems().clear();
 
         boolean found = false;
-
         for (DiagnosticReportModelClass report : reportList) {
 
             if (report.getPatientId() == patientId) {
@@ -134,15 +129,14 @@ public class DiagnosticReportsController {
         }
 
         if (found) {
-
             messageLabel.setText("Reports loaded successfully.");
 
         } else {
-
             messageLabel.setText("No reports found for this patient.");
         }
-    }    @FXML
+    }
 
+    @FXML
     public void saveReportButton(ActionEvent actionEvent) {
 
         String patientIdText = patientIdTextField.getText().trim();
@@ -169,14 +163,10 @@ public class DiagnosticReportsController {
             return;
         }
 
-
-
-
         String patientName = "";
         String doctorRemarks = "";
 
         DiagnosticReportModelClass report = new DiagnosticReportModelClass(patientId, patientName, reportDate, testName, diagnosis, result, doctorRemarks, "");
-
         ArrayList<DiagnosticReportModelClass> reports = new ArrayList<>();
 
         if (reportFile.exists()) {
@@ -206,7 +196,6 @@ public class DiagnosticReportsController {
 
             for (DiagnosticReportModelClass r : reports) {
                 oos.writeObject(r);
-
             }
 
         } catch (IOException e) {
@@ -217,9 +206,7 @@ public class DiagnosticReportsController {
         }
 
         loadReports();
-
         messageLabel.setText("Report saved successfully.");
-
         clearFields();
     }
 
@@ -231,14 +218,6 @@ public class DiagnosticReportsController {
         resultTextArea.clear();
     }
 
-    @FXML
-    public void backButton(ActionEvent actionEvent) throws IOException {
-
-
-
-            SceneSwitcher.switchTo("jannati/doctorDashboard.fxml");
-
-    }
 
     @FXML
     public void clearButton(ActionEvent actionEvent) {
@@ -255,11 +234,9 @@ public class DiagnosticReportsController {
     @FXML
     public void viewReportButton(ActionEvent actionEvent) {
 
-        DiagnosticReportModelClass report =
-                reportTableView.getSelectionModel().getSelectedItem();
+        DiagnosticReportModelClass report = reportTableView.getSelectionModel().getSelectedItem();
 
         if (report == null) {
-
             messageLabel.setText("Please select a report.");
             return;
         }
@@ -283,5 +260,11 @@ public class DiagnosticReportsController {
         );
 
         alert.showAndWait();
+    }
+
+    @FXML
+    public void backButton(ActionEvent actionEvent) throws IOException {
+        SceneSwitcher.switchTo("jannati/doctorDashboard.fxml");
+
     }
 }

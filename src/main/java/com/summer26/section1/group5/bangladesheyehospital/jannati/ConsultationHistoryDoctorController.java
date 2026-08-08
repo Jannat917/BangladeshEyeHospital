@@ -47,7 +47,6 @@ public class ConsultationHistoryDoctorController {
     private void loadPatients() {
 
         patientList.clear();
-
         if (!patientFile.exists()) {
             return;
         }
@@ -57,13 +56,12 @@ public class ConsultationHistoryDoctorController {
             while (true) {
 
                 PatientRecordModelClass patient = (PatientRecordModelClass) ois.readObject();
-
                 patientList.add(patient);
             }
 
         } catch (EOFException e) {
 
-            // End of file
+            //
 
         } catch (IOException | ClassNotFoundException e) {
 
@@ -76,13 +74,10 @@ public class ConsultationHistoryDoctorController {
     public void searchButton(ActionEvent actionEvent) {
 
         loadPatients();
-
         String id = patientIdTextField.getText().trim();
 
         if (id.isEmpty()) {
-
             messageLabel.setText("Enter Patient ID.");
-
             patientNameTextField.clear();
             historyTextArea.clear();
 
@@ -92,13 +87,11 @@ public class ConsultationHistoryDoctorController {
         int patientId;
 
         try {
-
             patientId = Integer.parseInt(id);
 
         } catch (NumberFormatException e) {
 
             messageLabel.setText("Patient ID must be numeric.");
-
             patientNameTextField.clear();
             historyTextArea.clear();
 
@@ -131,7 +124,6 @@ public class ConsultationHistoryDoctorController {
         } else {
 
             messageLabel.setText("Patient not found.");
-
             patientNameTextField.clear();
             historyTextArea.clear();
         }
@@ -150,7 +142,5 @@ public class ConsultationHistoryDoctorController {
     public void backButton(ActionEvent actionEvent) throws IOException {
 
         SceneSwitcher.switchTo("jannati/doctorDashboard.fxml");
-
-
     }
 }

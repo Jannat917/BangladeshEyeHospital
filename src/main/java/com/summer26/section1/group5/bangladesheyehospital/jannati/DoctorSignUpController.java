@@ -180,11 +180,6 @@ public class DoctorSignUpController {
     }
     @FXML
     public void backButton(ActionEvent actionEvent) throws IOException {
-
-
-
-            SceneSwitcher.switchTo("common/login.fxml");
-
-
+        SceneSwitcher.switchTo("common/login.fxml");
     }
 }

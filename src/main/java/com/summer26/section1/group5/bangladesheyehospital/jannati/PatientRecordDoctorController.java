@@ -96,12 +96,11 @@ public class PatientRecordDoctorController {
 
             while (true) {
                 PatientRecordModelClass patient = (PatientRecordModelClass) ois.readObject();
-
                 patientList.add(patient);
             }
 
         } catch (EOFException e) {
-            // End of file
+            //
 
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
@@ -116,9 +115,6 @@ public class PatientRecordDoctorController {
             messageLabel.setText("");
         }
     }
-
-
-
 
 
     @FXML
@@ -143,7 +139,6 @@ public class PatientRecordDoctorController {
             if (!id.isEmpty()) {
 
                 try {
-
                     int searchId = Integer.parseInt(id);
 
                     if (patient.getPatientId() == searchId) {
@@ -165,7 +160,6 @@ public class PatientRecordDoctorController {
             }
 
             if (match) {
-
                 patientTableView.getItems().add(patient);
                 found = true;
             }
@@ -185,7 +179,6 @@ public class PatientRecordDoctorController {
         patientNameTextField.clear();
 
         loadPatients();
-
         messageLabel.setText("Showing all patient records.");
     }
 
@@ -201,7 +194,6 @@ public class PatientRecordDoctorController {
         }
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-
         alert.setTitle("Patient Full History");
         alert.setHeaderText(patient.getPatientName());
         int fee = 1000;
@@ -239,7 +231,6 @@ public class PatientRecordDoctorController {
     @FXML
     public void backButton(ActionEvent actionEvent) throws IOException {
         SceneSwitcher.switchTo("jannati/doctorDashboard.fxml");
-
 
     }
 }
