@@ -35,10 +35,12 @@ public class DoctorSchedulecontroller {
 
     @javafx.fxml.FXML
     public void initialize() {
+
         if (!dataFolder.exists()) {
             dataFolder.mkdirs();
         }
 
+        // Department ComboBox
         departmentCB.getItems().addAll(
                 "Glaucoma",
                 "Retina",
@@ -47,14 +49,23 @@ public class DoctorSchedulecontroller {
                 "Oculoplasty"
         );
 
+        // Table columns
         doctorIdcolumn.setCellValueFactory(new PropertyValueFactory<>("doctorId"));
+
         doctorNamecolumn.setCellValueFactory(new PropertyValueFactory<>("doctorName"));
+
         departmentcolumn.setCellValueFactory(new PropertyValueFactory<>("department"));
+
         daycolumn.setCellValueFactory(new PropertyValueFactory<>("day"));
+
         timecolumn.setCellValueFactory(new PropertyValueFactory<>("time"));
+
 
         loadDoctors();
     }
+
+
+
 
     private void loadDoctors() {
 
@@ -64,22 +75,65 @@ public class DoctorSchedulecontroller {
             return;
         }
 
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(doctorFile))) {
+        try (ObjectInputStream ois =
+                     new ObjectInputStream(
+                             new FileInputStream(doctorFile))) {
 
             while (true) {
 
-                DoctorModelClass doctor = (DoctorModelClass) ois.readObject();
+                try {
 
-                doctorList.add(doctor);
+                    DoctorModelClass doctor =
+                            (DoctorModelClass) ois.readObject();
+
+                    doctorList.add(doctor);
+
+                } catch (EOFException e) {
+
+
+                    break;
+                }
             }
-
-        } catch (EOFException e) {
-
 
         } catch (IOException | ClassNotFoundException e) {
 
             e.printStackTrace();
         }
+    }
+
+
+
+
+    private DoctorSchedule createSchedule(
+            DoctorModelClass doctor) {
+
+        return new DoctorSchedule(
+                doctor.getDay(),
+                doctor.getDepartment(),
+                doctor.getDoctorId(),
+                doctor.getDoctorName(),
+                doctor.getTime()
+        );
+    }
+
+
+
+
+    private void showAllDoctors() {
+
+        ObservableList<DoctorSchedule> scheduleList =
+                FXCollections.observableArrayList();
+
+        for (DoctorModelClass doctor : doctorList) {
+
+            scheduleList.add(
+                    createSchedule(doctor)
+            );
+        }
+
+        scheduletable.setItems(scheduleList);
+
+
     }
 
 
@@ -95,8 +149,13 @@ public class DoctorSchedulecontroller {
     @javafx.fxml.FXML
     public void refreshbuttonOA(ActionEvent actionEvent) {
 
+
         departmentCB.setValue(null);
-        scheduletable.getItems().clear();
+
+        loadDoctors();
+
+        showAllDoctors();
+
 
 
     }
@@ -104,41 +163,60 @@ public class DoctorSchedulecontroller {
 
     @javafx.fxml.FXML
     public void searchbuttonOA(ActionEvent actionEvent) {
-        if (departmentCB.getValue() == null) {
+        String selectedDepartment =
+                departmentCB.getValue();
 
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setContentText("Please select a department.");
+        if (selectedDepartment == null ||
+                selectedDepartment.isEmpty()) {
+
+            Alert alert =
+                    new Alert(Alert.AlertType.WARNING);
+
+            alert.setTitle("Warning");
+            alert.setHeaderText(null);
+            alert.setContentText(
+                    "Please select a department."
+            );
+
             alert.showAndWait();
+
             return;
         }
 
-        ObservableList<DoctorSchedule> filteredList = FXCollections.observableArrayList();
+
+        ObservableList<DoctorSchedule> filteredList =
+                FXCollections.observableArrayList();
+
 
         for (DoctorModelClass doctor : doctorList) {
 
-            if (doctor.getDepartment().equals(departmentCB.getValue())) {
+            if (doctor.getDepartment() != null &&
+                    doctor.getDepartment()
+                            .equals(selectedDepartment)) {
 
                 filteredList.add(
-                        new DoctorSchedule(
-                                doctor.getDay(),
-                                doctor.getDepartment(),
-                                doctor.getDoctorId(),
-                                doctor.getDoctorName(),
-                                doctor.getTime()
-                        )
+                        createSchedule(doctor)
                 );
             }
         }
 
+
         scheduletable.setItems(filteredList);
+
 
         if (filteredList.isEmpty()) {
 
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            Alert alert =
+                    new Alert(Alert.AlertType.INFORMATION);
+
             alert.setTitle("Search");
             alert.setHeaderText(null);
-            alert.setContentText("No doctor schedule found.");
+            alert.setContentText(
+                    "No doctor schedule found."
+            );
+
             alert.showAndWait();
         }
+
     }
 }
